@@ -11,7 +11,68 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150302003957) do
+ActiveRecord::Schema.define(version: 20150302080830) do
+
+  create_table "answers", force: true do |t|
+    t.integer  "user_id"
+    t.text     "content"
+    t.integer  "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "answers", ["user_id"], name: "index_answers_on_user_id"
+
+  create_table "chapters", force: true do |t|
+    t.string   "number",     default: "",    null: false
+    t.string   "title",      default: "",    null: false
+    t.text     "decription"
+    t.integer  "weight",     default: 999,   null: false
+    t.boolean  "is_active",  default: false, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "grids", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "chapter_id"
+    t.integer  "quiz_1"
+    t.integer  "quiz_2"
+    t.integer  "quiz_3"
+    t.integer  "quiz_4"
+    t.integer  "quiz_5"
+    t.integer  "quiz_6"
+    t.integer  "quiz_7"
+    t.integer  "quiz_8"
+    t.integer  "quiz_9"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "grids", ["chapter_id"], name: "index_grids_on_chapter_id"
+  add_index "grids", ["user_id"], name: "index_grids_on_user_id"
+
+  create_table "judgements", force: true do |t|
+    t.integer  "answer_id"
+    t.integer  "user_id"
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "judgements", ["answer_id"], name: "index_judgements_on_answer_id"
+  add_index "judgements", ["user_id"], name: "index_judgements_on_user_id"
+
+  create_table "quizzes", force: true do |t|
+    t.string   "code",       default: "", null: false
+    t.string   "title",      default: "", null: false
+    t.text     "content"
+    t.integer  "chapter_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "quizzes", ["chapter_id"], name: "index_quizzes_on_chapter_id"
 
   create_table "roles", force: true do |t|
     t.string   "name"

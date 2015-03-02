@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Answer:</strong>
+  <%= @judgement.answer %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @judgement.user %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @judgement.content %>
+</p>
+
+<%= link_to 'Edit', edit_judgement_path(@judgement) %> |
+<%= link_to 'Back', judgements_path %>

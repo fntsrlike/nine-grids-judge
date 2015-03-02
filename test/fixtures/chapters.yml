@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  number: MyString
+  title: MyString
+  decription: MyText
+  weight: 1
+  is_active: false
+
+two:
+  number: MyString
+  title: MyString
+  decription: MyText
+  weight: 1
+  is_active: false

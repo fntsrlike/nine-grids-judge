@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  chapter_id: 
+  quiz_1: 1
+  quiz_2: 1
+  quiz_3: 1
+  quiz_4: 1
+  quiz_5: 1
+  quiz_6: 1
+  quiz_7: 1
+  quiz_8: 1
+  quiz_9: 1
+
+two:
+  user_id: 
+  chapter_id: 
+  quiz_1: 1
+  quiz_2: 1
+  quiz_3: 1
+  quiz_4: 1
+  quiz_5: 1
+  quiz_6: 1
+  quiz_7: 1
+  quiz_8: 1
+  quiz_9: 1

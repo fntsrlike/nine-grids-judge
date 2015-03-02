@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
 
+  resources :judgements
+
+  resources :answers
+
+  resources :quizzes
+
+  resources :chapters
+
   devise_for :users
   root to: "home#index"
   # The priority is based upon order of creation: first created -> highest priority.
