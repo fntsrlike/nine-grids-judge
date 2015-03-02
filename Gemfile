@@ -39,4 +39,7 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+# Authorization
 gem 'devise'
+gem 'rolify'
+gem 'cancancan', '~> 1.10'
