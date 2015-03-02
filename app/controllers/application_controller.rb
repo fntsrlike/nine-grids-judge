@@ -4,6 +4,10 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, :alert => exception.messag
+  end
+
   protected
 
   def configure_permitted_parameters
@@ -11,4 +15,15 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:username, :email, :password, :password_confirmation, :remember_me) }
     devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:username, :email, :password, :password_confirmation, :current_password) }
   end
+
+  def after_sign_in_path_for(resource)
+    if resource.is_a?(User)
+      if User.count == 1
+        resource.add_role 'admin'
+      end
+      resource
+    end
+    root_path
+  end
+
 end
