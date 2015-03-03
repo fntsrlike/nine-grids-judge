@@ -1,5 +1,6 @@
 class JudgementsController < ApplicationController
   before_action :set_judgement, only: [:show, :edit, :update, :destroy]
+  authorize_resource
 
   # GET /judgements
   # GET /judgements.json

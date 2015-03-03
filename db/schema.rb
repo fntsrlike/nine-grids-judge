@@ -15,12 +15,14 @@ ActiveRecord::Schema.define(version: 20150302080830) do
 
   create_table "answers", force: true do |t|
     t.integer  "user_id"
+    t.integer  "quiz_id"
     t.text     "content"
     t.integer  "status"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "answers", ["quiz_id"], name: "index_answers_on_quiz_id"
   add_index "answers", ["user_id"], name: "index_answers_on_user_id"
 
   create_table "chapters", force: true do |t|

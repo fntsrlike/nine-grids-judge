@@ -9,6 +9,21 @@
 <body>
 <p class="notice"><%= notice %></p>
 <p class="alert"><%= alert %></p>
+<p>
+  | <%= link_to 'Home', root_path, :class => 'navbar-link' %> |
+<% if can? :read, @chapter %>
+  <%= link_to 'Chapters', chapters_path, :class => 'navbar-link' %> |
+<% end %>
+<% if can? :read, @quiz %>
+  <%= link_to 'Quizzes', quizzes_path, :class => 'navbar-link' %> |
+<% end %>
+<% if can? :read, @answer %>
+  <%= link_to 'Answers', answers_path, :class => 'navbar-link' %> |
+<% end %>
+<% if can? :read, @judgement %>
+  <%= link_to 'Judgements', judgements_path, :class => 'navbar-link' %> |
+<% end %>
+</p>
 <p class="navbar-text pull-right">
 <% if user_signed_in? %>
   Logged in as <strong><%= current_user.email %></strong>.
