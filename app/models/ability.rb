@@ -2,21 +2,23 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-
-    if user.blank?  # not logged in
-      cannot :manage, :all
-      basic_read_only
-    elsif user.has_role?(:admin)
+    if user.has_role?(:admin)
       can :manage, :all
     elsif user.has_role?(:manager)
       can :manage, [Chapter, Quiz, Judgement]
       can :read, Answer
     elsif user.has_role?(:student)
       can :create, Answer
-      can :read, Grid
+      can :read, Chapter
+      can :read, Quiz
+      can :read, Grid do |grid|
+        grid.user_id == user.id
+      end
       can :read, Answer do |answer|
         answer.user_id == user.id
       end
+    else
+      basic_read_only
     end
 
     # Define abilities for the passed in user here. For example:
@@ -50,6 +52,7 @@ class Ability
   protected
 
   def basic_read_only
-    can :read, :chapter
+    cannot :manage, :all
+    can :read, Chapter
   end
 end
