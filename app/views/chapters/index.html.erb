@@ -5,29 +5,39 @@
     <tr>
       <th>Number</th>
       <th>Title</th>
-      <th>Decription</th>
+    <% if can? :manage, Chapter %>
       <th>Weight</th>
-      <th>Is active</th>
+      <th>Activity</th>
       <th colspan="3"></th>
+    <% end %>
     </tr>
   </thead>
 
   <tbody>
-    <% @chapters.each do |chapter| %>
+    <% @chapters.order("weight").each do |chapter| %>
       <tr>
         <td><%= chapter.number %></td>
-        <td><%= chapter.title %></td>
-        <td><%= chapter.decription %></td>
+        <td>
+        <% if chapter.is_active %>
+          <%= link_to chapter.title, chapter %>
+        <% else %>
+          <%= chapter.title %>
+        <% end %>
+        </td>
+
+      <% if can? :manage, @chapter %>
         <td><%= chapter.weight %></td>
         <td><%= chapter.is_active %></td>
         <td><%= link_to 'Show', chapter %></td>
         <td><%= link_to 'Edit', edit_chapter_path(chapter) %></td>
         <td><%= link_to 'Destroy', chapter, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
+<% if can? :create, Chapter %>
 <%= link_to 'New Chapter', new_chapter_path %>
+<% end %>
