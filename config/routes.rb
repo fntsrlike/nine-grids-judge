@@ -1,15 +1,14 @@
 Rails.application.routes.draw do
 
+  root to: "home#index"
+
+  devise_for :users, :path_prefix => 'p'
+  resources :users
   resources :judgements
-
   resources :answers
-
   resources :quizzes
-
   resources :chapters
 
-  devise_for :users
-  root to: "home#index"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

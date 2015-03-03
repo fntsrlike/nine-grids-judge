@@ -1,0 +1,47 @@
+<%= form_for(@user) do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div><%= f.label :roles %><br />
+  <%= f.label(:admin) do %>
+    <%= hidden_field_tag(:admin, 0) %>
+    <%= check_box_tag(:admin, 1, @user.has_role?(:admin)) %>
+    Admin
+  <% end %>
+  <%= f.label(:manager) do %>
+    <%= hidden_field_tag(:manager, 0) %>
+    <%= check_box_tag(:manager, 1, @user.has_role?(:manager)) %>
+    Manager
+  <% end %>
+  <%= f.label(:student) do %>
+    <%= hidden_field_tag(:student, 0) %>
+    <%= check_box_tag(:student, 1, @user.has_role?(:student)) %>
+    Student
+  <% end %>
+  </div>
+
+  <div><%= f.label :username %><br />
+    <%= f.text_field :username, autofocus: true %></div>
+
+  <div><%= f.label :realname %><br />
+    <%= f.text_field :realname%></div>
+
+  <div><%= f.label :email %><br />
+    <%= f.email_field :email %></div>
+
+  <div><%= f.label :phone %><br />
+    <%= f.text_field :phone %></div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
