@@ -1,20 +1,8 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Number:</strong>
-  <%= @chapter.number %>
-</p>
+<h2><%= @chapter.number %> - <%= @chapter.title %></h2>
 
-<p>
-  <strong>Title:</strong>
-  <%= @chapter.title %>
-</p>
-
-<p>
-  <strong>Decription:</strong>
-  <%= @chapter.decription %>
-</p>
-
+<% if can? :manage, Chapter %>
 <p>
   <strong>Weight:</strong>
   <%= @chapter.weight %>
@@ -24,6 +12,20 @@
   <strong>Is active:</strong>
   <%= @chapter.is_active %>
 </p>
+<% end %>
 
+<p>
+  <%= @chapter.decription %>
+</p>
+
+<% if can? :update, Chapter %>
 <%= link_to 'Edit', edit_chapter_path(@chapter) %> |
-<%= link_to 'Back', chapters_path %>
+<% end %>
+
+<%= link_to 'Back to chapters', chapters_path %>
+
+<% if can? :manage, Quiz %>
+  <%= render 'quizzes' %>
+<% elsif can? :create, Answer %>
+  <%= render 'grids' %>
+<% end %>

@@ -5,6 +5,9 @@
     <tr>
       <th>Number</th>
       <th>Title</th>
+    <% if can? :create, Answer and cannot? :manage, @chapter%>
+      <th>Is Passed</th>
+    <% end %>
     <% if can? :manage, Chapter %>
       <th>Weight</th>
       <th>Activity</th>
@@ -24,7 +27,9 @@
           <%= chapter.title %>
         <% end %>
         </td>
-
+      <% if can? :create, Answer and cannot? :manage, @chapter%>
+        <td>No (Not working)</td>
+      <% end %>
       <% if can? :manage, @chapter %>
         <td><%= chapter.weight %></td>
         <td><%= chapter.is_active %></td>

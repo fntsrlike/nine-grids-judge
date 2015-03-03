@@ -1,0 +1,18 @@
+<h3>Quizzes Bingo Grids</h3>
+
+Chose quiz and try to answer. After your correct-answer could be a line, you pass this chapter.
+<table>
+  <tbody>
+  <% @quizzes.each_with_index do |quiz, index| %>
+    <% if index%3 == 0 %> <tr> <% end %>
+      <% if @quiz_status[index] == 0 %>
+        <td style="background-color: red;">
+      <% elsif @quiz_status[index] == 1 %>
+        <td style="background-color: green;">
+      <% end %>
+        <%= link_to quiz.code, quiz_path(quiz) %>
+      </td>
+    <% if index%3 == 2 %> </tr> <% end %>
+  <% end %>
+  </tbody>
+</table>

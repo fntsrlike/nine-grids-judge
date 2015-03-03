@@ -11,6 +11,15 @@ class ChaptersController < ApplicationController
   # GET /chapters/1
   # GET /chapters/1.json
   def show
+    if can? :manage, Quiz
+      @quizzes = Quiz.where( :chapter_id => @chapter.id )
+    elsif can? :create, Answer
+      if !Grid.exists?( :user_id => current_user.id, :chapter_id => @chapter.id )
+        set_quizzes_of_grids
+      end
+      @quizzes = get_quizzes_of_grids
+      @quiz_status = get_quizzes_status @quizzes
+    end
   end
 
   # GET /chapters/new
@@ -71,5 +80,36 @@ class ChaptersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def chapter_params
       params.require(:chapter).permit(:number, :title, :decription, :weight, :is_active)
+    end
+
+    def get_quizzes_of_grids
+      grids = Grid.where( :user_id => current_user.id, :chapter_id => @chapter.id ).last
+      quizzes = []
+      for i in 1..9
+        quizzes.push(Quiz.find(grids["quiz_#{i}"]))
+      end
+      return quizzes
+    end
+
+    def set_quizzes_of_grids
+      quizzes = Quiz.where(:chapter_id => @chapter.id).pluck(:id).shuffle[0..8]
+      grids = Grid.new( :user_id => current_user.id, :chapter_id => @chapter.id )
+      attributes = {}
+      for i in 1..9
+        attributes["quiz_#{i}"] = quizzes[i-1]
+      end
+      grids.update(attributes)
+    end
+
+    def get_quizzes_status quizzes
+      status = [0,0,0,0,0,0,0,0,0]
+      quizzes.each_with_index do |quiz, index|
+        if Answer.exists?(:quiz_id => quiz.id, :user_id => current_user.id, :status => 1)
+          status[index] = 1
+        else
+          status[index] = 0
+        end
+      end
+      return status
     end
 end
