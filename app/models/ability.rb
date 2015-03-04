@@ -10,7 +10,7 @@ class Ability
     elsif user.has_role?(:student)
       can :create, Answer
       can :read, Chapter
-      can :read, Quiz
+      can :show, Quiz
       can :read, Grid do |grid|
         grid.user_id == user.id
       end
