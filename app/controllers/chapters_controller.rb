@@ -100,7 +100,9 @@ class ChaptersController < ApplicationController
     def get_quizzes_status quizzes
       status = [0,0,0,0,0,0,0,0,0]
       quizzes.each_with_index do |quiz, index|
-        if Answer.exists?(:quiz_id => quiz.id, :user_id => current_user.id, :status => 1)
+        if Answer.joins(:judgement).exists?(quiz_id: quiz.id, user_id: current_user.id, status: 2, judgements: { result: 1 })
+          status[index] = 2
+        elsif Answer.exists?(:quiz_id => quiz.id, :user_id => current_user.id, :status => 1)
           status[index] = 1
         else
           status[index] = 0

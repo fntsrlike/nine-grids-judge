@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150304163508) do
+ActiveRecord::Schema.define(version: 20150304222327) do
 
   create_table "answers", force: true do |t|
     t.integer  "user_id"
@@ -60,9 +60,10 @@ ActiveRecord::Schema.define(version: 20150304163508) do
     t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "result",     default: 0, null: false
   end
 
-  add_index "judgements", ["answer_id"], name: "index_judgements_on_answer_id"
+  add_index "judgements", ["answer_id"], name: "index_judgements_on_answer_id", unique: true
   add_index "judgements", ["user_id"], name: "index_judgements_on_user_id"
 
   create_table "quizzes", force: true do |t|

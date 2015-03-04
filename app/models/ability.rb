@@ -13,7 +13,7 @@ class Ability
         can :create, Judgement do |judgement|
           !Judgement.exists?(answer_id: judgement.answer.id)
         end
-        can :update, Judgement do |judgement|
+        can [:update, :delete], Judgement do |judgement|
           judgement.user_id == user.id
         end
         can :read, Answer

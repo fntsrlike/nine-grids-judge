@@ -42,17 +42,14 @@
     <%= f.text_area :content %>
   </div>
 
-  <%= fields_for :answer, @judgement.answer do |fa| %>
-    <div class="field">
-      <%= fa.label :status %><br>
-      <%= fa.radio_button :status, :queue %>
-      <%= fa.label :status, :queue, value: :queue %>
-      <%= fa.radio_button :status, :pass %>
-      <%= fa.label :status, :pass, value: :pass %>
-      <%= fa.radio_button :status, :reject %>
-      <%= fa.label :status, :reject, value: :reject %>
-    </div>
-  <% end %>
+  <div class="field">
+    <%= f.label :result %><br>
+    <%= f.radio_button :result, :pass %>
+    <%= f.label :result, :pass, value: :pass %>
+    <%= f.radio_button :result, :reject %>
+    <%= f.label :result, :reject, value: :reject %>
+  </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>

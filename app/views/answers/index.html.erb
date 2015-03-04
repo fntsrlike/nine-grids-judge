@@ -16,7 +16,13 @@
       <tr>
         <td><%= answer.user.username %></td>
         <td><%= answer.quiz.chapter.number %> - <%= answer.quiz.code %>: <%= answer.quiz.title %> </td>
-        <td><%= answer.status %></td>
+        <td>
+          <% if answer.done? %>
+            <%= answer.judgement.result %>
+          <% else %>
+            <%= answer.status %>
+          <% end %>
+        </td>
         <td><%= answer.created_at.to_s(:short)  %></td>
       <% if can? :create, Judgement %>
         <td><%= link_to 'Judge', new_judgement_path(target: answer.id) %></td>

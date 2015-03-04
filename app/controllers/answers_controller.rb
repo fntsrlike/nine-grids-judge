@@ -7,7 +7,7 @@ class AnswersController < ApplicationController
   def index
     answers = Answer.order("created_at DESC")
     if can? :create, Judgement
-      @answers = answers.where(status: 0)
+      @answers = answers.where(status: [0,1])
     else
       @answers = answers.where(user_id: current_user.id)
     end

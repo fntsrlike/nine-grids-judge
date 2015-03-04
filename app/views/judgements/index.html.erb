@@ -23,7 +23,7 @@
           <%= judgement.answer.quiz.code %> :
           <%= judgement.answer.quiz.title %>
         </td>
-        <td><%= judgement.answer.status %></td>
+        <td><%= judgement.result %></td>
         <td><%= judgement.user.username %></td>
         <td><%= judgement.answer.updated_at.to_s(:short)  %></td>
         <td><%= link_to 'Show', judgement %></td>
@@ -31,7 +31,7 @@
         <td><%= link_to 'Rejudge', edit_judgement_path(judgement) %></td>
       <% end %>
       <% if can? :delete, judgement %>
-        <td><%= link_to 'Destroy', judgement, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', judgement, method: :delete, data: { confirm: "It will be destroy and requeue answer.\nAre you sure?" } %></td>
       <% end %>
       </tr>
     <% end %>

@@ -21,6 +21,7 @@ class JudgementsController < ApplicationController
 
     if @has_answer_param
       @answer = Answer.find(params[:target])
+      @answer.judgement!
     end
     @judgement = Judgement.new
   end
@@ -39,7 +40,8 @@ class JudgementsController < ApplicationController
     @judgement.user_id = current_user.id if cannot? :manage, Answer
 
     respond_to do |format|
-      if @judgement.save and @judgement.answer.update(answer_params)
+      if @judgement.save
+        @judgement.answer.done!
         format.html { redirect_to @judgement, notice: 'Judgement was successfully created.' }
         format.json { render :show, status: :created, location: @judgement }
       else
@@ -56,7 +58,8 @@ class JudgementsController < ApplicationController
     @judgement.user_id = current_user.id if cannot? :manage, Answer
 
     respond_to do |format|
-      if @judgement.update(judgement_params) and @judgement.answer.update(answer_params)
+      if @judgement.update(judgement_params)
+        @judgement.answer.done!
         format.html { redirect_to @judgement, notice: 'Judgement was successfully updated.' }
         format.json { render :show, status: :ok, location: @judgement }
       else
@@ -69,6 +72,7 @@ class JudgementsController < ApplicationController
   # DELETE /judgements/1
   # DELETE /judgements/1.json
   def destroy
+    @judgement.answer.queue!
     @judgement.destroy
     respond_to do |format|
       format.html { redirect_to judgements_url, notice: 'Judgement was successfully destroyed.' }
@@ -84,10 +88,6 @@ class JudgementsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def judgement_params
-      params.require(:judgement).permit(:answer_id, :user_id, :content)
-    end
-
-    def answer_params
-      params.require(:answer).permit(:status)
+      params.require(:judgement).permit(:answer_id, :user_id, :content, :result)
     end
 end

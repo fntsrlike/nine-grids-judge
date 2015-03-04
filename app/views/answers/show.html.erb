@@ -16,9 +16,21 @@
   <%= @answer.content %>
 </p>
 
+<% if @answer.done? %>
+<p>
+  <strong>Judegement:</strong>
+  (by <%= @answer.judgement.user.username %>)<br/>
+  <%= @answer.judgement.content %>
+</p>
+<% end %>
+
 <p>
   <strong>Status:</strong>
-  <%= @answer.status %>
+  <% if @answer.done? %>
+    <%= @answer.judgement.result %>
+  <% else %>
+    <%= @answer.status %>
+  <% end %>
 </p>
 
 <% if can? :update, @answer %>
