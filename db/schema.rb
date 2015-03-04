@@ -11,13 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150304050420) do
+ActiveRecord::Schema.define(version: 20150304073837) do
 
   create_table "answers", force: true do |t|
     t.integer  "user_id"
-    t.integer  "quiz_id"
+    t.integer  "quiz_id",                null: false
     t.text     "content"
-    t.integer  "status"
+    t.integer  "status",     default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
