@@ -8,4 +8,9 @@ class User < ActiveRecord::Base
   has_many :grids
   has_many :answers
   has_many :judgements
+
+  def ability
+    @ability ||= Ability.new(self)
+  end
+  delegate :can?, :cannot?, :to => :ability
 end
