@@ -2,23 +2,24 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    if user.has_role?(:admin)
-      can :manage, :all
-    elsif user.has_role?(:manager)
-      can :manage, [Chapter, Quiz, Judgement]
-      can :read, Answer
-    elsif user.has_role?(:student)
-      can :create, Answer
-      can :read, Chapter
-      can :show, Quiz
-      can :read, Grid do |grid|
-        grid.user_id == user.id
+    basic_read_only
+    if !user.blank?
+      if user.has_role?(:admin)
+        can :manage, :all
+      elsif user.has_role?(:manager)
+        can :manage, [Chapter, Quiz, Judgement]
+        can :read, Answer
+      elsif user.has_role?(:student)
+        can :create, Answer
+        can :read, Chapter
+        can :show, Quiz
+        can :read, Grid do |grid|
+          grid.user_id == user.id
+        end
+        can :read, Answer do |answer|
+          answer.user_id == user.id
+        end
       end
-      can :read, Answer do |answer|
-        answer.user_id == user.id
-      end
-    else
-      basic_read_only
     end
 
     # Define abilities for the passed in user here. For example:
