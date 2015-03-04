@@ -13,7 +13,7 @@
   <%= link_to 'Edit', edit_quiz_path(@quiz) %> |
   <%= link_to 'Back to quizzes', quizzes_path %>
 <% elsif can? :show, Quiz %>
-  <%= link_to 'Answer it', new_answer_path(quiz: @quiz.id) %>
+  <%= link_to 'Answer it', new_answer_path(target: @quiz.id) %>
   <%= link_to 'Back to chapter', chapter_path(@quiz.chapter) %>
 <% end %>
 

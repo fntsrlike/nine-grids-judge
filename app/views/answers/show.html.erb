@@ -18,6 +18,9 @@
 <% if can? :update, @answer %>
   <%= link_to 'Edit', edit_answer_path(@answer) %> |
 <% end %>
+<% if can? :create, Judgement %>
+    <%= link_to 'Judge', new_judgement_path(target: @answer.id) %> |
+<% end %>
 <% if can? :create, @answer %>
   <%= link_to 'Answer again', new_answer_path(quiz: @answer.quiz.id) %> |
   <%= link_to 'Back to chapter', chapter_path(@answer.quiz.chapter) %> |

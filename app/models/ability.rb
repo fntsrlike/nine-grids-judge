@@ -21,7 +21,10 @@ class Ability
       elsif user.has_role?(:student)
         can :create, Answer do |answer|
           grid = Grid.where(chapter_id: answer.quiz.chapter.id, user_id: user.id).first
-          answer.quiz.chapter.active? and !grid.nil? and grid.get_quizzes.include? answer.quiz.id
+          is_chapter_active = answer.quiz.chapter.active?
+          is_valid_quiz = (!grid.nil?) && (grid.get_quizzes_id.include? answer.quiz.id)
+          is_not_queue = !Answer.exists?(quiz_id: answer.quiz.id, status: 0, user_id: user.id)
+          is_chapter_active && is_valid_quiz && is_not_queue
         end
         can :read, Chapter
         can :show, Quiz

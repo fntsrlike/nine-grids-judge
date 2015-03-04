@@ -9,4 +9,12 @@ class Grid < ActiveRecord::Base
     end
     return quizzes
   end
+
+  def get_quizzes_id
+    quizzes = []
+    for i in 1..9
+      quizzes.push(self["quiz_#{i}"])
+    end
+    return quizzes
+  end
 end

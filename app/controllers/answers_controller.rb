@@ -6,7 +6,7 @@ class AnswersController < ApplicationController
   # GET /answers.json
   def index
     answers = Answer.order("created_at DESC")
-    if can? :manage, Answer
+    if can? :create, Judgement
       @answers = answers.all
     else
       @answers = answers.where(:user_id => current_user.id)
@@ -20,9 +20,12 @@ class AnswersController < ApplicationController
 
   # GET /answers/new
   def new
-    @has_quiz_param = params[:quiz] != nil and Quiz.exists?(id: params[:quiz])
+    has_target = !params[:target].nil?
+    is_target_valid = Quiz.exists? id: params[:target]
+    @has_quiz_param = has_target && is_target_valid
+
     if @has_quiz_param
-      @quiz = Quiz.find(params[:quiz]) ;
+      @quiz = Quiz.find(params[:target])
     end
     @answer = Answer.new
   end
@@ -34,13 +37,13 @@ class AnswersController < ApplicationController
   # POST /answers
   # POST /answers.json
   def create
-    authorize! :create, @answer
     @answer = Answer.new(answer_params)
     @answer.user_id = current_user.id if cannot? :manage, Answer
-    @answer.queue!
+    authorize! :create, @answer
 
     respond_to do |format|
       if @answer.save
+        @answer.queue!
         format.html { redirect_to @answer, notice: 'Answer was successfully created.' }
         format.json { render :show, status: :created, location: @answer }
       else
