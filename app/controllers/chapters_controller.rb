@@ -84,11 +84,7 @@ class ChaptersController < ApplicationController
 
     def get_quizzes_of_grids
       grids = Grid.where( :user_id => current_user.id, :chapter_id => @chapter.id ).last
-      quizzes = []
-      for i in 1..9
-        quizzes.push(Quiz.find(grids["quiz_#{i}"]))
-      end
-      return quizzes
+      return grids.get_quizzes
     end
 
     def set_quizzes_of_grids
