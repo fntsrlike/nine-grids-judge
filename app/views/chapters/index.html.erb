@@ -21,7 +21,7 @@
       <tr>
         <td><%= chapter.number %></td>
         <td>
-        <% if chapter.is_active %>
+        <% if chapter.active? %>
           <%= link_to chapter.title, chapter %>
         <% else %>
           <%= chapter.title %>
@@ -32,7 +32,7 @@
       <% end %>
       <% if can? :manage, @chapter %>
         <td><%= chapter.weight %></td>
-        <td><%= chapter.is_active %></td>
+        <td><%= chapter.status %></td>
         <td><%= link_to 'Show', chapter %></td>
         <td><%= link_to 'Edit', edit_chapter_path(chapter) %></td>
         <td><%= link_to 'Destroy', chapter, method: :delete, data: { confirm: 'Are you sure?' } %></td>

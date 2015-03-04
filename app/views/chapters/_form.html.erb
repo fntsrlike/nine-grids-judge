@@ -28,8 +28,11 @@
     <%= f.number_field :weight %>
   </div>
   <div class="field">
-    <%= f.label :is_active %><br>
-    <%= f.check_box :is_active %>
+    <%= f.label :status %><br>
+    <%= f.radio_button :status, :inactive %>
+    <%= f.label :status, :inactive, value: :inactive %>
+    <%= f.radio_button :status, :active %>
+    <%= f.label :status, :active, value: :active %>
   </div>
   <div class="actions">
     <%= f.submit %>
