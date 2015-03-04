@@ -13,7 +13,11 @@
 
   <% if @has_quiz_param %>
     <p>
-      <strong>Quiz <%= @quiz.code %>:</strong><br/>
+      <strong>
+        <%= @quiz.chapter.number %> -
+        <%= @quiz.code %>
+        (<%= @quiz.title %>)
+      </strong><br/>
       <%= @quiz.content %>
     </p>
     <%= f.hidden_field :quiz_id, value: @quiz.id %>
