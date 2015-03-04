@@ -4,4 +4,6 @@ class Answer < ActiveRecord::Base
   has_one :judgement
 
   enum status: [ :queue, :judgement, :pass, :reject ]
+
+  validates_presence_of :content, :user_id
 end

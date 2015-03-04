@@ -34,6 +34,7 @@ class AnswersController < ApplicationController
   # POST /answers
   # POST /answers.json
   def create
+    authorize! :create, @answer
     @answer = Answer.new(answer_params)
     @answer.user_id = current_user.id if cannot? :manage, Answer
     @answer.queue!

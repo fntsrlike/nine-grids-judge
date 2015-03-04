@@ -10,7 +10,10 @@ class Ability
         can :manage, [Chapter, Quiz, Judgement]
         can :read, Answer
       elsif user.has_role?(:student)
-        can :create, Answer
+        can :create, Answer do |answer|
+          grid = Grid.where(chapter_id: answer.quiz.chapter.id, user_id: user.id).first
+          answer.quiz.chapter.active? and !grid.nil? and grid.get_quizzes.include? answer.quiz.id
+        end
         can :read, Chapter
         can :show, Quiz
         can :read, Grid do |grid|
