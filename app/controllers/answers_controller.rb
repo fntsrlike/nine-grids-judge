@@ -5,7 +5,12 @@ class AnswersController < ApplicationController
   # GET /answers
   # GET /answers.json
   def index
-    @answers = Answer.all
+    answers = Answer.order("created_at DESC")
+    if can? :manage, Answer
+      @answers = answers.all
+    else
+      @answers = answers.where(:user_id => current_user.id)
+    end
   end
 
   # GET /answers/1
@@ -15,6 +20,10 @@ class AnswersController < ApplicationController
 
   # GET /answers/new
   def new
+    @has_quiz_param = params[:quiz] != nil and Quiz.exists?(id: params[:quiz])
+    if @has_quiz_param
+      @quiz = Quiz.find(params[:quiz]) ;
+    end
     @answer = Answer.new
   end
 
@@ -26,6 +35,8 @@ class AnswersController < ApplicationController
   # POST /answers.json
   def create
     @answer = Answer.new(answer_params)
+    @answer.user_id = current_user.id if cannot? :manage, Answer
+    @answer.queue!
 
     respond_to do |format|
       if @answer.save
@@ -70,6 +81,6 @@ class AnswersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def answer_params
-      params.require(:answer).permit(:user_id, :content, :status)
+      params.require(:answer).permit(:user_id, :quiz_id, :content)
     end
 end

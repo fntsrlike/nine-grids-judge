@@ -11,19 +11,34 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :user_id %><br>
-    <%= f.text_field :user_id %>
-  </div>
-  <div class="field">
-    <%= f.label :content %><br>
-    <%= f.text_area :content %>
-  </div>
-  <div class="field">
-    <%= f.label :status %><br>
-    <%= f.number_field :status %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  <% if @has_quiz_param %>
+    <p>
+      <strong>Quiz <%= @quiz.code %>:</strong><br/>
+      <%= @quiz.content %>
+    </p>
+    <%= f.hidden_field :quiz_id, value: @quiz.id %>
+  <% end %>
+
+  <% if can? :manage, Answer %>
+    <div class="field">
+      <%= f.label :user_id %><br>
+      <%= f.text_field :user_id %>
+    </div>
+    <div class="field">
+      <%= f.label :quiz_id %><br>
+      <%= f.text_field :quiz_id %>
+    </div>
+  <% end %>
+
+  <% if can? :manage, Answer or @has_quiz_param %>
+    <div class="field">
+      <%= f.label :content %><br>
+      <%= f.text_area :content %>
+    </div>
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+  <% else %>
+    <p> You have to go to Chapter page and choose quiz from grid </p>
+  <% end %>
 <% end %>
