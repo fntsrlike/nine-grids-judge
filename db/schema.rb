@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150303081704) do
+ActiveRecord::Schema.define(version: 20150304050420) do
 
   create_table "answers", force: true do |t|
     t.integer  "user_id"
@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(version: 20150303081704) do
     t.integer  "chapter_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "reference"
   end
 
   add_index "quizzes", ["chapter_id"], name: "index_quizzes_on_chapter_id"

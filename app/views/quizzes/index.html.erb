@@ -13,7 +13,7 @@
   <tbody>
     <% @quizzes.each do |quiz| %>
       <tr>
-        <td><%= Chapter.find(quiz.chapter).number %></td>
+        <td><%= quiz.chapter.number %></td>
         <td><%= quiz.code %></td>
         <td><%= quiz.title %></td>
         <td><%= link_to 'Show', quiz %></td>

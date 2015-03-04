@@ -1,15 +1,19 @@
 <p id="notice"><%= notice %></p>
 
-<h2><%= Chapter.find(@quiz.chapter).number %>: <%= @quiz.code %> - <%= @quiz.title %></h2>
+<h2><%= @quiz.chapter.number %>: <%= @quiz.code %> - <%= @quiz.title %></h2>
 <p>
   <%= @quiz.content %>
 </p>
 
 <% if can? :manage, Quiz %>
+  <p>
+    <strong>Reference Answer:</strong><br/>
+    <%= @quiz.reference %>
+  </p>
   <%= link_to 'Edit', edit_quiz_path(@quiz) %> |
   <%= link_to 'Back to quizzes', quizzes_path %>
 <% elsif can? :show, Quiz %>
   <%= link_to 'Answer it', new_answer_path(quiz: @quiz.code) %>
-  <%= link_to 'Back to chapter', chapter_path(Chapter.find(@quiz.chapter)) %>
+  <%= link_to 'Back to chapter', chapter_path(@quiz.chapter) %>
 <% end %>
 
