@@ -1,5 +1,8 @@
 <h1>New answer</h1>
 
 <%= render 'form' %>
-
-<%= link_to 'Back', answers_path %>
+<% if @has_quiz_param %>
+<%= link_to 'Cancel', quiz_path(@quiz) %> |
+<%= link_to 'Back to chapter', chapter_path(@quiz.chapter) %> |
+<% end %>
+<%= link_to 'Back to answers', answers_path %>

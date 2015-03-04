@@ -3,8 +3,8 @@
 <table>
   <thead>
     <tr>
-      <th>User</th>
-      <th>Quiz Title</th>
+      <th>Examinee</th>
+      <th>Quiz</th>
       <th>Status</th>
       <th>Created At</th>
       <th colspan="3"></th>
@@ -18,7 +18,11 @@
         <td><%= answer.quiz.chapter.number %> - <%= answer.quiz.code %>: <%= answer.quiz.title %> </td>
         <td><%= answer.status %></td>
         <td><%= answer.created_at.to_s(:short)  %></td>
+      <% if can? :create, Judgement %>
+        <td><%= link_to 'Judge', new_judgement_path(target: answer.id) %></td>
+      <% else %>
         <td><%= link_to 'Show', answer %></td>
+      <% end %>
       <% if can? :update, answer %>
         <td><%= link_to 'Edit', edit_answer_path(answer) %></td>
       <% end %>

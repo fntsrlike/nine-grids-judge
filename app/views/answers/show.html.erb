@@ -1,12 +1,18 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>User:</strong>
-  <td><%= @answer.user.username %></td>
+  <strong>
+    Quiz:
+    <%= @answer.quiz.chapter.number %> -
+    <%= @answer.quiz.code %>
+    (<%= @answer.quiz.title %>)
+  </strong><br/>
+  <%= @answer.quiz.content %>
 </p>
 
 <p>
-  <strong>Content:</strong>
+  <strong>Answer:</strong>
+  (by <%= @answer.user.username %>)<br/>
   <%= @answer.content %>
 </p>
 
@@ -22,7 +28,9 @@
     <%= link_to 'Judge', new_judgement_path(target: @answer.id) %> |
 <% end %>
 <% if can? :create, @answer %>
-  <%= link_to 'Answer again', new_answer_path(quiz: @answer.quiz.id) %> |
+  <%= link_to 'Answer again', new_answer_path(quiz: @answer.quiz.id) %>
+<% end %>
+<% if can? :create, Answer %>
   <%= link_to 'Back to chapter', chapter_path(@answer.quiz.chapter) %> |
 <% end %>
 <%= link_to 'Back to answers', answers_path %>
