@@ -5,7 +5,7 @@ class JudgementsController < ApplicationController
   # GET /judgements
   # GET /judgements.json
   def index
-    @judgements = Judgement.all
+    @judgements = Judgement.order("created_at DESC").all
   end
 
   # GET /judgements/1
@@ -15,20 +15,31 @@ class JudgementsController < ApplicationController
 
   # GET /judgements/new
   def new
+    has_target = !params[:target].nil?
+    is_target_valid = Answer.exists? id: params[:target]
+    @has_answer_param = has_target && is_target_valid
+
+    if @has_answer_param
+      @answer = Answer.find(params[:target])
+    end
     @judgement = Judgement.new
   end
 
   # GET /judgements/1/edit
   def edit
+    authorize! :update, @judgement
+    @answer = @judgement.answer
   end
 
   # POST /judgements
   # POST /judgements.json
   def create
+    authorize! :create, @judgement
     @judgement = Judgement.new(judgement_params)
+    @judgement.user_id = current_user.id if cannot? :manage, Answer
 
     respond_to do |format|
-      if @judgement.save
+      if @judgement.save and @judgement.answer.update(answer_params)
         format.html { redirect_to @judgement, notice: 'Judgement was successfully created.' }
         format.json { render :show, status: :created, location: @judgement }
       else
@@ -41,8 +52,11 @@ class JudgementsController < ApplicationController
   # PATCH/PUT /judgements/1
   # PATCH/PUT /judgements/1.json
   def update
+    authorize! :update, @judgement
+    @judgement.user_id = current_user.id if cannot? :manage, Answer
+
     respond_to do |format|
-      if @judgement.update(judgement_params)
+      if @judgement.update(judgement_params) and @judgement.answer.update(answer_params)
         format.html { redirect_to @judgement, notice: 'Judgement was successfully updated.' }
         format.json { render :show, status: :ok, location: @judgement }
       else
@@ -71,5 +85,9 @@ class JudgementsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def judgement_params
       params.require(:judgement).permit(:answer_id, :user_id, :content)
+    end
+
+    def answer_params
+      params.require(:answer).permit(:status)
     end
 end

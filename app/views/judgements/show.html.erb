@@ -1,19 +1,35 @@
+<h2>Judgement</h2>
 <p id="notice"><%= notice %></p>
 
 <p>
+  <strong>
+    Quiz:
+    <%= @judgement.answer.quiz.chapter.number %> -
+    <%= @judgement.answer.quiz.code %>
+    (<%= @judgement.answer.quiz.title %>)
+  </strong><br/>
+  <%= @judgement.answer.quiz.content %>
+</p>
+
+<p>
   <strong>Answer:</strong>
-  <%= @judgement.answer %>
+  (by <%= @judgement.answer.user.username %>)<br/>
+  <%= @judgement.answer.content %>
 </p>
 
 <p>
-  <strong>User:</strong>
-  <%= @judgement.user %>
-</p>
-
-<p>
-  <strong>Content:</strong>
+  <strong>Judegement:</strong>
+  (by <%= @judgement.user.username %>)<br/>
   <%= @judgement.content %>
 </p>
 
-<%= link_to 'Edit', edit_judgement_path(@judgement) %> |
-<%= link_to 'Back', judgements_path %>
+<p>
+  <strong>Result:</strong>
+  <%= @judgement.answer.status %>
+</p>
+
+<% if can? :update, @judgement %>
+<%= link_to 'Rejudge', edit_judgement_path(@judgement) %> |
+<% end %>
+<%= link_to 'Back to answers', answers_path %> |
+<%= link_to 'Back to judgements', judgements_path %>

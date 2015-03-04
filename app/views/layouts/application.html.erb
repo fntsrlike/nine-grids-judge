@@ -23,7 +23,7 @@
 <% if can? :read, Answer %>
   <%= link_to 'Answers', answers_path, :class => 'navbar-link' %> |
 <% end %>
-<% if can? :manage, Judgement %>
+<% if can? :read, Judgement %>
   <%= link_to 'Judgements', judgements_path, :class => 'navbar-link' %> |
 <% end %>
 <% if user_signed_in? %>

@@ -6,9 +6,18 @@ class Ability
     if !user.blank?
       if user.has_role?(:admin)
         can :manage, :all
+
       elsif user.has_role?(:manager)
-        can :manage, [Chapter, Quiz, Judgement]
+        can :manage, [Chapter, Quiz]
+        can :read, Judgement
+        can :create, Judgement do |judgement|
+          !Judgement.exists?(answer_id: judgement.answer.id)
+        end
+        can :update, Judgement do |judgement|
+          judgement.user_id == user.id
+        end
         can :read, Answer
+
       elsif user.has_role?(:student)
         can :create, Answer do |answer|
           grid = Grid.where(chapter_id: answer.quiz.chapter.id, user_id: user.id).first

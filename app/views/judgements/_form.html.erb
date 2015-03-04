@@ -11,19 +11,50 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :answer_id %><br>
-    <%= f.text_field :answer_id %>
-  </div>
-  <div class="field">
-    <%= f.label :user_id %><br>
-    <%= f.text_field :user_id %>
-  </div>
+  <% if can? :manage, Judgement %>
+    <div class="field">
+      <%= f.label :examinee %><br>
+      <%= f.text_field :answer_id %>
+    </div>
+    <div class="field">
+      <%= f.label :reviewers %><br>
+      <%= f.text_field :user_id %>
+    </div>
+  <% end %>
+
+  <p>
+    <strong>
+      Quiz:
+      <%= @answer.quiz.chapter.number %> -
+      <%= @answer.quiz.code %>
+      (<%= @answer.quiz.title %>)
+    </strong><br/>
+    <%= @answer.quiz.content %>
+  </p>
+
+  <p>
+    <strong>Answer:</strong>
+    (by <%= @answer.user.username %>)<br/>
+    <%= @answer.content %>
+  </p>
   <div class="field">
     <%= f.label :content %><br>
     <%= f.text_area :content %>
   </div>
+
+  <%= fields_for :answer, @judgement.answer do |fa| %>
+    <div class="field">
+      <%= fa.label :status %><br>
+      <%= fa.radio_button :status, :queue %>
+      <%= fa.label :status, :queue, value: :queue %>
+      <%= fa.radio_button :status, :pass %>
+      <%= fa.label :status, :pass, value: :pass %>
+      <%= fa.radio_button :status, :reject %>
+      <%= fa.label :status, :reject, value: :reject %>
+    </div>
+  <% end %>
   <div class="actions">
     <%= f.submit %>
   </div>
+
 <% end %>
