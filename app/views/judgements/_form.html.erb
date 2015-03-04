@@ -13,12 +13,12 @@
 
   <% if can? :manage, Judgement %>
     <div class="field">
-      <%= f.label :examinee %><br>
-      <%= f.text_field :answer_id %>
+      <%= f.label :answer_id %><br>
+      <%= f.text_field :answer_id, value: @answer.id %>
     </div>
     <div class="field">
       <%= f.label :reviewers %><br>
-      <%= f.text_field :user_id %>
+      <%= f.text_field :user_id, value: current_user.id %>
     </div>
   <% end %>
 
