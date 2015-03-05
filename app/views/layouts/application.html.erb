@@ -40,7 +40,7 @@
   <% end %>
   <div class="right menu">
     <% if user_signed_in? %>
-      <%= link_to destroy_user_session_path, :class => 'item' do %>
+      <%= link_to destroy_user_session_path, :method => :delete, :class => 'item' do %>
         Logout
       <% end %>
     <% else %>
