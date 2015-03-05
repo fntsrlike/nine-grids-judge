@@ -1,3 +1,16 @@
-// Place all the styles related to the home controller here.
+// Place all the styles related to the dashboard/* controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+@import "semantic-ui";
+// @import "semantic-ui/collections/table";
+// @import "semantic-ui/collections/form";
+// @import "semantic-ui/elements/button";
+// @import "semantic-ui/elements/header";
+// @import "semantic-ui/elements/segment";
+// @import "semantic-ui/elements/icon";
+
+#main {
+    background: white;
+    margin: 0em auto;
+    max-width: 870px;
+}

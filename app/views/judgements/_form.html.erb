@@ -1,4 +1,4 @@
-<%= form_for(@judgement) do |f| %>
+<%= form_for(@judgement, html: { class: "ui form" }) do |f| %>
   <% if @judgement.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@judgement.errors.count, "error") %> prohibited this judgement from being saved:</h2>
@@ -13,45 +13,52 @@
 
   <% if can? :manage, Judgement %>
     <div class="field">
-      <%= f.label :answer_id %><br>
+      <%= f.label :answer_id %>
       <%= f.text_field :answer_id, value: @answer.id %>
     </div>
     <div class="field">
-      <%= f.label :reviewers %><br>
+      <%= f.label :reviewers %>
       <%= f.text_field :user_id, value: current_user.id %>
     </div>
   <% end %>
 
-  <p>
-    <strong>
+  <div class="field">
+    <label>
       Quiz:
       <%= @answer.quiz.chapter.number %> -
       <%= @answer.quiz.code %>
       (<%= @answer.quiz.title %>)
-    </strong><br/>
+    </label>
     <%= @answer.quiz.content %>
-  </p>
+  </div>
 
-  <p>
-    <strong>Answer:</strong>
-    (by <%= @answer.user.username %>)<br/>
-    <%= @answer.content %>
-  </p>
   <div class="field">
-    <%= f.label :content %><br>
+    <label>
+      Answer:
+      (by <%= @answer.user.username %>)
+    </label>
+    <%= @answer.content %>
+  </div>
+  <div class="field">
+    <%= f.label :content %>
     <%= f.text_area :content %>
   </div>
 
-  <div class="field">
-    <%= f.label :result %><br>
-    <%= f.radio_button :result, :pass %>
-    <%= f.label :result, :pass, value: :pass %>
-    <%= f.radio_button :result, :reject %>
-    <%= f.label :result, :reject, value: :reject %>
+  <div class="grouped fields">
+    <%= f.label :result %>
+    <div class="field">
+      <div class="ui radio checkbox">
+        <%= f.radio_button :result, :pass %>
+        <%= f.label :result, :pass, value: :pass %>
+      </div>
+    </div>
+    <div class="field">
+      <div class="ui radio checkbox">
+        <%= f.radio_button :result, :reject %>
+        <%= f.label :result, :reject, value: :reject %>
+      </div>
+    </div>
   </div>
 
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-
+  <%= f.button class: "ui button"%>
 <% end %>

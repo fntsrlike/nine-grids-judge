@@ -6,32 +6,58 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body id="main">
 <p class="notice"><%= notice %></p>
 <p class="alert"><%= alert %></p>
-<p class="navbar-text">
-  | <%= link_to 'Home', root_path, :class => 'navbar-link' %> |
-<% if can? :read, User %>
-  <%= link_to 'Users', users_path, :class => 'navbar-link' %> |
-<% end %>
-<% if can? :read, Chapter %>
-  <%= link_to 'Chapters', chapters_path, :class => 'navbar-link' %> |
-<% end %>
-<% if can? :manage, Quiz %>
-  <%= link_to 'Quizzes', quizzes_path, :class => 'navbar-link' %> |
-<% end %>
-<% if can? :read, Answer %>
-  <%= link_to 'Answers', answers_path, :class => 'navbar-link' %> |
-<% end %>
-<% if can? :read, Judgement %>
-  <%= link_to 'Judgements', judgements_path, :class => 'navbar-link' %> |
-<% end %>
-<% if user_signed_in? %>
-  <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
-<% else %>
-  <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> |
-  <%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>
-<% end %>
+<div class="ui secondary menu">
+  <%= link_to root_path, :class => 'item' do %>
+    <i class="home icon"></i> Home
+  <% end %>
+  <% if can? :read, User %>
+    <%= link_to users_path, :class => 'item' do %>
+      User
+    <% end %>
+  <% end %>
+  <% if can? :read, Chapter %>
+    <%= link_to chapters_path, :class => 'item' do %>
+      Chapters
+    <% end %>
+  <% end %>
+  <% if can? :manage, Quiz %>
+    <%= link_to quizzes_path, :class => 'item' do %>
+      Quizzes
+    <% end %>
+  <% end %>
+  <% if can? :read, Answer %>
+    <%= link_to answers_path, :class => 'item' do %>
+      Answers
+    <% end %>
+  <% end %>
+  <% if can? :read, Judgement %>
+    <%= link_to judgements_path, :class => 'item' do %>
+      Judgements
+    <% end %>
+  <% end %>
+  <div class="right menu">
+    <% if user_signed_in? %>
+      <%= link_to destroy_user_session_path, :class => 'item' do %>
+        Logout
+      <% end %>
+    <% else %>
+      <%= link_to new_user_registration_path, :class => 'item' do %>
+        Sign up
+      <% end %>
+      <%= link_to new_user_session_path, :class => 'item' do %>
+        Login
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+
+
+
+
 </p>
 <%= yield %>
 

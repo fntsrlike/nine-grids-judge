@@ -1,3 +1,23 @@
 // Place all the styles related to the chapters controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.nine-grids {
+
+  table {
+    max-width: 300px !important;
+  }
+  td {
+    border: 0 !important;
+    text-align: center !important;
+    width: 100px;
+    height: 100px;
+  }
+  a {
+    color: black;
+    font-size: 72px;
+  }
+  a:hover {
+    color: white;
+  }
+}

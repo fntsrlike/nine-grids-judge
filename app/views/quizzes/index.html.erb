@@ -1,8 +1,9 @@
-<h1>Listing quizzes</h1>
+<h2 class="ui dividing header">Listing quizzes</h2>
 
-<table>
+<table class="ui table">
   <thead>
     <tr>
+      <th>ID</th>
       <th>Chapter</th>
       <th>Code</th>
       <th>Title</th>
@@ -13,6 +14,7 @@
   <tbody>
     <% @quizzes.each do |quiz| %>
       <tr>
+        <td><%= quiz.id %></td>
         <td><%= quiz.chapter.number %></td>
         <td><%= quiz.code %></td>
         <td><%= quiz.title %></td>

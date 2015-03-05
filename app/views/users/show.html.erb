@@ -1,24 +1,31 @@
+<h2 class="ui dividing header">User</h2>
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Username:</strong>
-  <%= @user.username %>
-</p>
+<table class="ui definition table">
+  <tbody>
+    <tr>
+      <td class="two wide column">Username</td>
+      <td><%= @user.username %></td>
+    </tr>
+    <tr>
+      <td>Real Name</td>
+      <td><%= @user.realname %></td>
+    </tr>
+    <tr>
+      <td>Email</td>
+      <td><%= @user.email %></td>
+    </tr>
+    <tr>
+      <td>Phone</td>
+      <td><%= @user.phone %></td>
+    </tr>
+  </tbody>
+</table>
 
-<p>
-  <strong>Real Name:</strong>
-  <%= @user.realname %>
-</p>
+<%= link_to edit_user_path(@user) do %>
+<div class="ui basic button">Edit</div>
+<% end %>
 
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
-
-<p>
-  <strong>Phone:</strong>
-  <%= @user.phone %>
-</p>
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<%= link_to users_path do %>
+<div class="ui basic button">Back</div>
+<% end %>

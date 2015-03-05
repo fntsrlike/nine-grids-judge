@@ -1,35 +1,47 @@
-<h2>Judgement</h2>
+<h2 class="ui dividing header">Judgement</h2>
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>
-    Quiz:
-    <%= @judgement.answer.quiz.chapter.number %> -
-    <%= @judgement.answer.quiz.code %>
-    (<%= @judgement.answer.quiz.title %>)
-  </strong><br/>
-  <%= @judgement.answer.quiz.content %>
-</p>
-
-<p>
-  <strong>Answer:</strong>
-  (by <%= @judgement.answer.user.username %>)<br/>
-  <%= @judgement.answer.content %>
-</p>
-
-<p>
-  <strong>Judegement:</strong>
-  (by <%= @judgement.user.username %>)<br/>
-  <%= @judgement.content %>
-</p>
-
-<p>
-  <strong>Result:</strong>
-  <%= @judgement.result %>
-</p>
+<h3>
+  Quiz:
+  <%= @judgement.answer.quiz.chapter.number %> -
+  <%= @judgement.answer.quiz.code %>
+  (<%= @judgement.answer.quiz.title %>)
+</h3>
+<table class="ui definition table">
+  <tbody>
+    <tr>
+      <td class="two wide column">Quiz</td>
+      <td><%= @judgement.answer.quiz.content %></td>
+    </tr>
+    <tr>
+      <td>
+        Answer <br/>
+        by <%= @judgement.answer.user.username %>
+      </td>
+      <td><%= @judgement.answer.content %></td>
+    </tr>
+    <tr>
+      <td>
+        Judegement <br/>
+        by <%= @judgement.user.username %>
+      </td>
+      <td><%= @judgement.content %></td>
+    </tr>
+    <tr>
+      <td>Result</td>
+      <td><%= @judgement.result %></td>
+    </tr>
+  </tbody>
+</table>
 
 <% if can? :update, @judgement %>
-<%= link_to 'Rejudge', edit_judgement_path(@judgement) %> |
+  <%= link_to edit_judgement_path(@judgement) do %>
+    <div class="ui basic button">Rejudge</div>
+  <% end %>
 <% end %>
-<%= link_to 'Back to answers', answers_path %> |
-<%= link_to 'Back to judgements', judgements_path %>
+<%= link_to answers_path do %>
+  <div class="ui basic button">Back to answers</div>
+<% end %>
+<%= link_to judgements_path do %>
+  <div class="ui basic button">Back to judgements</div>
+<% end %>

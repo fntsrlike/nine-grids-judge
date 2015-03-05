@@ -1,4 +1,4 @@
-<%= form_for(@answer) do |f| %>
+<%= form_for(@answer, html: { class: "ui form" }) do |f| %>
   <% if @answer.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@answer.errors.count, "error") %> prohibited this answer from being saved:</h2>
@@ -25,22 +25,22 @@
 
   <% if can? :manage, Answer %>
     <div class="field">
-      <%= f.label :user_id %><br>
+      <%= f.label :user_id %>
       <%= f.text_field :user_id %>
     </div>
     <div class="field">
-      <%= f.label :quiz_id %><br>
+      <%= f.label :quiz_id %>
       <%= f.text_field :quiz_id %>
     </div>
   <% end %>
 
   <% if can? :manage, Answer or @has_quiz_param %>
     <div class="field">
-      <%= f.label :content %><br>
+      <%= f.label :content %>
       <%= f.text_area :content %>
     </div>
     <div class="actions">
-      <%= f.submit %>
+      <%= f.button class: "ui button"%>
     </div>
   <% else %>
     <p> You have to go to Chapter page and choose quiz from grid </p>

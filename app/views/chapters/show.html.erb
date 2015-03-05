@@ -1,28 +1,33 @@
+<h2 class="ui dividing header"><%= @chapter.number %> - <%= @chapter.title %></h2>
 <p id="notice"><%= notice %></p>
 
-<h2><%= @chapter.number %> - <%= @chapter.title %></h2>
-
-<% if can? :manage, Chapter %>
-<p>
-  <strong>Weight:</strong>
-  <%= @chapter.weight %>
-</p>
-
-<p>
-  <strong>Is active:</strong>
-  <%= @chapter.status %>
-</p>
-<% end %>
-
-<p>
-  <%= @chapter.decription %>
-</p>
+<table class="ui definition table">
+  <tbody>
+    <% if can? :manage, Chapter %>
+      <tr>
+        <td class="two wide column">Weight</td>
+        <td><%= @chapter.weight %></td>
+      </tr>
+      <tr>
+        <td>Is active</td>
+        <td><%= @chapter.status %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <td>Decription</td>
+      <td><%= @chapter.decription %></td>
+    </tr>
+  </tbody>
+</table>
 
 <% if can? :update, Chapter %>
-<%= link_to 'Edit', edit_chapter_path(@chapter) %> |
+  <%= link_to edit_chapter_path(@chapter) do %>
+    <div class="ui basic button">Edit</div>
+  <% end %>
 <% end %>
-
-<%= link_to 'Back to chapters', chapters_path %>
+<%= link_to chapters_path do %>
+  <div class="ui basic button">Back to chapters</div>
+<% end %>
 
 <% if can? :manage, Quiz %>
   <%= render 'quizzes' %>

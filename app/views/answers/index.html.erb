@@ -1,6 +1,6 @@
-<h1>Listing answers</h1>
+<h2 class="ui dividing header">Listing answers</h2>
 
-<table>
+<table class="ui table">
   <thead>
     <tr>
       <th>Examinee</th>
@@ -40,7 +40,8 @@
   </tbody>
 </table>
 
-<br>
 <% if can? :manage, Answer %>
-<%= link_to 'New Answer', new_answer_path %>
+  <%= link_to new_answer_path do %>
+    <div class="ui basic button">New Answer</div>
+  <% end %>
 <% end %>

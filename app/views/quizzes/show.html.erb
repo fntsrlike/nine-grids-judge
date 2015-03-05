@@ -1,19 +1,33 @@
 <p id="notice"><%= notice %></p>
 
-<h2><%= @quiz.chapter.number %>: <%= @quiz.code %> - <%= @quiz.title %></h2>
-<p>
-  <%= @quiz.content %>
-</p>
-
+<h2 class="ui dividing header"><%= @quiz.chapter.number %>: <%= @quiz.code %> - <%= @quiz.title %></h2>
+<table class="ui definition table">
+  <tbody>
+      <tr>
+        <td class="two wide column">Content</td>
+        <td><%= @quiz.content %></td>
+      </tr>
+      <% if can? :manage, Quiz %>
+      <tr>
+        <td>Reference</td>
+        <td><%= @quiz.reference %></td>
+      </tr>
+      <% end %>
+  </tbody>
+</table>
 <% if can? :manage, Quiz %>
-  <p>
-    <strong>Reference Answer:</strong><br/>
-    <%= @quiz.reference %>
-  </p>
-  <%= link_to 'Edit', edit_quiz_path(@quiz) %> |
-  <%= link_to 'Back to quizzes', quizzes_path %>
+  <%= link_to edit_quiz_path(@quiz) do %>
+    <div class="ui basic button">Edit</div>
+  <% end %>
+  <%= link_to quizzes_path do %>
+    <div class="ui basic button">Back to quizzes</div>
+  <% end %>
 <% elsif can? :show, Quiz %>
-  <%= link_to 'Answer it', new_answer_path(target: @quiz.id) %>
-  <%= link_to 'Back to chapter', chapter_path(@quiz.chapter) %>
+  <%= link_to new_answer_path(target: @quiz.id) do %>
+    <div class="ui basic button">Answer it</div>
+  <% end %>
+  <%= link_to chapter_path(@quiz.chapter) do %>
+    <div class="ui basic button">Back to chapter</div>
+  <% end %>
 <% end %>
 

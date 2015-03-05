@@ -1,4 +1,4 @@
-<%= form_for(@chapter) do |f| %>
+<%= form_for(@chapter, html: { class: "ui form" }) do |f| %>
   <% if @chapter.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@chapter.errors.count, "error") %> prohibited this chapter from being saved:</h2>
@@ -12,29 +12,36 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :number %><br>
+    <%= f.label :number %>
     <%= f.text_field :number %>
   </div>
   <div class="field">
-    <%= f.label :title %><br>
+    <%= f.label :title %>
     <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.label :decription %><br>
+    <%= f.label :decription %>
     <%= f.text_area :decription %>
   </div>
   <div class="field">
-    <%= f.label :weight %><br>
+    <%= f.label :weight %>
     <%= f.number_field :weight %>
   </div>
-  <div class="field">
-    <%= f.label :status %><br>
-    <%= f.radio_button :status, :inactive %>
-    <%= f.label :status, :inactive, value: :inactive %>
-    <%= f.radio_button :status, :active %>
-    <%= f.label :status, :active, value: :active %>
+  <div class="grouped fields">
+    <%= f.label :status %>
+    <div class="field">
+      <div class="ui radio checkbox">
+        <%= f.radio_button :status, :inactive %>
+        <%= f.label :status, :inactive, value: :inactive %>
+      </div>
+    </div>
+    <div class="field">
+      <div class="ui radio checkbox">
+        <%= f.radio_button :status, :active %>
+        <%= f.label :status, :active, value: :active %>
+      </div>
+    </div>
   </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+
+  <%= f.button class: "ui button"%>
 <% end %>

@@ -1,6 +1,6 @@
 <h1>Listing judgements</h1>
 
-<table>
+<table class="ui table">
   <thead>
     <tr>
       <th>Examinee</th>
@@ -40,5 +40,7 @@
 
 <br>
 <% if can? :manage, Judgement %>
-<%= link_to 'New Judgement', new_judgement_path %>
+  <%= link_to new_judgement_path do %>
+    <div class="ui basic button">New Judgement</div>
+  <% end %>
 <% end %>

@@ -1,48 +1,66 @@
 <p id="notice"><%= notice %></p>
-
-<p>
-  <strong>
-    Quiz:
+<h2 class="ui dividing header">
+  Quiz:
     <%= @answer.quiz.chapter.number %> -
     <%= @answer.quiz.code %>
     (<%= @answer.quiz.title %>)
-  </strong><br/>
-  <%= @answer.quiz.content %>
-</p>
+</h2>
 
-<p>
-  <strong>Answer:</strong>
-  (by <%= @answer.user.username %>)<br/>
-  <%= @answer.content %>
-</p>
+<table class="ui definition table">
+  <tbody>
+    <tr>
+      <td class="two wide column">Quiz</td>
+      <td><%= @answer.quiz.content %></td>
+    </tr>
+    <tr>
+      <td>
+        Answer <br/>
+        by <%= @answer.user.username %>
+      </td>
+      <td><%= @answer.content %></td>
+    </tr>
+    <% if @answer.done? %>
+      <tr>
+        <td>
+          Judegement <br/>
+          by <%= @answer.judgement.user.username %>
+        </td>
+        <td><%= @answer.judgement.content %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <td>Status</td>
+      <td>
+        <% if @answer.done? %>
+          <%= @answer.judgement.result %>
+        <% else %>
+          <%= @answer.status %>
+        <% end %>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-<% if @answer.done? %>
-<p>
-  <strong>Judegement:</strong>
-  (by <%= @answer.judgement.user.username %>)<br/>
-  <%= @answer.judgement.content %>
-</p>
-<% end %>
-
-<p>
-  <strong>Status:</strong>
-  <% if @answer.done? %>
-    <%= @answer.judgement.result %>
-  <% else %>
-    <%= @answer.status %>
-  <% end %>
-</p>
 
 <% if can? :update, @answer %>
-  <%= link_to 'Edit', edit_answer_path(@answer) %> |
+  <%= link_to edit_answer_path(@answer) do %>
+    <div class="ui basic button">Edit</div>
+  <% end %>
 <% end %>
 <% if can? :create, Judgement %>
-    <%= link_to 'Judge', new_judgement_path(target: @answer.id) %> |
+  <%= link_to new_judgement_path(target: @answer.id) do %>
+    <div class="ui basic button">Judge</div>
+  <% end %>
 <% end %>
 <% if can? :create, @answer %>
-  <%= link_to 'Answer again', new_answer_path(quiz: @answer.quiz.id) %>
+  <%= link_to new_answer_path(quiz: @answer.quiz.id) do %>
+  <% end %>
 <% end %>
 <% if can? :create, Answer %>
-  <%= link_to 'Back to chapter', chapter_path(@answer.quiz.chapter) %> |
+  <%= link_to chapter_path(@answer.quiz.chapter) do %>
+    <div class="ui basic button">Back to chapter</div>
+  <% end %>
 <% end %>
-<%= link_to 'Back to answers', answers_path %>
+<%= link_to answers_path do %>
+  <div class="ui basic button">Back to answers</div>
+<% end %>
