@@ -7,59 +7,62 @@
   <%= csrf_meta_tags %>
 </head>
 <body id="main">
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
-<div class="ui secondary menu">
-  <%= link_to root_path, :class => 'item' do %>
-    <i class="home icon"></i> Home
-  <% end %>
-  <% if can? :read, User %>
-    <%= link_to users_path, :class => 'item' do %>
-      User
+  <div class="ui secondary pointing menu">
+    <%= link_to root_path, :class => 'item' do %>
+      <i class="home icon"></i> Home
     <% end %>
-  <% end %>
-  <% if can? :read, Chapter %>
-    <%= link_to chapters_path, :class => 'item' do %>
-      Chapters
-    <% end %>
-  <% end %>
-  <% if can? :manage, Quiz %>
-    <%= link_to quizzes_path, :class => 'item' do %>
-      Quizzes
-    <% end %>
-  <% end %>
-  <% if can? :read, Answer %>
-    <%= link_to answers_path, :class => 'item' do %>
-      Answers
-    <% end %>
-  <% end %>
-  <% if can? :read, Judgement %>
-    <%= link_to judgements_path, :class => 'item' do %>
-      Judgements
-    <% end %>
-  <% end %>
-  <div class="right menu">
-    <% if user_signed_in? %>
-      <%= link_to destroy_user_session_path, :method => :delete, :class => 'item' do %>
-        Logout
-      <% end %>
-    <% else %>
-      <%= link_to new_user_registration_path, :class => 'item' do %>
-        Sign up
-      <% end %>
-      <%= link_to new_user_session_path, :class => 'item' do %>
-        Login
+    <% if can? :read, User %>
+      <%= link_to users_path, :class => 'item' do %>
+        <i class="users icon"></i> User
       <% end %>
     <% end %>
+    <% if can? :read, Chapter %>
+      <%= link_to chapters_path, :class => 'item' do %>
+        <i class="list icon"></i> Chapters
+      <% end %>
+    <% end %>
+    <% if can? :manage, Quiz %>
+      <%= link_to quizzes_path, :class => 'item' do %>
+        <i class="file text icon"></i> Quizzes
+      <% end %>
+    <% end %>
+    <% if can? :read, Answer %>
+      <%= link_to answers_path, :class => 'item' do %>
+        <i class="idea icon"></i> Answers
+      <% end %>
+    <% end %>
+    <% if can? :read, Judgement %>
+      <%= link_to judgements_path, :class => 'item' do %>
+        <i class="checkmark box icon"></i> Judgements
+      <% end %>
+    <% end %>
+    <div class="right menu">
+      <% if user_signed_in? %>
+        <%= link_to destroy_user_session_path, :method => :delete, :class => 'item' do %>
+          <i class="sign out icon"></i> Sign out
+        <% end %>
+      <% else %>
+        <%= link_to new_user_registration_path, :class => 'item' do %>
+          <i class="signup icon"></i> Sign up
+        <% end %>
+        <%= link_to new_user_session_path, :class => 'item' do %>
+          <i class="sign in icon"></i> Sign in
+        <% end %>
+      <% end %>
+    </div>
   </div>
-</div>
 
-
-
-
-
-</p>
-<%= yield %>
+  <% if !notice.nil? %>
+    <div class="ui warning message">
+      <p><%= notice %></p>
+    </div>
+  <% end %>
+  <% if !alert.nil? %>
+    <div class="ui negative message">
+      <p><%= alert %></p>
+    </div>
+  <% end %>
+  <%= yield %>
 
 </body>
 </html>
