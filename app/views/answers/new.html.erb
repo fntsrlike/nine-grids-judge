@@ -1,8 +1,3 @@
 <h2 class="ui dividing header">New answer</h2>
 
 <%= render 'form' %>
-<% if @has_quiz_param %>
-<%= link_to 'Cancel', quiz_path(@quiz) %> |
-<%= link_to 'Back to chapter', chapter_path(@quiz.chapter) %> |
-<% end %>
-<%= link_to 'Back to answers', answers_path %>

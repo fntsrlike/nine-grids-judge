@@ -39,10 +39,20 @@
       <%= f.label :content %>
       <%= f.text_area :content %>
     </div>
-    <div class="actions">
-      <%= f.button class: "ui button"%>
-    </div>
+    <%= f.button class: "ui blue button"%>
   <% else %>
     <p> You have to go to Chapter page and choose quiz from grid </p>
   <% end %>
+  <% if @has_quiz_param %>
+    <%= link_to quiz_path(@quiz)  do %>
+      <div class="ui button">Cancel</div>
+    <% end %>
+    <%= link_to chapter_path(@quiz.chapter)  do %>
+      <div class="ui basic button">Back to chapter</div>
+    <% end %>
+  <% end %>
+  <%= link_to answers_path  do %>
+    <div class="ui basic button">Back to answers</div>
+  <% end %>
+
 <% end %>
