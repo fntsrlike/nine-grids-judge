@@ -1,0 +1,18 @@
+<p>Dear <%=@user.realname%>: </p>
+<p>
+  Welcome to <%=@course_name%> course
+</p>
+<p>
+  We have already create a account of <%=link_to "Nine-grid Judge System", root_url%> for you.
+  You can go to the system and try to use now.
+  Your password is on following. Please reset it after you sign in immediately.
+</p>
+
+<code>
+  Username: <%=@user.username%><br/>
+  Password: <%=@password%>
+</code>
+
+<p>Best regards.</p>
+
+<p>Yours T.A.</p>

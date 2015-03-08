@@ -29,4 +29,15 @@ namespace :students do
       puts "Done!"
     end
   end
+
+  task :reset_pwd => :environment do
+    User.with_role(:student).each do |user|
+      password = Array.new(32){[*"a".."z", *"A".."Z", *"0".."9"].sample}.join
+      user.update(password: password)
+
+      if user.save
+        StudentMailer.resetPwd(user, password).deliver
+      end
+    end
+  end
 end

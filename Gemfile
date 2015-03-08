@@ -45,3 +45,6 @@ gem 'spring',        group: :development
 gem 'devise'
 gem 'rolify'
 gem 'cancancan', '~> 1.10'
+
+# Mail Test
+gem "letter_opener", :group => :development
