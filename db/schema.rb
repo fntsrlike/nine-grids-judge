@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150304222327) do
+ActiveRecord::Schema.define(version: 20150309071022) do
 
   create_table "answers", force: true do |t|
     t.integer  "user_id"
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 20150304222327) do
     t.integer  "quiz_9"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "status",     default: 0, null: false
   end
 
   add_index "grids", ["chapter_id"], name: "index_grids_on_chapter_id"

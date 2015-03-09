@@ -28,7 +28,15 @@
         <% end %>
         </td>
       <% if can? :create, Answer and cannot? :manage, @chapter%>
-        <td>No (Not working)</td>
+        <td>
+          <% if Grid.exists?( :user_id => current_user.id, :chapter_id => chapter.id ) %>
+            <% if Grid.where( :user_id => current_user.id, :chapter_id => chapter.id ).first.pass? %>
+              <a class="ui green label">Pass</a>
+            <% else %>
+              <a class="ui red label">Not Pass</a>
+            <% end %>
+          <% end %>
+        </td>
       <% end %>
       <% if can? :manage, @chapter %>
         <td><%= chapter.weight %></td>
