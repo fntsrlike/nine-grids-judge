@@ -23,7 +23,7 @@
           <%= judgement.answer.quiz.code %> :
           <%= judgement.answer.quiz.title %>
         </td>
-        <td><%= judgement.result %></td>
+        <td><%= puts_answer_label judgement.answer%></td>
         <td><%= judgement.user.username %></td>
         <td><%= judgement.answer.updated_at.to_s(:short)  %></td>
         <td><%= link_to 'Show', judgement %></td>
