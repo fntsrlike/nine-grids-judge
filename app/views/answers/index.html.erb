@@ -3,7 +3,9 @@
 <table class="ui table">
   <thead>
     <tr>
-      <th>Examinee</th>
+      <% if can? :create, Judgement %>
+        <th>Examinee</th>
+      <% end %>
       <th>Quiz</th>
       <th>Status</th>
       <th>Created At</th>
@@ -14,7 +16,12 @@
   <tbody>
     <% @answers.each do |answer| %>
       <tr>
-        <td><%= answer.user.username %></td>
+        <% if can? :create, Judgement %>
+          <td>
+            <%= answer.user.realname %>
+            (<%= answer.user.username %>)
+          </td>
+        <% end %>
         <td>
           <%= link_to quiz_path answer.quiz do %>
             <%= answer.quiz.chapter.number %>: <%= answer.quiz.title %>

@@ -16,17 +16,29 @@
     </tr>
     <tr>
       <td>
-        Answer <br/>
-        by <%= @judgement.answer.user.username %>
+        Answer
       </td>
-      <td><%= @judgement.answer.content %></td>
+      <td>
+        <p>
+          <b><%= @judgement.answer.user.realname %> (<%= @judgement.answer.user.username %>)</b>
+        </p>
+        <p>
+          <%= @judgement.answer.content %>
+        </p>
+      </td>
     </tr>
     <tr>
       <td>
-        Judegement <br/>
-        by <%= @judgement.user.username %>
+        Judegement
       </td>
-      <td><%= @judgement.content %></td>
+      <td>
+        <p>
+          <b><%= @judgement.user.realname %> (<%= @judgement.user.username %>)</b>
+        </p>
+        <p>
+          <%= @judgement.content %>
+        </p>
+      </td>
     </tr>
     <tr>
       <td>Result</td>

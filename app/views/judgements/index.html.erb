@@ -16,7 +16,8 @@
     <% @judgements.each do |judgement| %>
       <tr>
         <td>
-          <%= judgement.answer.user.username %>
+          <%= judgement.answer.user.realname %>
+          (<%= judgement.answer.user.username %>)
         </td>
         <td>
           <%= link_to quiz_path judgement.answer.quiz do %>

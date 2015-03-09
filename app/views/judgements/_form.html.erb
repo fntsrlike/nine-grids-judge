@@ -24,21 +24,28 @@
 
   <div class="field">
     <label>
-      Quiz:
-      <%= @answer.quiz.chapter.number %> -
-      (<%= @answer.quiz.title %>)
+      <%= @answer.quiz.chapter.number %> - <%= @answer.quiz.title %>
     </label>
     <%= @answer.quiz.content %>
   </div>
 
   <div class="field">
     <label>
-      Answer:
-      (by <%= @answer.user.username %>)
+      Answer by
+      <%= @answer.user.realname %>
+      (<%= @answer.user.username %>)
     </label>
     <%= @answer.content %>
     <%= f.hidden_field :answer_id, value: @answer.id %>
   </div>
+
+  <div class="field">
+    <label>
+      Reference
+    </label>
+    <%= @answer.quiz.reference %>
+  </div>
+
   <div class="field">
     <%= f.label :content %>
     <%= f.text_area :content %>
