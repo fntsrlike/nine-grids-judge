@@ -38,9 +38,15 @@
           <% end %>
         </td>
       <% end %>
-      <% if can? :manage, @chapter %>
+      <% if can? :manage, chapter %>
         <td><%= chapter.weight %></td>
-        <td><%= chapter.status %></td>
+        <td>
+          <% if chapter.active? %>
+            <a class="ui green label">Active</a>
+          <% else %>
+            <a class="ui label">Inactive</a>
+          <% end %>
+        </td>
         <td><%= link_to 'Show', chapter %></td>
         <td><%= link_to 'Edit', edit_chapter_path(chapter) %></td>
         <td><%= link_to 'Destroy', chapter, method: :delete, data: { confirm: 'Are you sure?' } %></td>
