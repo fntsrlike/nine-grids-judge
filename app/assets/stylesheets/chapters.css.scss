@@ -13,11 +13,34 @@
     width: 100px;
     height: 100px;
   }
+
+  .fail {
+    background-color: #d95c5c;
+  }
+  .fail:hover {
+    background-color: #e96c6c;
+  }
+
+  .judgement {
+    background-color: #e2c61f;
+  }
+  .judgement:hover {
+    background-color: #f2d62f;
+  }
+
+  .pass {
+    background-color: #5bbd72;
+  }
+  .pass:hover {
+    background-color: #6bcd82;
+  }
+
+
   a {
     color: black;
     font-size: 72px;
   }
   a:hover {
-    color: white;
+    color: black;
   }
 }

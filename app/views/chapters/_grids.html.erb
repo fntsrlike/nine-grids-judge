@@ -3,18 +3,18 @@
 <p>
   Chose quiz and try to answer. After your correct-answer could be a line, you pass this chapter.
 </p>
-<table class=" nine-grids">
+<table class="nine-grids">
   <tbody>
   <% @quizzes.each_with_index do |quiz, index| %>
     <% if index%3 == 0 %> <tr> <% end %>
       <% if @quiz_status[index] == 2 %>
-        <td style="background-color: #5bbd72;">
+        <td class="pass">
       <% elsif @quiz_status[index] == 1 %>
-        <td style="background-color: #f2c61f;">
+        <td class="judgement">
       <% elsif @quiz_status[index] == 0 %>
-        <td style="background-color: #d95c5c;">
+        <td class="fail">
       <% end %>
-        <%= link_to quiz.code, quiz_path(quiz) %>
+        <%= link_to index+1, quiz_path(quiz) %>
       </td>
     <% if index%3 == 2 %> </tr> <% end %>
   <% end %>

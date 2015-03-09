@@ -1,17 +1,18 @@
 <h2 class="ui dividing header">Judgement</h2>
 <p id="notice"><%= notice %></p>
 
-<h3>
-  Quiz:
-  <%= @judgement.answer.quiz.chapter.number %> -
-  <%= @judgement.answer.quiz.code %>
-  (<%= @judgement.answer.quiz.title %>)
-</h3>
 <table class="ui definition table">
   <tbody>
     <tr>
       <td class="two wide column">Quiz</td>
-      <td><%= @judgement.answer.quiz.content %></td>
+      <td>
+        <p>
+          <b><%= @judgement.answer.quiz.chapter.number %> - <%= @judgement.answer.quiz.title %></b>
+        </p>
+        <p>
+          <%= @judgement.answer.quiz.content %>
+        </p>
+      </td>
     </tr>
     <tr>
       <td>

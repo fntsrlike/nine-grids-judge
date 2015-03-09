@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150309071022) do
+ActiveRecord::Schema.define(version: 20150309120838) do
 
   create_table "answers", force: true do |t|
     t.integer  "user_id"
@@ -68,7 +68,6 @@ ActiveRecord::Schema.define(version: 20150309071022) do
   add_index "judgements", ["user_id"], name: "index_judgements_on_user_id"
 
   create_table "quizzes", force: true do |t|
-    t.string   "code",       default: "", null: false
     t.string   "title",      default: "", null: false
     t.text     "content"
     t.integer  "chapter_id"
