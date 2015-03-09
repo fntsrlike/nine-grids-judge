@@ -13,19 +13,12 @@ class Ability
         can :create, Judgement do |judgement|
           !Judgement.exists?(answer_id: judgement.answer.id)
         end
-        can [:update, :delete], Judgement do |judgement|
+        can [:update, :destroy], Judgement do |judgement|
           judgement.user_id == user.id
         end
         can :read, Answer
 
       elsif user.has_role?(:student)
-        can :create, Answer do |answer|
-          grid = Grid.where(chapter_id: answer.quiz.chapter.id, user_id: user.id).first
-          is_chapter_active = answer.quiz.chapter.active?
-          is_valid_quiz = (!grid.nil?) && (grid.get_quizzes_id.include? answer.quiz.id)
-          is_not_queue = !Answer.exists?(quiz_id: answer.quiz.id, status: 0, user_id: user.id)
-          is_chapter_active && is_valid_quiz && is_not_queue
-        end
         can :read, Chapter
         can :show, Quiz
         can :read, Grid do |grid|
@@ -33,6 +26,17 @@ class Ability
         end
         can :read, Answer do |answer|
           answer.user_id == user.id
+        end
+        can :create, Answer do |answer|
+          quiz = answer.quiz
+          chapter = quiz.chapter
+          grid = Grid.where(chapter_id: chapter.id, user_id: user.id).first
+          is_chapter_active = chapter.active?
+          is_valid_quiz = (!grid.nil?) && (grid.get_quizzes_id.include? answer.quiz.id)
+          is_not_queue = !Answer.exists?(quiz_id: answer.quiz.id, status: 0, user_id: user.id)
+          is_quiz_passed = quiz.is_passed_by_user user.id
+
+          is_chapter_active && is_valid_quiz && is_not_queue && !is_quiz_passed
         end
       end
     end

@@ -30,7 +30,7 @@
       <% if can? :update, judgement %>
         <td><%= link_to 'Rejudge', edit_judgement_path(judgement) %></td>
       <% end %>
-      <% if can? :delete, judgement %>
+      <% if can? :destroy, judgement %>
         <td><%= link_to 'Destroy', judgement, method: :delete, data: { confirm: "It will be destroy and requeue answer.\nAre you sure?" } %></td>
       <% end %>
       </tr>

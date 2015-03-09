@@ -38,6 +38,7 @@
       (by <%= @answer.user.username %>)
     </label>
     <%= @answer.content %>
+    <%= f.hidden_field :answer_id, value: @answer.id %>
   </div>
   <div class="field">
     <%= f.label :content %>

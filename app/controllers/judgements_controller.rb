@@ -35,9 +35,9 @@ class JudgementsController < ApplicationController
   # POST /judgements
   # POST /judgements.json
   def create
-    authorize! :create, @judgement
     @judgement = Judgement.new(judgement_params)
     @judgement.user_id = current_user.id if cannot? :manage, Answer
+    authorize! :create, @judgement
 
     respond_to do |format|
       if @judgement.save
@@ -72,6 +72,7 @@ class JudgementsController < ApplicationController
   # DELETE /judgements/1
   # DELETE /judgements/1.json
   def destroy
+    authorize! :destroy, @judgement
     @judgement.answer.queue!
     @judgement.destroy
     respond_to do |format|

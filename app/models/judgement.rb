@@ -7,6 +7,7 @@ class Judgement < ActiveRecord::Base
 
   private
     def rejudge_grid
+      judgement = self
       answer = self.answer
       grid = Grid.where(user_id: answer.user.id, chapter_id: answer.quiz.chapter_id ).first
       grid.update_status
