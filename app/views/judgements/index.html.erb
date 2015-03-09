@@ -19,8 +19,9 @@
           <%= judgement.answer.user.username %>
         </td>
         <td>
-          <%= judgement.answer.quiz.chapter.number %> -
-          <%= judgement.answer.quiz.title %>
+          <%= link_to quiz_path judgement.answer.quiz do %>
+            <%= judgement.answer.quiz.chapter.number %>: <%= judgement.answer.quiz.title %>
+          <% end %>
         </td>
         <td><%= puts_answer_label judgement.answer%></td>
         <td><%= judgement.user.username %></td>
