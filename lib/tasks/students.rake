@@ -31,12 +31,16 @@ namespace :students do
   end
 
   task :reset_pwd => :environment do
+    puts "Begining to reset user password and send email to notify."
     User.with_role(:student).each do |user|
       password = Array.new(32){[*"a".."z", *"A".."Z", *"0".."9"].sample}.join
       user.update(password: password)
 
       if user.save
         StudentMailer.resetPwd(user, password).deliver
+        puts "Send email to #{user.username} successed!"
+      else
+        puts "Send email to #{user.username} failed!"
       end
     end
   end
