@@ -1,11 +1,11 @@
 <p>Dear <%=@user.realname%>: </p>
 <p>
-  Welcome to <%=@course_name%> course
+  Welcome to <%=@course_name%> course!
 </p>
 <p>
   We have already create a account of <%=link_to "Nine-grid Judge System", root_url%> for you.
   You can go to the system and try to use now.
-  Your password is on following. Please reset it after you sign in immediately.
+  Your password is in following. Please reset it after you sign in immediately.
 </p>
 
 <code>
@@ -13,6 +13,24 @@
   Password: <%=@password%>
 </code>
 
+<p>
+  We also create your account of <a href="http://judge.oolab.fntsr.tw" target="_blank">DOMJudge</a>  already. You can use following username and password to try to login.
+</p>
+
+<code>
+  Username: <%=@user.username%><br/>
+  Password: <%=@user.username%>+<%=@user.phone%>
+</code>
+
+<p>
+  Both system have time limit. Systems will open from 13:00 to 16:00 every Thursday. And systems will open for testing from 10:00 to 22:00 today.
+</p>
+
 <p>Best regards.</p>
 
 <p>Yours T.A.</p>
+
+<hr/>
+<p>
+  This mail is sent by system, do not reply it. Any quistion can ask us via <a href="https://www.facebook.com/NCUCompiler" target="_blank">Facebook Fans</a>, or go to E6-B112 to ask T.A..
+</p>

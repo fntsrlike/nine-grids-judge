@@ -7,7 +7,7 @@ class StudentMailer < ActionMailer::Base
   #   en.student_mailer.resetPwd.subject
   #
   def resetPwd user, password
-    @course_name = ""
+    @course_name = "Compiler"
     @user = user
     @password = password
 
