@@ -14,7 +14,13 @@
     <% @quizzes.each do |quiz| %>
       <tr>
         <td><%= quiz.id %></td>
-        <td><%= quiz.chapter.number %></td>
+        <td>
+          <% if !quiz.chapter.nil? and Quiz.exists?(id: quiz.chapter.id) %>
+            <%= quiz.chapter.number %>
+          <% else %>
+            -
+          <% end %>
+        </td>
         <td><%= quiz.title %></td>
         <td><%= link_to 'Show', quiz %></td>
         <td><%= link_to 'Edit', edit_quiz_path(quiz) %></td>
