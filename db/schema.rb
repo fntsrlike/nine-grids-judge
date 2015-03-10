@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150309120838) do
+ActiveRecord::Schema.define(version: 20150310225036) do
 
   create_table "answers", force: true do |t|
     t.integer  "user_id"
@@ -26,11 +26,11 @@ ActiveRecord::Schema.define(version: 20150309120838) do
   add_index "answers", ["user_id"], name: "index_answers_on_user_id"
 
   create_table "chapters", force: true do |t|
-    t.string   "number",     default: "",  null: false
-    t.string   "title",      default: "",  null: false
-    t.text     "decription"
-    t.integer  "weight",     default: 999, null: false
-    t.integer  "status",     default: 0,   null: false
+    t.string   "number",      default: "",  null: false
+    t.string   "title",       default: "",  null: false
+    t.text     "description"
+    t.integer  "weight",      default: 999, null: false
+    t.integer  "status",      default: 0,   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

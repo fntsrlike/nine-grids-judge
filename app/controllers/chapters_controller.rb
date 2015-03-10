@@ -79,7 +79,7 @@ class ChaptersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def chapter_params
-      params.require(:chapter).permit(:number, :title, :decription, :weight, :status)
+      params.require(:chapter).permit(:number, :title, :description, :weight, :status)
     end
 
     def get_quizzes_of_grids
