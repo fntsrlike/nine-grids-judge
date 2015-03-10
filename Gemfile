@@ -48,3 +48,9 @@ gem 'cancancan', '~> 1.10'
 
 # Mail Test
 gem "letter_opener", :group => :development
+
+# DB
+gem "mysql"
+
+# .env
+gem 'dotenv-rails'
