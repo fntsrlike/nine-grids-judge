@@ -25,6 +25,11 @@
     <div class="ui blue button">Edit</div>
   <% end %>
 <% end %>
+<% if can? :destroy, @chapter %>
+  <%= link_to @chapter, method: :delete, data: { confirm: 'Are you sure?' } do%>
+    <div class="ui red button">Destroy</div>
+  <% end %>
+<% end %>
 <%= link_to chapters_path do %>
   <div class="ui basic button">Back to chapters</div>
 <% end %>
