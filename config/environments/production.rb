@@ -87,8 +87,8 @@ Rails.application.configure do
       :port => "587",
       :domain => "mandrillapp.com",
       :authentication => "plain",
-      :user_name => "example@gmail.com",
-      :password => "123456",
+      :user_name => ENV["SMTP_USERNAME"],
+      :password => ENV["SMTP_PASSWORD"],
       :enable_starttls_auto => true
    }
 end
