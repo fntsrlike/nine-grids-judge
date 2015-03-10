@@ -10,7 +10,7 @@
       </ul>
     </div>
   <% end %>
-  <% if @has_chapter_param %>
+  <% if !@quiz.chapter.nil? or @has_chapter_param %>
     <div class="field">
       <%= f.hidden_field :chapter_id, value: @chapter.id %>
       <%= f.label :chapter_id %>

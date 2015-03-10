@@ -21,6 +21,7 @@ class QuizzesController < ApplicationController
 
   # GET /quizzes/1/edit
   def edit
+    @chapter = @quiz.chapter
   end
 
   # POST /quizzes
