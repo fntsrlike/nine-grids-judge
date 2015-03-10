@@ -10,7 +10,7 @@
           <b><%= @judgement.answer.quiz.chapter.number %> - <%= @judgement.answer.quiz.title %></b>
         </p>
         <p>
-          <%= @judgement.answer.quiz.content %>
+          <%= simple_format @judgement.answer.quiz.content %>
         </p>
       </td>
     </tr>
@@ -23,7 +23,7 @@
           <b><%= @judgement.answer.user.realname %> (<%= @judgement.answer.user.username %>)</b>
         </p>
         <p>
-          <%= @judgement.answer.content %>
+          <%= simple_format @judgement.answer.content %>
         </p>
       </td>
     </tr>
@@ -36,7 +36,7 @@
           <b><%= @judgement.user.realname %> (<%= @judgement.user.username %>)</b>
         </p>
         <p>
-          <%= @judgement.content %>
+          <%= simple_format @judgement.content %>
         </p>
       </td>
     </tr>

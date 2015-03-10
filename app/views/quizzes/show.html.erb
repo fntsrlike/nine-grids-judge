@@ -5,12 +5,12 @@
   <tbody>
       <tr>
         <td class="two wide column">Content</td>
-        <td><%= @quiz.content %></td>
+        <td><%= simple_format @quiz.content %></td>
       </tr>
       <% if can? :manage, Quiz %>
       <tr>
         <td>Reference</td>
-        <td><%= @quiz.reference %></td>
+        <td><%= simple_format @quiz.reference %></td>
       </tr>
       <% end %>
   </tbody>
