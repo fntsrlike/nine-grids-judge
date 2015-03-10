@@ -10,24 +10,28 @@
       </ul>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= f.label :title %>
-    <%= f.text_field :title %>
-  </div>
-  <div class="field">
-    <%= f.label :content %>
-    <%= f.text_area :content %>
-  </div>
-  <div class="field">
-    <%= f.label :reference %>
-    <%= f.text_area :reference %>
-  </div>
-  <div class="field">
-    <%= f.label :chapter_id %>
-    <%= f.text_field :chapter_id %>
-  </div>
-  <div class="actions">
-    <%= f.button class: "ui blue button"%>
-  </div>
+  <% if @has_chapter_param %>
+    <div class="field">
+      <%= f.hidden_field :chapter, value: @chapter.id %>
+      <%= f.label :chapter_id %>
+      <%= @chapter.number %> - <%= @chapter.title %>
+    </div>
+    <div class="field">
+      <%= f.label :title %>
+      <%= f.text_field :title %>
+    </div>
+    <div class="field">
+      <%= f.label :content %>
+      <%= f.text_area :content %>
+    </div>
+    <div class="field">
+      <%= f.label :reference %>
+      <%= f.text_area :reference %>
+    </div>
+    <div class="actions">
+      <%= f.button class: "ui blue button"%>
+    </div>
+  <% else %>
+    <p> You have to go to Chapter page and choose quiz from grid </p>
+  <% end %>
 <% end %>

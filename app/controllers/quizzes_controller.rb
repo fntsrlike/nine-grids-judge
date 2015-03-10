@@ -15,6 +15,7 @@ class QuizzesController < ApplicationController
 
   # GET /quizzes/new
   def new
+    new_params
     @quiz = Quiz.new
   end
 
@@ -71,5 +72,15 @@ class QuizzesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def quiz_params
       params.require(:quiz).permit(:title, :content, :reference, :chapter_id)
+    end
+
+    def new_params
+      has_chapter = !params[:chapter].nil?
+      is_chapter_valid = Chapter.exists? number: params[:chapter]
+      @has_chapter_param = has_chapter && is_chapter_valid
+
+      if @has_chapter_param
+        @chapter = Chapter.where(number: params[:chapter]).first
+      end
     end
 end
