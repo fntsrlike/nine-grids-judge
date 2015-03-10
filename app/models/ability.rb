@@ -1,40 +1,40 @@
 class Ability
   include CanCan::Ability
 
-  def initialize(user)
+  def initialize(current_user)
     basic_read_only
-    if !user.blank?
-      if user.has_role?(:admin)
+    if !current_user.blank?
+      if current_user.has_role?(:admin)
         can :manage, :all
 
-      elsif user.has_role?(:manager)
+      elsif current_user.has_role?(:manager)
         can :manage, [Chapter, Quiz]
         can :read, Judgement
         can :create, Judgement do |judgement|
           !Judgement.exists?(answer_id: judgement.answer.id)
         end
         can [:update, :destroy], Judgement do |judgement|
-          judgement.user_id == user.id
+          judgement.user_id == current_user.id
         end
         can :read, Answer
 
-      elsif user.has_role?(:student)
+      elsif current_user.has_role?(:student)
         can :read, Chapter
         can :show, Quiz
         can :read, Grid do |grid|
-          grid.user_id == user.id
+          grid.user_id == current_user.id
         end
         can :read, Answer do |answer|
-          answer.user_id == user.id
+          answer.user_id == current_user.id
         end
         can :create, Answer do |answer|
           quiz = answer.quiz
           chapter = quiz.chapter
-          grid = Grid.where(chapter_id: chapter.id, user_id: user.id).first
+          grid = Grid.where(chapter_id: chapter.id, user_id: current_user.id).first
           is_chapter_active = chapter.active?
           is_valid_quiz = (!grid.nil?) && (grid.get_quizzes_id.include? answer.quiz.id)
-          is_not_queue = !Answer.exists?(quiz_id: answer.quiz.id, status: 0, user_id: user.id)
-          is_quiz_passed = quiz.is_passed_by_user user.id
+          is_not_queue = !Answer.exists?(quiz_id: answer.quiz.id, status: 0, user_id: current_user.id)
+          is_quiz_passed = quiz.is_passed_by_user current_user.id
 
           is_chapter_active && is_valid_quiz && is_not_queue && !is_quiz_passed
         end
