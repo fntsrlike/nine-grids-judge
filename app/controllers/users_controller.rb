@@ -77,21 +77,21 @@ class UsersController < ApplicationController
     end
 
     def role_params
-      if params[:admin] == "1"
+      if params[:user_admin] == "1"
         @user.grant(:admin)
-      elsif params[:admin] == "0"
+      elsif params[:user_admin] == "0"
         @user.remove_role(:admin)
       end
 
-      if params[:manager] == "1"
+      if params[:user_manager] == "1"
         @user.grant(:manager)
-      elsif params[:manager] == "0"
+      elsif params[:user_manager] == "0"
         @user.remove_role(:manager)
       end
 
-      if params[:student] == "1"
+      if params[:user_student] == "1"
         @user.grant(:student)
-      elsif params[:student] == "0"
+      elsif params[:user_student] == "0"
         @user.remove_role(:student)
       end
     end
