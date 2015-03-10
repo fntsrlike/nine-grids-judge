@@ -17,6 +17,9 @@ class Ability
           judgement.user_id == current_user.id
         end
         can :read, Answer
+        can :read, User do |user|
+          user.has_role?(:student)
+        end
 
       elsif current_user.has_role?(:student)
         can :read, Chapter
