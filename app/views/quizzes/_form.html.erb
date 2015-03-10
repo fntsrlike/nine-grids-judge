@@ -12,7 +12,7 @@
   <% end %>
   <% if @has_chapter_param %>
     <div class="field">
-      <%= f.hidden_field :chapter, value: @chapter.id %>
+      <%= f.hidden_field :chapter_id, value: @chapter.id %>
       <%= f.label :chapter_id %>
       <%= @chapter.number %> - <%= @chapter.title %>
     </div>
