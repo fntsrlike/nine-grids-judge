@@ -1,5 +1,5 @@
 GEM
-  remote: http://rubygems.nos.ncu.edu.tw/
+  remote: https://rubygems.org/
   specs:
     actionmailer (4.1.5)
       actionpack (= 4.1.5)
@@ -45,6 +45,9 @@ GEM
       railties (>= 3.2.6, < 5)
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
+    dotenv (2.0.0)
+    dotenv-rails (2.0.0)
+      dotenv (= 2.0.0)
     erubis (2.7.0)
     execjs (2.3.0)
     hike (1.2.3)
@@ -66,6 +69,7 @@ GEM
     mime-types (1.25.1)
     minitest (5.5.1)
     multi_json (1.10.1)
+    mysql2 (0.3.18)
     orm_adapter (0.5.0)
     polyglot (0.3.5)
     rack (1.5.2)
@@ -135,9 +139,11 @@ DEPENDENCIES
   cancancan (~> 1.10)
   coffee-rails (~> 4.0.0)
   devise
+  dotenv-rails
   jbuilder (~> 2.0)
   jquery-rails
   letter_opener
+  mysql2
   rails (= 4.1.5)
   rolify
   sass-rails (~> 4.0.3)

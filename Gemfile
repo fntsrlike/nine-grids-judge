@@ -1,6 +1,5 @@
-# source 'https://rubygems.org'
-source 'http://rubygems.nos.ncu.edu.tw/'
-
+source 'https://rubygems.org'
+# source 'http://rubygems.nos.ncu.edu.tw/'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.5'
@@ -26,8 +25,6 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0',          group: :doc
 
-# Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-gem 'spring',        group: :development
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -46,11 +43,16 @@ gem 'devise'
 gem 'rolify'
 gem 'cancancan', '~> 1.10'
 
-# Mail Test
-gem "letter_opener", :group => :development
+group :test, :development do
+  # Mail Test
+  gem "letter_opener"
 
-# DB
-gem "mysql"
+  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem 'spring'
+end
 
-# .env
-gem 'dotenv-rails'
+group :production do
+  gem "mysql2"
+  gem 'dotenv-rails'
+end
+
