@@ -36,7 +36,7 @@ class Grid < ActiveRecord::Base
     end
 
     pass_combos.each do |combo|
-      if combo == status.to_i & combo
+      if combo == status.to_i(2) & combo
         is_pass = true
         break
       end
