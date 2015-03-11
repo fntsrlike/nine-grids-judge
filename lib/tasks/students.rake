@@ -44,4 +44,22 @@ namespace :students do
       end
     end
   end
+
+  task :reset_pwd_specify, [:username] => :environment do |t, args|
+    puts "Begining to reset user password and send email to notify."
+    user = User.where(username: args[:username]).first
+    if user.nil?
+      puts "Can't find #{args[:username]}, please check again"
+    else
+      password = Array.new(32){[*"a".."z", *"A".."Z", *"0".."9"].sample}.join
+      user.update(password: password)
+
+      if user.save
+        StudentMailer.resetPwd(user, password).deliver
+        puts "Send email to #{user.username} successed!"
+      else
+        puts "Send email to #{user.username} failed!"
+      end
+    end
+  end
 end
