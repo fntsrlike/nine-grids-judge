@@ -52,9 +52,14 @@
     <div class="ui blue button">Rejudge</div>
   <% end %>
 <% end %>
+<%= link_to judgements_path do %>
+  <div class="ui basic button">Back to list</div>
+<% end %>
 <%= link_to answers_path do %>
   <div class="ui basic button">Back to answers</div>
 <% end %>
-<%= link_to judgements_path do %>
-  <div class="ui basic button">Back to judgements</div>
+<% if can? :destroy, @judgement %>
+  <%= link_to @judgement, method: :delete, data: { confirm: "It will be destroy and requeue answer.\nAre you sure?" } do %>
+    <div class="ui button">Destroy</div>
+  <% end %>
 <% end %>
