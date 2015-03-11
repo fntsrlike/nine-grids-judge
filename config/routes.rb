@@ -3,6 +3,11 @@ Rails.application.routes.draw do
   root to: "home#index"
 
   devise_for :users, :path_prefix => 'p'
+  as :user do
+    get 'p/users/edit' => 'devise/registrations#edit', :as => 'edit_user_registration'
+    put 'p/users' => 'devise/registrations#update', :as => 'user_registration'
+  end
+
   resources :users
   resources :judgements
   resources :answers
