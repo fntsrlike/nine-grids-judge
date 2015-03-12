@@ -5,11 +5,11 @@ class AnswersController < ApplicationController
   # GET /answers
   # GET /answers.json
   def index
-    answers = Answer.order("created_at DESC")
+    answers = Answer
     if can? :create, Judgement
-      @answers = answers.where(status: [0,1])
+      @answers = answers.where(status: [0,1]).order("created_at ASC")
     else
-      @answers = answers.where(user_id: current_user.id)
+      @answers = answers.where(user_id: current_user.id).order("created_at DESC")
     end
   end
 
