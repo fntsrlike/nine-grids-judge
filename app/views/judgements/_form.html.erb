@@ -20,6 +20,8 @@
       <%= f.label :reviewers %>
       <%= f.text_field :user_id, value: current_user.id %>
     </div>
+  <% else %>
+    <%= f.hidden_field :answer_id, value: @answer.id %>
   <% end %>
 
   <div class="field">
@@ -36,7 +38,6 @@
       (<%= @answer.user.username %>)
     </label>
     <%= simple_format @answer.content %>
-    <%= f.hidden_field :answer_id, value: @answer.id %>
   </div>
 
   <div class="field">
@@ -68,7 +69,5 @@
   </div>
 
   <%= f.button class: "ui blue button"%>
-  <%= link_to :back do %>
-    <div class="ui button">Cancel</div>
-  <% end %>
+  <%= f.button "Cancel", name: "cancel", class: "ui button"%>
 <% end %>

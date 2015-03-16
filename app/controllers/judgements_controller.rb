@@ -40,7 +40,10 @@ class JudgementsController < ApplicationController
     authorize! :create, @judgement
 
     respond_to do |format|
-      if @judgement.save
+      if !params[:cancel].nil?
+        Answer.find(@judgement.answer_id).queue!
+        format.html { redirect_to answers_url, alert: 'Judgement canceled! Answer return to queue.' }
+      elsif @judgement.save
         @judgement.answer.done!
         format.html { redirect_to @judgement, notice: 'Judgement was successfully created.' }
         format.json { render :show, status: :created, location: @judgement }
@@ -89,6 +92,6 @@ class JudgementsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def judgement_params
-      params.require(:judgement).permit(:answer_id, :user_id, :content, :result)
+      params.require(:judgement).permit(:answer_id, :user_id, :content, :result, :cancel)
     end
 end
