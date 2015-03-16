@@ -7,7 +7,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body id="main">
-  <div class="ui secondary pointing menu">
+  <nav class="ui secondary pointing menu">
     <%= link_to root_path, :class => 'item' do %>
       <i class="home icon"></i> Home
     <% end %>
@@ -47,7 +47,7 @@
         <% end %>
       <% end %>
     </div>
-  </div>
+  </nav>
 
   <% if !notice.nil? %>
     <div class="ui positive message">
@@ -59,7 +59,27 @@
       <p><%= alert %></p>
     </div>
   <% end %>
-  <%= yield %>
 
+  <div class="container">
+    <%= yield %>
+    <div class="push"></div>
+  </div>
+
+  <footer class="main footer">
+    <div class="ui divider"></div>
+
+    <div class="ui divided horizontal footer link list">
+      <div class="item">
+        Nine Grids Judge System
+      </div>
+      <div class="item">
+        <a href="https://www.facebook.com/NCUCompiler" target="_blank">Compiler-A NCU </a>
+      </div>
+      <div class="item">
+        Developed by
+        <a href="http://fntsr.tw">fntsrlike</a>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
