@@ -25,9 +25,15 @@
     <div class="ui blue button">Edit</div>
   <% end %>
 <% end %>
+<% if can? :update, Chapter %>
+  <%= form_for(@chapter, html: { class: "ui form", style: "display: inline;" }) do |f| %>
+    <%= f.hidden_field :reset_grids, value: true %>
+    <%= f.button "Reset Grids", value: 'reset_grids', class: "ui red button", data: { confirm: "It will reset grids of no passing quiz. \nAre you sure?" } %>
+  <% end %>
+<% end %>
 <% if can? :destroy, @chapter %>
   <%= link_to @chapter, method: :delete, data: { confirm: 'Are you sure?' } do%>
-    <div class="ui red button">Destroy</div>
+    <div class="ui button">Destroy</div>
   <% end %>
 <% end %>
 <%= link_to chapters_path do %>

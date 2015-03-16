@@ -17,7 +17,8 @@ class ChaptersController < ApplicationController
       if !Grid.exists?( :user_id => current_user.id, :chapter_id => @chapter.id )
         set_quizzes_of_grids
       end
-      @quizzes = get_quizzes_of_grids
+      grids = Grid.where( :user_id => user_id, :chapter_id => chapter_id ).last
+      @quizzes = grids.get_quizzes
       @quiz_status = get_quizzes_status @quizzes
     end
   end
@@ -51,7 +52,10 @@ class ChaptersController < ApplicationController
   # PATCH/PUT /chapters/1.json
   def update
     respond_to do |format|
-      if @chapter.update(chapter_params)
+      if !params[:button].nil? && params[:button] == "reset_grids"
+        reset_chapter_grids @chapter.id
+        format.html { redirect_to @chapter, notice: 'Grids of chapter was successfully reset.' }
+      elsif @chapter.update(chapter_params)
         format.html { redirect_to @chapter, notice: 'Chapter was successfully updated.' }
         format.json { render :show, status: :ok, location: @chapter }
       else
@@ -82,11 +86,6 @@ class ChaptersController < ApplicationController
       params.require(:chapter).permit(:number, :title, :description, :weight, :status)
     end
 
-    def get_quizzes_of_grids
-      grids = Grid.where( :user_id => current_user.id, :chapter_id => @chapter.id ).last
-      return grids.get_quizzes
-    end
-
     def set_quizzes_of_grids
       quizzes = Quiz.where(:chapter_id => @chapter.id).pluck(:id).shuffle[0..8]
       grids = Grid.new( :user_id => current_user.id, :chapter_id => @chapter.id )
@@ -97,17 +96,24 @@ class ChaptersController < ApplicationController
       grids.update(attributes)
     end
 
-    def get_quizzes_status quizzes
+    def get_quizzes_status quizzes, user_id = current_user.id
       status = [0,0,0,0,0,0,0,0,0]
       quizzes.each_with_index do |quiz, index|
-        if Answer.joins(:judgement).exists?(quiz_id: quiz.id, user_id: current_user.id, status: 2, judgements: { result: 1 })
+        if Answer.joins(:judgement).exists?(quiz_id: quiz.id, user_id: user_id, status: 2, judgements: { result: 1 })
           status[index] = 2
-        elsif Answer.exists?(:quiz_id => quiz.id, :user_id => current_user.id, :status => [0,1])
+        elsif Answer.exists?(:quiz_id => quiz.id, :user_id => user_id, :status => [0,1])
           status[index] = 1
         else
           status[index] = 0
         end
       end
       return status
+    end
+
+    def reset_chapter_grids chapter_id
+      failed_grids = Grid.where(chapter_id: chapter_id, status: 0)
+      failed_grids.each do |grids|
+        grids.reset_user_grids
+      end
     end
 end

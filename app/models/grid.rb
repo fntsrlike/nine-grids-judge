@@ -3,10 +3,11 @@ class Grid < ActiveRecord::Base
   belongs_to :chapter
 
   enum status: [ :fail, :pass ]
+  GRID_NUMBER = 9
 
   def get_quizzes
     quizzes = []
-    for i in 1..9
+    for i in 1..GRID_NUMBER
       quizzes.push(Quiz.find(self["quiz_#{i}"]))
     end
     return quizzes
@@ -14,7 +15,7 @@ class Grid < ActiveRecord::Base
 
   def get_quizzes_id
     quizzes = []
-    for i in 1..9
+    for i in 1..GRID_NUMBER
       quizzes.push(self["quiz_#{i}"])
     end
     return quizzes
@@ -29,7 +30,7 @@ class Grid < ActiveRecord::Base
       0b100010001, 0b001010100               # x
     ]
 
-    self.get_quizzes.each do |quiz|
+    get_quizzes.each do |quiz|
       is_quiz_pass = Answer.joins(:judgement)
         .exists?(quiz_id: quiz.id, user_id: self.user_id, status: 2, judgements: { result: 1 })
       status += is_quiz_pass ? "1" : "0"
@@ -44,4 +45,37 @@ class Grid < ActiveRecord::Base
 
     is_pass ? self.pass! : self.fail!
   end
+
+  def reset_user_grids
+    update(get_reset_attributes)
+  end
+
+  def get_reset_attributes
+    pass_quizzes = get_passed_quizzes
+    fail_quizzes_count = GRID_NUMBER - pass_quizzes.count
+
+    new_quizzes = Quiz.where(:chapter_id => self.chapter_id).where.not(id: pass_quizzes.values)
+                      .pluck(:id).shuffle[0..fail_quizzes_count]
+
+    attributes = {}
+    for i in 1..GRID_NUMBER
+      if pass_quizzes[i].nil?
+        attributes["quiz_#{i}"] = new_quizzes.pop
+      end
+    end
+
+    return attributes
+  end
+
+  def get_passed_quizzes
+    pass_quizzes = {}
+    get_quizzes.each_with_index do |quiz, index|
+      if Answer.joins(:judgement).exists?(quiz_id: quiz.id, user_id: self.user_id, status: 2, judgements: { result: 1 })
+        pass_quizzes[index+1] = quiz.id
+      end
+    end
+
+    return pass_quizzes;
+  end
+
 end
