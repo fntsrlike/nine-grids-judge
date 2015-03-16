@@ -102,7 +102,7 @@ class ChaptersController < ApplicationController
       quizzes.each_with_index do |quiz, index|
         if Answer.joins(:judgement).exists?(quiz_id: quiz.id, user_id: current_user.id, status: 2, judgements: { result: 1 })
           status[index] = 2
-        elsif Answer.exists?(:quiz_id => quiz.id, :user_id => current_user.id, :status => 1)
+        elsif Answer.exists?(:quiz_id => quiz.id, :user_id => current_user.id, :status => [0,1])
           status[index] = 1
         else
           status[index] = 0
