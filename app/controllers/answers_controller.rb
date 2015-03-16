@@ -39,6 +39,8 @@ class AnswersController < ApplicationController
   def create
     @answer = Answer.new(answer_params)
     @answer.user_id = current_user.id if cannot? :manage, Answer
+    @quiz = Quiz.find(@answer.quiz_id)
+    @has_quiz_param = !@quiz.nil?
     authorize! :create, @answer
 
     respond_to do |format|

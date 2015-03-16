@@ -1,0 +1,25 @@
+  <%= form_for(@answer, html: { class: "ui form" }) do |f| %>
+  <% if @answer.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@answer.errors.count, "error") %> prohibited this answer from being saved:</h2>
+      <ul>
+      <% @answer.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if can? :manage, Answer or !@quiz.nil? %>
+    <div class="field">
+      <%= f.text_area :content, placeholder: "Write your answer..." %>
+    </div>
+    <%= f.hidden_field :quiz_id, value: @quiz.id %>
+    <%= f.button "Answer it!", class: "ui blue button"%>
+  <% else %>
+    <p> You have to go to Chapter page and choose quiz from grid </p>
+  <% end %>
+  <%= link_to chapter_path @quiz.chapter do %>
+    <div class="ui basic button">Back to Chapter</div>
+  <% end %>
+<% end %>
