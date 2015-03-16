@@ -45,6 +45,7 @@ class JudgementsController < ApplicationController
         format.html { redirect_to answers_url, alert: 'Judgement canceled! Answer return to queue.' }
       elsif @judgement.save
         @judgement.answer.done!
+        rejudge_grid
         format.html { redirect_to @judgement, notice: 'Judgement was successfully created.' }
         format.json { render :show, status: :created, location: @judgement }
       else
@@ -63,6 +64,7 @@ class JudgementsController < ApplicationController
     respond_to do |format|
       if @judgement.update(judgement_params)
         @judgement.answer.done!
+        rejudge_grid
         format.html { redirect_to @judgement, notice: 'Judgement was successfully updated.' }
         format.json { render :show, status: :ok, location: @judgement }
       else
@@ -77,6 +79,7 @@ class JudgementsController < ApplicationController
   def destroy
     authorize! :destroy, @judgement
     @judgement.answer.queue!
+    rejudge_grid
     @judgement.destroy
     respond_to do |format|
       format.html { redirect_to judgements_url, notice: 'Judgement was successfully destroyed.' }
@@ -93,5 +96,14 @@ class JudgementsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def judgement_params
       params.require(:judgement).permit(:answer_id, :user_id, :content, :result, :cancel)
+    end
+
+    def rejudge_grid
+      judgement = @judgement
+      answer = @judgement.answer
+      grid = Grid.where(user_id: answer.user.id, chapter_id: answer.quiz.chapter_id ).first
+      grid.update_status
+
+      return true
     end
 end
