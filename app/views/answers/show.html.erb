@@ -15,7 +15,7 @@
         Answer <br/>
         by <%= @answer.user.username %>
       </td>
-      <td><%= simple_format @answer.content %></td>
+      <td><%= markdown_render @answer.content %></td>
     </tr>
     <% if @answer.done? %>
       <tr>
@@ -23,7 +23,7 @@
           Judegement <br/>
           by <%= @answer.judgement.user.username %>
         </td>
-        <td><%= simple_format @answer.judgement.content %></td>
+        <td><%= markdown_render @answer.judgement.content %></td>
       </tr>
     <% end %>
     <tr>
