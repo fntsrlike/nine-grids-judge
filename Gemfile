@@ -43,6 +43,9 @@ gem 'devise'
 gem 'rolify'
 gem 'cancancan', '~> 1.10'
 
+# Markdown render
+gem 'redcarpet'
+
 group :test, :development do
   # Mail Test
   gem "letter_opener"

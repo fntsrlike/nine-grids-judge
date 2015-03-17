@@ -18,4 +18,8 @@ module ApplicationHelper
 
     raw "<a class=\"ui #{label}\">#{status}</a>"
   end
+
+  def markdown_render(md)
+    Article::Markdown.get_instance.render(md).html_safe
+  end
 end

@@ -93,6 +93,7 @@ GEM
     rake (10.4.2)
     rdoc (4.2.0)
       json (~> 1.4)
+    redcarpet (3.2.0)
     rolify (4.0.0)
     sass (3.2.19)
     sass-rails (4.0.5)
@@ -145,6 +146,7 @@ DEPENDENCIES
   letter_opener
   mysql2
   rails (= 4.1.5)
+  redcarpet
   rolify
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
