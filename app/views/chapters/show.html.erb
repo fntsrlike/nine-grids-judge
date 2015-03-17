@@ -17,6 +17,19 @@
       <td>Description</td>
       <td><%= markdown_render @chapter.description %></td>
     </tr>
+    <tr>
+      <td>Statistics</td>
+      <td>
+        <div class="ui list">
+        <% @statistics.each do | index, value | %>
+          <div class="item">
+            <div class="header"><%= index %></div>
+            <%= value %>
+          </div>
+        <% end %>
+        </div>
+      </td>
+    </tr>
   </tbody>
 </table>
 

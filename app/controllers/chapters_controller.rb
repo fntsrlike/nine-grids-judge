@@ -13,6 +13,7 @@ class ChaptersController < ApplicationController
   def show
     if can? :manage, Quiz
       @quizzes = Quiz.where( :chapter_id => @chapter.id )
+      @statistics = get_chapter_statistics
     elsif can? :create, Answer
       if !Grid.exists?( :user_id => current_user.id, :chapter_id => @chapter.id )
         grids = Grid.new( :user_id => current_user.id, :chapter_id => @chapter.id )
@@ -103,5 +104,13 @@ class ChaptersController < ApplicationController
       Grid.where(chapter_id: chapter_id) do | grid |
         grid.update_status
       end
+    end
+
+    def get_chapter_statistics
+      statistics = {
+        all_count: @chapter.get_all_count,
+        pass_count: @chapter.get_pass_count,
+        pass_rate: @chapter.get_pass_rate.to_s + '%'
+      }
     end
 end
