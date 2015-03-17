@@ -101,7 +101,7 @@ class ChaptersController < ApplicationController
 
     # Reload chapter passing status of all student
     def reload_chapter_status chapter_id
-      Grid.where(chapter_id: chapter_id) do | grid |
+      Grid.where(chapter_id: chapter_id).each do | grid |
         grid.update_status
       end
     end
