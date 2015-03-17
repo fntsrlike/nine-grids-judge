@@ -56,6 +56,9 @@ class ChaptersController < ApplicationController
       if !params[:button].nil? && params[:button] == "reset_grids"
         reset_chapter_grids @chapter.id
         format.html { redirect_to @chapter, notice: 'Grids of chapter was successfully reset.' }
+      elsif !params[:button].nil? && params[:button] == "reload_status"
+        reload_chapter_status @chapter.id
+        format.html { redirect_to @chapter, notice: 'All of students\' chapter passing status are reloaded.' }
       elsif @chapter.update(chapter_params)
         format.html { redirect_to @chapter, notice: 'Chapter was successfully updated.' }
         format.json { render :show, status: :ok, location: @chapter }
@@ -92,6 +95,13 @@ class ChaptersController < ApplicationController
       failed_grids = Grid.where(chapter_id: chapter_id, status: 0)
       failed_grids.each do |grids|
         grids.reset_user_grids
+      end
+    end
+
+    # Reload chapter passing status of all student
+    def reload_chapter_status chapter_id
+      Grid.where(chapter_id: chapter_id) do | grid |
+        grid.update_status
       end
     end
 end

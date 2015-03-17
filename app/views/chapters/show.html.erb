@@ -30,6 +30,10 @@
     <%= f.hidden_field :reset_grids, value: true %>
     <%= f.button "Reset Grids", value: 'reset_grids', class: "ui red button", data: { confirm: "It will reset grids of no passing quiz. \nAre you sure?" } %>
   <% end %>
+  <%= form_for(@chapter, html: { class: "ui form", style: "display: inline;" }) do |f| %>
+    <%= f.hidden_field :reset_grids, value: true %>
+    <%= f.button "Reload status", value: 'reload_status', class: "ui orange button", data: { confirm: "It will All of students' chapter passing status. Are you sure?" } %>
+  <% end %>
 <% end %>
 <% if can? :destroy, @chapter %>
   <%= link_to @chapter, method: :delete, data: { confirm: 'Are you sure?' } do%>
