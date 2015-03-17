@@ -17,6 +17,7 @@
       <td>Description</td>
       <td><%= markdown_render @chapter.description %></td>
     </tr>
+    <% if can? :update, Chapter %>
     <tr>
       <td>Statistics</td>
       <td>
@@ -30,6 +31,7 @@
         </div>
       </td>
     </tr>
+    <% end %>
   </tbody>
 </table>
 
