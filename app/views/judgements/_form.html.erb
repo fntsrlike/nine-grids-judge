@@ -1,4 +1,3 @@
-<%= form_for(@judgement, html: { class: "ui form" }) do |f| %>
   <% if @judgement.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@judgement.errors.count, "error") %> prohibited this judgement from being saved:</h2>
@@ -11,6 +10,50 @@
     </div>
   <% end %>
 
+  <div>
+    <h5 class="ui blue top attached header">
+      <%= @answer.quiz.chapter.number %> - <%= @answer.quiz.title %>
+    </h5>
+    <div class="ui bottom attached segment">
+      <%= markdown_render @answer.quiz.content %>
+    </div>
+
+    <% @logs.each do | log | %>
+      <h5 class="ui red top attached header">
+        Log #<%= log[:id] %> - <%= log[:result] %>
+      </h5>
+      <div class="ui attached segment">
+        <%= markdown_render log[:answer] %>
+      </div>
+      <div class="ui bottom attached segment">
+        <%= markdown_render log[:judgement] %>
+        <p style="text-align:right;">
+          ——
+          <%= log[:reviewer].username %>
+          (<%= log[:reviewer].realname %>)
+        </p>
+      </div>
+    <% end %>
+
+    <h5 class="ui orange top attached header">
+      Latest Answer
+      -- <%= @answer.user.realname %> (<%= @answer.user.username %>)
+    </h5>
+    <div class="ui bottom attached segment">
+      <%= markdown_render @answer.content %>
+    </div>
+
+    <h5 class="ui green top attached header">
+      Reference
+    </h5>
+    <div class="ui bottom attached segment">
+      <%= markdown_render @answer.quiz.reference %>
+    </div>
+  </div>
+
+<div style="margin: 1em 0"/>
+
+<%= form_for(@judgement, html: { class: "ui large form" }) do |f| %>
   <% if can? :manage, Judgement %>
     <div class="field">
       <%= f.label :answer_id %>
@@ -23,29 +66,6 @@
   <% else %>
     <%= f.hidden_field :answer_id, value: @answer.id %>
   <% end %>
-
-  <div class="field">
-    <label>
-      <%= @answer.quiz.chapter.number %> - <%= @answer.quiz.title %>
-    </label>
-    <%= markdown_render @answer.quiz.content %>
-  </div>
-
-  <div class="field">
-    <label>
-      Answer by
-      <%= @answer.user.realname %>
-      (<%= @answer.user.username %>)
-    </label>
-    <%= markdown_render @answer.content %>
-  </div>
-
-  <div class="field">
-    <label>
-      Reference
-    </label>
-    <%= markdown_render @answer.quiz.reference %>
-  </div>
 
   <div class="field">
     <%= f.label :content %>
