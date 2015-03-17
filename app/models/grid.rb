@@ -21,6 +21,20 @@ class Grid < ActiveRecord::Base
     return quizzes
   end
 
+  def get_quizzes_status
+    status = Array.new(GRID_NUMBER,0)
+    get_quizzes.each_with_index do |quiz, index|
+      if Answer.joins(:judgement).exists?(quiz_id: quiz.id, user_id: self.user_id, status: 2, judgements: { result: 1 })
+        status[index] = 2
+      elsif Answer.exists?(:quiz_id => quiz.id, :user_id => self.user_id, :status => [0,1])
+        status[index] = 1
+      else
+        status[index] = 0
+      end
+    end
+    return status
+  end
+
   def update_status
     status = ""
     is_pass = false
@@ -44,6 +58,15 @@ class Grid < ActiveRecord::Base
     end
 
     is_pass ? self.pass! : self.fail!
+  end
+
+  def set_quizzes_random
+    quizzes = Quiz.where(:chapter_id => self.chapter_id).pluck(:id).shuffle[0..8]
+    attributes = {}
+    for i in 1..GRID_NUMBER
+      attributes["quiz_#{i}"] = quizzes[i-1]
+    end
+    update(attributes)
   end
 
   def reset_user_grids
