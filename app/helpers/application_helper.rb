@@ -20,6 +20,6 @@ module ApplicationHelper
   end
 
   def markdown_render(md)
-    Article::Markdown.get_instance.render(md).html_safe
+    Article::MarkdownPipeline.call(md)[:output].to_s.html_safe
   end
 end

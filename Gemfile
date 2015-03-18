@@ -43,8 +43,16 @@ gem 'devise'
 gem 'rolify'
 gem 'cancancan', '~> 1.10'
 
+# Use HTML pipeline for rendering
+gem 'html-pipeline'
 # Markdown render
 gem 'redcarpet'
+# Use rails_autolink for autolink before the issue of redcarpet fixed
+gem 'rails_autolink'
+# Code highlighter
+gem 'pygments.rb'
+# Use GitHub Linguist for language detection
+gem 'github-linguist'
 
 group :test, :development do
   # Mail Test

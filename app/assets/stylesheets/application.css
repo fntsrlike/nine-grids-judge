@@ -13,11 +13,30 @@
  *= require_tree .
  *= require_self
  */
- html, body {
-    height: 100%;
- }
 
- .container {
+html, body {
+    height: 100%;
+}
+
+textarea {
+    font-family: Monaco, consolas, Courier;
+}
+
+code {
+    padding: 0.2em;
+    margin: 0 0.1em;
+    font-size: 85%;
+    background-color: rgba(0,0,0,0.1);
+    border-radius: 3px;
+    color: rgb(200,0,0);
+}
+
+pre {
+    padding: 1em;
+    font-size: 85%;
+}
+
+.container {
     min-height: 80%;
     height: auto !important;
     height: 100%;
@@ -26,8 +45,4 @@
 
 .footer {
     margin: 0 auto 1em;
-}
-
-textarea {
-    font-family: Monaco, consolas, Courier;
 }
