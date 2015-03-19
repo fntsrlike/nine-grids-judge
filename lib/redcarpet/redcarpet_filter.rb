@@ -26,7 +26,7 @@ module HTML
                 # TODO re-enable autolink after the issue solved
         options = { fenced_code_blocks: true, no_intra_emphasis: true, tables: true, with_toc_data: true, strikethrough: true, lax_spacing: true }
                 options.merge! context[:redcarpet] if context[:recarpet].is_a? Hash
-                html = ::Redcarpet::Markdown.new(::Redcarpet::Render::Code.new(xhtml: true), options).render @text
+                html = ::Redcarpet::Markdown.new(::Redcarpet::Render::Code.new(xhtml: true, hard_wrap: true), options).render @text
         html.rstrip!
                 html
       end
