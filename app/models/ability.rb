@@ -2,6 +2,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(current_user)
+    @current_user = current_user
     basic_read_only
     if !current_user.blank?
       if current_user.has_role?(:admin)
@@ -22,8 +23,10 @@ class Ability
         end
 
       elsif current_user.has_role?(:student)
-        can :read, Chapter
-        can :show, Quiz
+        can :show, Quiz do |quiz|
+          @quiz = quiz
+          quiz.chapter.active? && is_valid_quiz?
+        end
         can :read, Grid do |grid|
           grid.user_id == current_user.id
         end
@@ -31,15 +34,8 @@ class Ability
           answer.user_id == current_user.id
         end
         can :create, Answer do |answer|
-          quiz = answer.quiz
-          chapter = quiz.chapter
-          grid = Grid.where(chapter_id: chapter.id, user_id: current_user.id).first
-          is_chapter_active = chapter.active?
-          is_valid_quiz = (!grid.nil?) && (grid.get_quizzes_id.include? answer.quiz.id)
-          is_not_queue = !Answer.exists?(quiz_id: answer.quiz.id, status: 0, user_id: current_user.id)
-          is_quiz_passed = quiz.is_passed_by_user current_user.id
-
-          is_chapter_active && is_valid_quiz && is_not_queue && !is_quiz_passed
+          @quiz = answer.quiz
+          @quiz.chapter.active? && is_valid_quiz? && is_answer_repeat?
         end
       end
     end
@@ -76,6 +72,19 @@ class Ability
 
   def basic_read_only
     cannot :manage, :all
-    can :read, Chapter
+    can :read, Chapter do |chapter|
+      chapter.active?
+    end
+  end
+
+  def is_valid_quiz?
+    grid = Grid.where(chapter_id: @quiz.chapter.id, user_id: @current_user.id).first
+    return (!grid.nil?) && (grid.get_quizzes_id.include? @quiz.id)
+  end
+
+  def is_answer_repeat?
+    is_not_done = !Answer.exists?(quiz_id: @quiz.id, status: [0,1], user_id: @current_user.id)
+    is_quiz_passed = @quiz.is_passed_by_user @current_user.id
+    return is_not_done && !is_quiz_passed
   end
 end
