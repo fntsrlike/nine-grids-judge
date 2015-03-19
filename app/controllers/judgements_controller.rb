@@ -48,7 +48,7 @@ class JudgementsController < ApplicationController
       elsif @judgement.save
         @judgement.answer.done!
         rejudge_grid
-        format.html { redirect_to @judgement, notice: 'Judgement was successfully created.' }
+        format.html { redirect_to answers_url, notice: 'Judgement was successfully created.' }
         format.json { render :show, status: :created, location: @judgement }
       else
         format.html { render :new }
@@ -67,7 +67,7 @@ class JudgementsController < ApplicationController
       if @judgement.update(judgement_params)
         @judgement.answer.done!
         rejudge_grid
-        format.html { redirect_to @judgement, notice: 'Judgement was successfully updated.' }
+        format.html { redirect_to judgements_url, notice: 'Judgement was successfully updated.' }
         format.json { render :show, status: :ok, location: @judgement }
       else
         format.html { render :edit }
