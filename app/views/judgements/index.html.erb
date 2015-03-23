@@ -1,14 +1,15 @@
-<h1>Listing judgements</h1>
+<h2 class="ui dividing header">Listing judgements</h2>
 
 <table class="ui table">
   <thead>
     <tr>
+      <th>#</th>
       <th>Examinee</th>
+      <th>CH</th>
       <th>Quiz</th>
       <th>Result</th>
       <th>Reviewers</th>
       <th>Updated At</th>
-      <th colspan="2">Operation</th>
     </tr>
   </thead>
 
@@ -16,21 +17,44 @@
     <% @judgements.each do |judgement| %>
       <tr>
         <td>
-          <%= judgement.answer.user.realname %><br/>
-          (<%= judgement.answer.user.username %>)
+          <%= link_to judgement.id, judgement %>
         </td>
         <td>
-          <%= judgement.answer.quiz.chapter.number %>: <%= judgement.answer.quiz.title %>
+          <%= link_to judgement.answer.user, style: "color:rgba(0, 0, 0, 0.8);" do %>
+            <%= judgement.answer.user.realname %>
+            (<%= judgement.answer.user.username %>)
+          <% end %>
         </td>
-        <td><%= puts_answer_label judgement.answer%></td>
-        <td><%= judgement.user.username %></td>
-        <td><%= distance_of_time_in_words_to_now judgement.updated_at %> ago</td>
-        <td><%= link_to 'Show', judgement %></td>
         <td>
-          <% if can? :update, judgement %>
-            <%= link_to 'Rejudge', edit_judgement_path(judgement) %>
+          <%= link_to chapter_path(judgement.answer.quiz.chapter), style: "color:rgba(0, 0, 0, 0.8);" do %>
+            <%= judgement.answer.quiz.chapter.number %>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to quiz_path judgement.answer.quiz do %>
+            <% if judgement.answer.quiz.title.length >= 40 %>
+              <%= word_wrap(judgement.answer.quiz.title, line_width: 40)[/.+\n/]  %>...
+            <% else %>
+              <%= judgement.answer.quiz.title %>
+            <% end %>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to edit_judgement_path(judgement) do%>
+            <%= puts_answer_label judgement.answer%>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to judgement.user, style: "color:rgba(0, 0, 0, 0.8);" do %>
+            <%= judgement.user.username %>
+          <% end %>
+
+        </td>
+        <td>
+          <% if judgement.updated_at > 7.day.ago %>
+            <%= distance_of_time_in_words_to_now judgement.updated_at %> ago
           <% else %>
-            -
+            <%= time_tag judgement.updated_at %>
           <% end %>
         </td>
       </tr>

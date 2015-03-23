@@ -7,7 +7,7 @@
       <% if can? :create, Judgement %>
         <th>Examinee</th>
       <% end %>
-      <th>Chapter</th>
+      <th>CH</th>
       <th>Quiz</th>
       <th>State</th>
       <th>Created At</th>
@@ -23,14 +23,14 @@
         </td>
         <% if can? :create, Judgement %>
           <td>
-            <%= link_to answer.user do %>
+            <%= link_to answer.user, style: "color:rgba(0, 0, 0, 0.8);"  do %>
             <%= answer.user.realname %>
             (<%= answer.user.username %>)
             <% end %>
           </td>
         <% end %>
         <td>
-          <%= link_to chapter_path answer.quiz.chapter do %>
+          <%= link_to chapter_path(answer.quiz.chapter), style: "color:rgba(0, 0, 0, 0.8);"  do %>
             <%= answer.quiz.chapter.number %>
           <% end %>
         </td>
