@@ -5,7 +5,7 @@ class QuizzesController < ApplicationController
   # GET /quizzes
   # GET /quizzes.json
   def index
-    @quizzes = Quiz.all
+    @quizzes = Quiz.all.page(params[:page]).per(50)
   end
 
   # GET /quizzes/1

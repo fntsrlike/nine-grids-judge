@@ -54,6 +54,9 @@ gem 'pygments.rb'
 # Use GitHub Linguist for language detection
 gem 'github-linguist'
 
+# Pagination
+gem 'kaminari'
+
 group :test, :development do
   # Mail Test
   gem "letter_opener"

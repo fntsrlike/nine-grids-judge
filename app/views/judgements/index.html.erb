@@ -37,3 +37,6 @@
     <% end %>
   </tbody>
 </table>
+<div class="ui column centered grid" style="margin-top:1em;">
+  <%= paginate @judgements, window: 2, outer_window: 1 %>
+</div>

@@ -54,8 +54,11 @@
     <% end %>
   </tbody>
 </table>
+<div class="ui column centered grid" style="margin-top:1em;">
+  <%= paginate @chapters, window: 2, outer_window: 1 %>
+</div>
 <% if can? :create, Chapter %>
   <%= link_to new_chapter_path do %>
-    <div class="ui blue button">New Chapter</div>
+    <div class="ui blue button" style="margin-top:1em;">New Chapter</div>
   <% end %>
 <% end %>

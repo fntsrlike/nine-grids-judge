@@ -29,7 +29,9 @@
     <% end %>
   </tbody>
 </table>
-
+<div class="ui column centered grid" style="margin-top:1em;">
+  <%= paginate @users, window: 2, outer_window: 1 %>
+</div>
 <%= link_to new_user_path do %>
-  <div class="ui blue button">New User</div>
+  <div class="ui blue button" style="margin-top:1em;">New User</div>
 <% end %>

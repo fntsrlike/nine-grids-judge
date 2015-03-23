@@ -46,9 +46,6 @@
     <% end %>
   </tbody>
 </table>
-
-<% if can? :manage, Answer %>
-  <%= link_to new_answer_path do %>
-    <div class="ui basic button">New Answer</div>
-  <% end %>
-<% end %>
+<div class="ui column centered grid" style="margin-top:1em;">
+  <%= paginate @answers, window: 2, outer_window: 1 %>
+</div>

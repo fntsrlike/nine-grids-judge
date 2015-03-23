@@ -29,8 +29,6 @@
     <% end %>
   </tbody>
 </table>
-
-<br>
-<%= link_to new_quiz_path  do %>
-  <div class="ui blue button">New Quiz</div>
-<% end %>
+<div class="ui column centered grid" style="margin-top:1em;">
+  <%= paginate @quizzes, window: 2, outer_window: 1 %>
+</div>

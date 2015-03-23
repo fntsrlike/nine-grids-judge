@@ -10,6 +10,7 @@ class UsersController < ApplicationController
     elsif current_user.has_role? :manager
       @users = User.with_role :student
     end
+    @users = @users.page(params[:page]).per(50)
   end
 
   # GET /users/1

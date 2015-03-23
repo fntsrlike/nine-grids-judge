@@ -8,11 +8,15 @@ Rails.application.routes.draw do
     put 'p/users' => 'devise/registrations#update', :as => 'user_registration'
   end
 
-  resources :users
-  resources :judgements
-  resources :answers
-  resources :quizzes
-  resources :chapters
+  concern :paginatable do
+    get '(page/:page)', :action => :index, :on => :collection, :as => ''
+  end
+
+  resources :users, :concerns => :paginatable
+  resources :judgements, :concerns => :paginatable
+  resources :answers, :concerns => :paginatable
+  resources :quizzes, :concerns => :paginatable
+  resources :chapters, :concerns => :paginatable
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

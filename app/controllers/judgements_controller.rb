@@ -5,7 +5,7 @@ class JudgementsController < ApplicationController
   # GET /judgements
   # GET /judgements.json
   def index
-    @judgements = Judgement.order("created_at DESC").all
+    @judgements = Judgement.order("created_at DESC").all.page(params[:page]).per(50)
   end
 
   # GET /judgements/1

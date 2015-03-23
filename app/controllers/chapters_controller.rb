@@ -5,7 +5,7 @@ class ChaptersController < ApplicationController
   # GET /chapters
   # GET /chapters.json
   def index
-    @chapters = Chapter.all
+    @chapters = Chapter.all.page(params[:page]).per(50)
   end
 
   # GET /chapters/1
