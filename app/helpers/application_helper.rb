@@ -16,7 +16,7 @@ module ApplicationHelper
       end
     end
 
-    raw "<a class=\"ui #{label}\">#{status}</a>"
+    raw "<span class=\"ui #{label}\">#{status.capitalize}</span>"
   end
 
   def markdown_render(md)
