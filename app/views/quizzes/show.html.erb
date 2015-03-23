@@ -26,5 +26,9 @@
     <div class="ui basic button">Go to quizzes</div>
   <% end %>
 <% elsif can? :show, Quiz %>
-  <%= render 'answer_form' %>
+  <% if @quiz.is_answer_repeat_by_user current_user.id %>
+    <p> You have already passed this quiz or your submit still being judgement. </p>
+  <% else %>
+    <%= render 'answer_form' %>
+  <% end %>
 <% end %>
