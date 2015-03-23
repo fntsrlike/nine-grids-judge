@@ -8,7 +8,7 @@
   <tbody>
     <tr>
       <td class="two wide column">Quiz</td>
-      <td><%= @answer.quiz.content %></td>
+      <td><%= markdown_render @answer.quiz.content %></td>
     </tr>
     <tr>
       <td>
