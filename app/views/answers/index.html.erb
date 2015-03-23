@@ -32,6 +32,12 @@
         <td>
           <%= link_to chapter_path(answer.quiz.chapter), style: "color:rgba(0, 0, 0, 0.8);"  do %>
             <%= answer.quiz.chapter.number %>
+            <% grid = answer.quiz.chapter.grids.where(user_id: current_user.id).first %>
+            <% if !grid.nil? && !grid.get_quiz_sort(answer.quiz_id).nil? %>
+              <span style="color:rgba(180, 180, 180, 0.8);">
+                (<%= grid.get_quiz_sort answer.quiz_id%>)
+              </span>
+            <% end %>
           <% end %>
         </td>
         <td>

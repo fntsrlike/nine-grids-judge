@@ -35,6 +35,13 @@ class Grid < ActiveRecord::Base
     return status
   end
 
+  def get_quiz_sort quiz_id
+    for i in 1..GRID_NUMBER
+      return i if self["quiz_#{i}"] == quiz_id
+    end
+    return nil
+  end
+
   def update_status
     status = ""
     is_pass = false
