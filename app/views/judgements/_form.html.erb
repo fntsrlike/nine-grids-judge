@@ -17,30 +17,36 @@
     <div class="ui bottom attached segment">
       <%= markdown_render @answer.quiz.content %>
     </div>
-
     <% @logs.each do | log | %>
       <h5 class="ui red top attached header">
-        Log #<%= log[:id] %> - <%= log[:result] %>
+        Log #<%= log.id %> - <%= log.judgement.result %>
       </h5>
       <div class="ui attached segment">
-        <%= markdown_render log[:answer] %>
+        <%= markdown_render log.content %>
+        <p style="text-align:right;">
+          <%= time_tag log.created_at %>
+        </p>
       </div>
       <div class="ui bottom attached segment">
-        <%= markdown_render log[:judgement] %>
+        <%= markdown_render log.judgement.content %>
         <p style="text-align:right;">
           ——
-          <%= log[:reviewer].username %>
-          (<%= log[:reviewer].realname %>)
+          <%= log.judgement.user.username %>
+          (<%= log.judgement.user.realname %>)
         </p>
       </div>
     <% end %>
 
     <h5 class="ui orange top attached header">
       Latest Answer
-      -- <%= @answer.user.realname %> (<%= @answer.user.username %>)
     </h5>
     <div class="ui bottom attached segment">
       <%= markdown_render @answer.content %>
+      <p style="text-align:right;">
+        ——
+        <%= @answer.user.realname %>
+        (<%= @answer.user.username %>)
+      </p>
     </div>
 
     <h5 class="ui green top attached header">

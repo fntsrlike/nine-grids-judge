@@ -13,4 +13,11 @@ class Quiz < ActiveRecord::Base
     is_quiz_passed = is_passed_by_user user_id
     return is_not_done || is_quiz_passed
   end
+
+  def get_answer_logs_by_user user_id
+    answers = Answer.where(quiz_id: self.id, user_id: user_id)
+                    .where(status: Answer.statuses[:done])
+                    .order("created_at ASC")
+    return answers
+  end
 end

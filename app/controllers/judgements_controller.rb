@@ -24,7 +24,7 @@ class JudgementsController < ApplicationController
       @answer.judgement!
     end
     @judgement = Judgement.new
-    @logs = get_answer_logs
+    @logs = @answer.quiz.get_answer_logs_by_user @answer.user_id
   end
 
   # GET /judgements/1/edit
@@ -107,23 +107,5 @@ class JudgementsController < ApplicationController
       grid.update_status
 
       return true
-    end
-
-    def get_answer_logs
-      logs = []
-      quiz = @answer.quiz
-      answers = Answer.where(quiz_id: @answer.quiz_id, user_id: @answer.user_id, status: 2)
-                      .where.not(id: @answer.id).order("created_at ASC")
-      answers.each do | answer |
-        log = {
-          id: answer.id,
-          answer: answer.content,
-          judgement: answer.judgement.content,
-          reviewer: answer.judgement.user,
-          result: answer.judgement.result
-        }
-        logs.push log
-      end
-      return logs
     end
 end

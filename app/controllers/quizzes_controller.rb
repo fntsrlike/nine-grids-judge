@@ -12,6 +12,8 @@ class QuizzesController < ApplicationController
   # GET /quizzes/1.json
   def show
     @answer = Answer.new
+    @last_answer = Answer.where(quiz_id: @quiz.id, user_id: current_user.id, status: [Answer.statuses[:queue], Answer.statuses[:judgement]]).first
+    @logs = @quiz.get_answer_logs_by_user(current_user.id).reverse
   end
 
   # GET /quizzes/new
