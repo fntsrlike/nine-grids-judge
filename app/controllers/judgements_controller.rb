@@ -21,7 +21,11 @@ class JudgementsController < ApplicationController
 
     if @has_answer_param
       @answer = Answer.find(params[:target])
-      @answer.judgement!
+      if !@answer.done?
+        @answer.judgement!
+      else
+        redirect_to answers_url, alert: 'The answer has been judged.'
+      end
     end
     @judgement = Judgement.new
     @logs = @answer.quiz.get_answer_logs_by_user @answer.user_id
