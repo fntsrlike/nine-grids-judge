@@ -9,8 +9,8 @@ class Quiz < ActiveRecord::Base
 
   def is_answer_repeat_by_user user_id
     statuses = [Answer.statuses[:queue], Answer.statuses[:judgement]]
-    is_not_done = !Answer.exists?(quiz_id: self.id, status: statuses, user_id: user_id)
+    is_not_done = Answer.exists?(quiz_id: self.id, status: statuses, user_id: user_id)
     is_quiz_passed = is_passed_by_user user_id
-    return is_not_done && !is_quiz_passed
+    return is_not_done || is_quiz_passed
   end
 end

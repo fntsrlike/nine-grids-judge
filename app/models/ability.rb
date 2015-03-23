@@ -35,7 +35,7 @@ class Ability
         end
         can :create, Answer do |answer|
           @quiz = answer.quiz
-          @quiz.chapter.active? && is_valid_quiz? && is_answer_repeat?
+          @quiz.chapter.active? && is_valid_quiz? && !is_answer_repeat?
         end
       end
     end
@@ -83,9 +83,6 @@ class Ability
   end
 
   def is_answer_repeat?
-    statuses = [Answer.statuses[:queue], Answer.statuses[:judgement]]
-    is_not_done = !Answer.exists?(quiz_id: @quiz.id, status: statuses, user_id: @current_user.id)
-    is_quiz_passed = @quiz.is_passed_by_user @current_user.id
-    return is_not_done && !is_quiz_passed
+    return @quiz.is_answer_repeat_by_user @current_user.id
   end
 end
