@@ -31,7 +31,7 @@ class JudgementsController < ApplicationController
   def edit
     authorize! :update, @judgement
     @answer = @judgement.answer
-    @logs = get_answer_logs
+    @logs = @answer.quiz.get_answer_logs_by_user @answer.user_id
   end
 
   # POST /judgements
