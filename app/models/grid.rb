@@ -24,9 +24,9 @@ class Grid < ActiveRecord::Base
   def get_quizzes_status
     status = Array.new(GRID_NUMBER,0)
     get_quizzes.each_with_index do |quiz, index|
-      if Answer.joins(:judgement).exists?(quiz_id: quiz.id, user_id: self.user_id, status: 2, judgements: { result: 1 })
+      if Answer.joins(:judgement).exists?(quiz_id: quiz.id, user_id: self.user_id, status: Answer.statuses[:done], judgements: { result: Judgement.results[:pass] })
         status[index] = 2
-      elsif Answer.exists?(:quiz_id => quiz.id, :user_id => self.user_id, :status => [0,1])
+      elsif Answer.exists?(:quiz_id => quiz.id, :user_id => self.user_id, :status => [Answer.statuses[:queue], Answer.statuses[:judgement]])
         status[index] = 1
       else
         status[index] = 0
@@ -46,7 +46,7 @@ class Grid < ActiveRecord::Base
 
     get_quizzes.each do |quiz|
       is_quiz_pass = Answer.joins(:judgement)
-        .exists?(quiz_id: quiz.id, user_id: self.user_id, status: 2, judgements: { result: 1 })
+        .exists?(quiz_id: quiz.id, user_id: self.user_id, status: Answer.statuses[:done], judgements: { result: Judgement.results[:pass] })
       status += is_quiz_pass ? "1" : "0"
     end
 
@@ -93,7 +93,7 @@ class Grid < ActiveRecord::Base
   def get_passed_quizzes
     pass_quizzes = {}
     get_quizzes.each_with_index do |quiz, index|
-      if Answer.joins(:judgement).exists?(quiz_id: quiz.id, user_id: self.user_id, status: 2, judgements: { result: 1 })
+      if Answer.joins(:judgement).exists?(quiz_id: quiz.id, user_id: self.user_id, status: Answer.statuses[:done], judgements: { result: Judgement.results[:pass] })
         pass_quizzes[index+1] = quiz.id
       end
     end

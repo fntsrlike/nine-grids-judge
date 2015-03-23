@@ -93,7 +93,7 @@ class ChaptersController < ApplicationController
 
     # Reset no passed quizzes of no passed user's grids of the chapter
     def reset_chapter_grids chapter_id
-      failed_grids = Grid.where(chapter_id: chapter_id, status: 0)
+      failed_grids = Grid.where(chapter_id: chapter_id, status: Grid.statuses[:fail])
       failed_grids.each do |grids|
         grids.reset_user_grids
       end

@@ -83,7 +83,8 @@ class Ability
   end
 
   def is_answer_repeat?
-    is_not_done = !Answer.exists?(quiz_id: @quiz.id, status: [0,1], user_id: @current_user.id)
+    statuses = [Answer.statuses[:queue], Answer.statuses[:judgement]]
+    is_not_done = !Answer.exists?(quiz_id: @quiz.id, status: statuses, user_id: @current_user.id)
     is_quiz_passed = @quiz.is_passed_by_user @current_user.id
     return is_not_done && !is_quiz_passed
   end

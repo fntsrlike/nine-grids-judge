@@ -6,7 +6,8 @@ class AnswersController < ApplicationController
   # GET /answers.json
   def index
     if can? :create, Judgement
-      @answers = Answer.where(status: [0,1]).order("created_at ASC")
+      status = [Answer.statuses[:queue], Answer.statuses[:judgement]]
+      @answers = Answer.where(status: status).order("created_at ASC")
     else
       @answers = Answer.where(user_id: current_user.id).order("created_at DESC")
     end
