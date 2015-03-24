@@ -21,3 +21,27 @@
 
 en:
   hello: "Hello world"
+  unauthorized:
+      manage:
+        all: "Not authorized to %{action} %{subject}."
+        user: "Not allowed to manage other user accounts."
+      create:
+        chapter: "You hav no permission to create chapter."
+        quiz: "You hav no permission to create quiz."
+        answer: "You hav no permission to answer the quiz. Perhaps your answer still being judgement or you have passed the quiz."
+        judgement: "You hav no permission to judge the answer. Perhaps the answer have been judged."
+      read:
+        chapter: "This chapter have not been active!"
+        quiz: "This quiz is not own your grids or it's chapter is not active."
+        answer: "This is not your own answer."
+        judgement: "This is not your own judgement."
+      update:
+        chapter: "You hav no permission to update chapter."
+        quiz: "You hav no permission to update quiz."
+        answer: "You hav no permission to update answer."
+        judgement: "You hav no permission to update this judgement except it judged by you."
+      update:
+        chapter: "You hav no permission to destroy chapter."
+        quiz: "You hav no permission to destroy quiz."
+        answer: "You hav no permission to destroy answer."
+        judgement: "You hav no permission to destroy judgement."
