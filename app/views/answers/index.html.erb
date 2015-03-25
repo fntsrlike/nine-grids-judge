@@ -24,8 +24,11 @@
         <% if can? :create, Judgement %>
           <td>
             <%= link_to answer.user, style: "color:rgba(0, 0, 0, 0.8);"  do %>
-            <%= answer.user.realname %>
-            (<%= answer.user.username %>)
+              <%= answer.user.realname %>
+              (<%= answer.user.username %>)
+            <% end %>
+            <% if !answer.count.nil? %>
+              <span style="color: #00b5ad!important;" >[<%= answer.count %>]</span>
             <% end %>
           </td>
         <% end %>
