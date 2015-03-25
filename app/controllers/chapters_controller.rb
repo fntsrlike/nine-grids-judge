@@ -108,9 +108,13 @@ class ChaptersController < ApplicationController
 
     def get_chapter_statistics
       statistics = {
-        all_count: @chapter.get_all_count,
-        pass_count: @chapter.get_pass_count,
-        pass_rate: @chapter.get_pass_rate.to_s + '%'
+        pass_people: {value: @chapter.get_pass_people_count, color: "blue"},
+        challengers: {value: @chapter.get_all_people_count, color: "blue"},
+        queue: {value: @chapter.get_queue_count, color: "yellow"},
+        pass: {value: @chapter.get_pass_submit_count, color: "green"},
+        reject: {value: @chapter.get_reject_submit_count, color: "red"},
+        submits: {value: @chapter.get_all_submit_count, color: "purple"},
+        quizzes: {value: @chapter.get_all_quizzes_count},
       }
     end
 end

@@ -1,39 +1,51 @@
 <h2 class="ui dividing header"><%= @chapter.number %> - <%= @chapter.title %></h2>
 <p id="notice"><%= notice %></p>
 
-<table class="ui definition table">
-  <tbody>
-    <% if can? :manage, Chapter %>
-      <tr>
-        <td class="two wide column">Weight</td>
-        <td><%= @chapter.weight %></td>
-      </tr>
-      <tr>
-        <td>Is active</td>
-        <td><%= @chapter.status %></td>
-      </tr>
-    <% end %>
-    <tr>
-      <td>Description</td>
-      <td><%= markdown_render @chapter.description %></td>
-    </tr>
-    <% if can? :update, Chapter %>
-    <tr>
-      <td>Statistics</td>
-      <td>
-        <div class="ui list">
-        <% @statistics.each do | index, value | %>
-          <div class="item">
-            <div class="header"><%= index %></div>
-            <%= value %>
+
+<h5 class="ui top attached blue header">
+  Description
+</h5>
+<div class="ui attached segment">
+  <%= markdown_render @chapter.description %>
+</div>
+
+<% if can? :manage, Chapter %>
+  <h5 class="ui attached orange header">
+    Properties
+  </h5>
+  <div class="ui attached segment">
+    <div class="ui divided horizontal list">
+      <div class="item"> Weight: <%= @chapter.weight %></div>
+      <div class="item"><%= @chapter.status.capitalize %></div>
+    </div>
+  </div>
+<% end %>
+
+<h5 class="ui attached teal header">
+  Statistics
+</h5>
+<div class="ui attached segment" style="margin-bottom: 1em;">
+  <% if can? :manage, Chapter %>
+    <div class="ui small statistics">
+      <% @statistics.each do | index, properties | %>
+        <div class="<%= properties[:color] %> statistic" style="margin-bottom: 1em;">
+          <div class="value">
+            <%= properties[:value] %>
           </div>
-        <% end %>
+          <div class="label">
+            <%= "#{index}".humanize.upcase %>
+          </div>
         </div>
-      </td>
-    </tr>
-    <% end %>
-  </tbody>
-</table>
+      <% end %>
+    </div>
+  <% end %>
+  <div class="ui indicating progress <%= @chapter.get_pass_people_rate < 100 ? "active" : "success" %>">
+    <div class="bar" style="width: <%=@chapter.get_pass_people_rate%>%;">
+    </div>
+    <div class="label"><%=@chapter.get_pass_people_rate.round(2)%>% Done</div>
+  </div>
+</div>
+
 
 <% if can? :update, Chapter %>
   <%= link_to edit_chapter_path(@chapter) do %>
