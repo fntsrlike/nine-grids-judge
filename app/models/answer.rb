@@ -20,4 +20,8 @@ class Answer < ActiveRecord::Base
     .order("count ASC")       # Judged answer less one is higher than more one (MYSQL only)
     .order("created_at ASC")  # Ealier submit is higher than later one
   end
+
+  def self.today(is_join = false)
+    where("answers.created_at >= ?", Time.zone.now.beginning_of_day)
+  end
 end

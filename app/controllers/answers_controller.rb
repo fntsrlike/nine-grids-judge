@@ -8,6 +8,8 @@ class AnswersController < ApplicationController
     if can? :create, Judgement
       status = [Answer.statuses[:queue], Answer.statuses[:judgement]]
       @answers = Answer.where(status: status).judge_piority
+      @statistics = get_answers_statistics
+      @statistics_today = get_answers_statistics_today
     else
       @answers = Answer.where(user_id: current_user.id).order("created_at DESC")
     end
@@ -89,5 +91,37 @@ class AnswersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def answer_params
       params.require(:answer).permit(:user_id, :quiz_id, :content)
+    end
+
+    def get_answers_statistics
+      all_count = Answer.count
+      queue_count = Answer.where(status: Answer.statuses[:queue]).count
+      judged_count = Judgement.count
+      pass_count = Judgement.joins(:answer).where(result: 0).count
+      reject_count = Judgement.joins(:answer).where(result: 1).count
+
+      statistics = {
+        all: {value: all_count, color: :blue},
+        queue: {value: queue_count, color: :yellow},
+        judged: {value: judged_count, color: :purple},
+        pass: {value: pass_count, color: :green},
+        reject: {value: reject_count, color: :red}
+      }
+    end
+
+    def get_answers_statistics_today
+      new_count = Answer.today.count
+      queue_count = Answer.where(status: Answer.statuses[:queue]).today.count
+      judged_count = Judgement.today.count
+      pass_count = Judgement.joins(:answer).where(result: 0).today.count
+      reject_count = Judgement.joins(:answer).where(result: 1).today.count
+
+      statistics = {
+        new: {value: new_count, color: :blue},
+        queue: {value: queue_count, color: :yellow},
+        judged: {value: judged_count, color: :purple},
+        pass: {value: pass_count, color: :green},
+        reject: {value: reject_count, color: :red}
+      }
     end
 end

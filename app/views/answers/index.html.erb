@@ -1,5 +1,49 @@
 <h2 class="ui dividing header">Listing answers</h2>
 
+<% if can? :create, Judgement %>
+  <div class="ui two column centered grid">
+    <div class="column">
+      <h5 class="ui top attached center aligned blue header">
+        Today
+      </h5>
+      <div class="ui attached blue segment">
+        <div class="ui tiny statistics">
+          <% @statistics_today.each do | index, properties | %>
+            <div class="<%= properties[:color] %> statistic" style="margin-bottom: 0;">
+              <div class="value">
+                <%= properties[:value] %>
+              </div>
+              <div class="label">
+                <%= "#{index}".humanize.upcase %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <h5 class="ui top attached center aligned purple header">
+        All
+      </h5>
+      <div class="ui attached purple segment">
+        <div class="ui tiny statistics">
+          <% @statistics.each do | index, properties | %>
+            <div class="<%= properties[:color] %> statistic" style="margin-bottom: 0;">
+              <div class="value">
+                <%= properties[:value] %>
+              </div>
+              <div class="label">
+                <%= "#{index}".humanize.upcase %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+
 <table class="ui table">
   <thead>
     <tr>
