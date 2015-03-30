@@ -97,8 +97,9 @@ class AnswersController < ApplicationController
       all_count = Answer.count
       queue_count = Answer.where(status: Answer.statuses[:queue]).count
       judged_count = Judgement.count
-      pass_count = Judgement.joins(:answer).where(result: 0).count
-      reject_count = Judgement.joins(:answer).where(result: 1).count
+      pass_count = Judgement.joins(:answer).where(result: Judgement.results[:pass]).count
+      reject_count = Judgement.joins(:answer).where(result: Judgement.results[:reject]).count
+
 
       statistics = {
         all: {value: all_count, color: :blue},
@@ -113,8 +114,8 @@ class AnswersController < ApplicationController
       new_count = Answer.today.count
       queue_count = Answer.where(status: Answer.statuses[:queue]).today.count
       judged_count = Judgement.today.count
-      pass_count = Judgement.joins(:answer).where(result: 0).today.count
-      reject_count = Judgement.joins(:answer).where(result: 1).today.count
+      pass_count = Judgement.joins(:answer).where(result: Judgement.results[:pass]).today.count
+      reject_count = Judgement.joins(:answer).where(result: Judgement.results[:reject]).today.count
 
       statistics = {
         new: {value: new_count, color: :blue},
