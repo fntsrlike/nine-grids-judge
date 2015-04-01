@@ -89,7 +89,9 @@
         </td>
         <td>
           <%= link_to quiz_path answer.quiz do %>
-            <%= answer.quiz.title %>
+            <span style="color:rgba(0, 0, 0, 0.8);">
+              <%= answer.quiz.title %>
+            </span>
           <% end %>
         </td>
         <td>
