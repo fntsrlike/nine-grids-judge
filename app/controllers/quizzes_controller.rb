@@ -12,8 +12,12 @@ class QuizzesController < ApplicationController
   # GET /quizzes/1.json
   def show
     @answer = Answer.new
-    @last_answer = Answer.where(quiz_id: @quiz.id, user_id: current_user.id, status: [Answer.statuses[:queue], Answer.statuses[:judgement]]).first
-    @logs = @quiz.get_answer_logs_by_user(current_user.id).reverse
+    if can? :manage, Quiz
+      @statistics = get_quiz_statistics
+    else
+      @last_answer = Answer.where(quiz_id: @quiz.id, user_id: current_user.id, status: [Answer.statuses[:queue], Answer.statuses[:judgement]]).first
+      @logs = @quiz.get_answer_logs_by_user(current_user.id).reverse
+    end
   end
 
   # GET /quizzes/new
@@ -86,5 +90,16 @@ class QuizzesController < ApplicationController
       if @has_chapter_param
         @chapter = Chapter.where(number: params[:chapter]).first
       end
+    end
+
+    def get_quiz_statistics
+      statistics = {
+        pass_submits: {value: @quiz.get_passed_submits_count, color: "green"},
+        reject_submits: {value: @quiz.get_failed_submits_count, color: "red"},
+        submits: {value: @quiz.get_all_submits_count, color: "blue"},
+        assignees: {value: @quiz.get_all_assignee_count, color: "purple"},
+        answered_assignees: {value: @quiz.get_answered_assignee_count, color: "purple"},
+        silent_assignees: {value: @quiz.get_silent_assignee_count, color: "purple"}
+      }
     end
 end

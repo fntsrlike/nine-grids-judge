@@ -5,6 +5,23 @@ class Grid < ActiveRecord::Base
   enum status: [ :fail, :pass ]
   GRID_NUMBER = 9
 
+  def self.contain_quiz quiz_id
+    where(
+      Arel::Nodes::Group.new(
+        Grid.arel_table[:quiz_1].eq(quiz_id)
+          .or(Grid.arel_table[:quiz_2].eq(quiz_id)
+          .or(Grid.arel_table[:quiz_3].eq(quiz_id)
+          .or(Grid.arel_table[:quiz_4].eq(quiz_id)
+          .or(Grid.arel_table[:quiz_5].eq(quiz_id)
+          .or(Grid.arel_table[:quiz_6].eq(quiz_id)
+          .or(Grid.arel_table[:quiz_7].eq(quiz_id)
+          .or(Grid.arel_table[:quiz_8].eq(quiz_id)
+          .or(Grid.arel_table[:quiz_9].eq(quiz_id)
+        ))))))))
+      )
+    )
+  end
+
   def get_quizzes
     quizzes = []
     for i in 1..GRID_NUMBER

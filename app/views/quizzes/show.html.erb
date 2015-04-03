@@ -1,25 +1,53 @@
 <p id="notice"><%= notice %></p>
 
 <h2 class="ui dividing header"><%= @quiz.chapter.number %>: <%= @quiz.title %></h2>
-<table class="ui definition table">
-  <tbody>
-      <tr>
-        <td class="two wide column">Content</td>
-        <td><%= markdown_render @quiz.content %></td>
-      </tr>
-      <% if can? :manage, Quiz %>
-      <tr>
-        <td>Reference</td>
-        <td><%= markdown_render @quiz.reference %></td>
-      </tr>
+
+<h5 class="ui top attached blue header">Content</h5>
+<div class="ui attached segment">
+  <%= markdown_render @quiz.content %>
+</div>
+<% if can? :manage, Quiz %>
+  <h5 class="ui attached orange header">Reference</h5>
+  <div class="ui attached segment">
+    <%= markdown_render @quiz.reference %>
+  </div>
+  <h5 class="ui attached teal header">
+    Statistics
+  </h5>
+  <div class="ui attached segment" style="margin-bottom: 1em;">
+    <div class="ui small statistics">
+      <% @statistics.each do | index, properties | %>
+        <div class="<%= properties[:color] %> statistic" style="margin-bottom: 1em;">
+          <div class="value">
+            <%= properties[:value] %>
+          </div>
+          <div class="label">
+            <%= "#{index}".humanize.upcase %>
+          </div>
+        </div>
       <% end %>
-  </tbody>
-</table>
+    </div>
+
+    <div class="ui indicating progress <%= @quiz.get_passed_assignee_rate < 100 ? "active" : "success" %>">
+      <div class="bar" style="width: <%= @quiz.get_passed_assignee_rate %>%;"></div>
+      <div class="label">
+        <%= @quiz.get_passed_assignee_rate %>% Pass
+        (Pass Submits / Assignees)
+      </div>
+    </div>
+  </div>
+<% end %>
+<div style="margin-bottom: 1em;"></div>
 
 <!-- Buttons or Form -->
 <% if can? :manage, Quiz %>
   <%= link_to edit_quiz_path(@quiz) do %>
     <div class="ui blue button">Edit</div>
+  <% end %>
+  <% if can? :destroy, @quiz %>
+    <%= link_to @quiz, method: :delete, data: { confirm: 'Are you sure?' } do%>
+      <div class="ui button">Destroy</div>
+    <% end %>
   <% end %>
   <%= link_to chapter_path @quiz.chapter do %>
     <div class="ui basic button">Back to Chapter</div>
@@ -33,36 +61,82 @@
   <% end %>
 <% end %>
 
-<h3 class="ui horizontal header divider">Logs</h3>
+<% if can? :manage, Quiz %>
+  <h4>Passed Assignees</h4>
+  <table class="ui table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Username</th>
+        <th>Realname</th>
+        <th>Passed Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @quiz.get_passed_assignee.each do |assignee| %>
+        <td><%= link_to assignee.id, assignee %></td>
+        <td><%= assignee.username %></td>
+        <td><%= assignee.realname %></td>
+        <td> - </td>
+      <% end %>
+    </tbody>
+  </table>
 
-<!-- Laster Answer -->
-<% if !@last_answer.nil? %>
-  <h5 class="ui orange top attached header">
-    Latest Answer
-  </h5>
-  <div class="ui bottom attached segment">
-    <%= markdown_render @last_answer.content %>
-    <p style="text-align:right;">
-      <%= time_tag @last_answer.created_at %>
-    </p>
-  </div>
+  <h4>No Pass Assignees</h4>
+  <table class="ui table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Username</th>
+        <th>Realname</th>
+        <th>Try TImes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @quiz.get_failed_assignee.each do |assignee| %>
+        <td><%= link_to assignee.id, assignee %></td>
+        <td><%= assignee.username %></td>
+        <td><%= assignee.realname %></td>
+        <td> - </td>
+      <% end %>
+    </tbody>
+  </table>
 <% end %>
 
-<!-- Answer Logs -->
-<% @logs.each do | log | %>
-  <h5 class="ui top attached header">
-    Log #<%= log.id %> <%= puts_answer_label log %>
-  </h5>
-  <div class="ui attached segment">
-    <%= markdown_render log.content %>
-    <p style="text-align:right;">
-      <%= time_tag log.created_at %>
-    </p>
-  </div>
-  <div class="ui bottom attached segment">
-    <%= markdown_render log.judgement.content %>
-    <p style="text-align:right;">
-      <em>—— <%= log.judgement.user.username %></em>
-    </p>
-  </div>
+<% if !can? :manage, Quiz %>
+  <% if !@last_answer.nil? || !@logs.empty? %>
+    <h3 class="ui horizontal header divider">Logs</h3>
+  <% end %>
+
+  <!-- Laster Answer -->
+  <% if !@last_answer.nil? %>
+    <h5 class="ui orange top attached header">
+      Latest Answer
+    </h5>
+    <div class="ui bottom attached segment">
+      <%= markdown_render @last_answer.content %>
+      <p style="text-align:right;">
+        <%= time_tag @last_answer.created_at %>
+      </p>
+    </div>
+  <% end %>
+
+  <!-- Answer Logs -->
+  <% @logs.each do | log | %>
+    <h5 class="ui top attached header">
+      Log #<%= log.id %> <%= puts_answer_label log %>
+    </h5>
+    <div class="ui attached segment">
+      <%= markdown_render log.content %>
+      <p style="text-align:right;">
+        <%= time_tag log.created_at %>
+      </p>
+    </div>
+    <div class="ui bottom attached segment">
+      <%= markdown_render log.judgement.content %>
+      <p style="text-align:right;">
+        <em>—— <%= log.judgement.user.username %></em>
+      </p>
+    </div>
+  <% end %>
 <% end %>

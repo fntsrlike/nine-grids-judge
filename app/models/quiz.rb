@@ -20,4 +20,53 @@ class Quiz < ActiveRecord::Base
                     .order("created_at ASC")
     return answers
   end
+
+  def get_passed_submits_count
+    return Judgement.joins(:answer).where(result: 1, answers: {quiz_id: self.id}).count
+  end
+
+  def get_failed_submits_count
+    return Judgement.joins(:answer).where(result: 0, answers: {quiz_id: self.id}).count
+  end
+
+  def get_all_submits_count
+    return Judgement.joins(:answer).where(answers: {quiz_id: self.id}).count
+  end
+
+  def get_passed_submit_rate
+    sum = get_all_submits_count
+    return (sum ==0) ? 0 : (get_passed_submits_count / get_all_submits_count) * 100
+  end
+
+  def get_all_assignee_count
+    Grid.contain_quiz(self.id).count
+  end
+
+  def get_all_assignee
+    assignees = Grid.select("user_id").contain_quiz(self.id).map {|assignee| assignee.user_id }
+    User.find(assignees)
+  end
+
+  def get_passed_assignee
+    assignees = Judgement.select("answers.user_id as assignee_id").joins(:answer).where(result: Judgement.results[:pass], answers: {quiz_id: self.id}).map { |judgement| judgement.assignee_id }
+    User.find(assignees)
+  end
+
+  def get_failed_assignee
+    get_all_assignee - get_passed_assignee
+  end
+
+  def get_answered_assignee_count
+    assignees = Grid.select("user_id").contain_quiz(self.id).map {|assignee| assignee.user_id }
+    Answer.where(quiz_id: self.id, user_id: assignees).distinct.count(:user_id)
+  end
+
+  def get_silent_assignee_count
+    get_all_assignee_count - get_answered_assignee_count
+  end
+
+  def get_passed_assignee_rate
+    sum = get_all_assignee_count
+    return (sum ==0) ? 0 : (get_passed_submits_count / get_all_assignee_count) * 100
+  end
 end

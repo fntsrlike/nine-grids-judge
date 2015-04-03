@@ -6,25 +6,35 @@
       <th>ID</th>
       <th>Chapter</th>
       <th>Title</th>
-      <th colspan="3"></th>
+      <th style="width:160px;">Pass Rate</th>
     </tr>
   </thead>
 
   <tbody>
     <% @quizzes.each do |quiz| %>
       <tr>
-        <td><%= quiz.id %></td>
+        <td><%= link_to quiz.id, quiz, style: "color:rgba(0, 0, 0, 0.8);"%></td>
         <td>
           <% if !quiz.chapter.nil? and Quiz.exists?(id: quiz.chapter.id) %>
-            <%= quiz.chapter.number %>
+            <%= link_to quiz.chapter.number, quiz.chapter, style: "color:rgba(0, 0, 0, 0.8);" %>
           <% else %>
             -
           <% end %>
         </td>
-        <td><%= quiz.title %></td>
-        <td><%= link_to 'Show', quiz %></td>
-        <td><%= link_to 'Edit', edit_quiz_path(quiz) %></td>
-        <td><%= link_to 'Destroy', quiz, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to quiz.title, quiz %></td>
+        <td>
+          <% if quiz.get_all_assignee_count == 0 %>
+            -
+          <% else %>
+            <div class="ui indicating small progress <%= quiz.get_passed_assignee_rate < 100 ? "active" : "success" %>" style="margin: 0;">
+              <div class="bar" style="width: <%= quiz.get_passed_assignee_rate %>%;">
+                <div class="progress">
+                  <%= quiz.get_passed_assignee_rate %>%
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
