@@ -31,17 +31,24 @@
           <% end %>
         </td>
         <td>
-          <%= link_to quiz_path judgement.answer.quiz do %>
-            <% if judgement.answer.quiz.title.length >= 40 %>
-              <%= word_wrap(judgement.answer.quiz.title, line_width: 40)[/.+\n/]  %>...
+          <%= link_to quiz_path(judgement.answer.quiz), style: "color:rgba(76, 0, 0, 0.8);" do %>
+            <% if judgement.answer.quiz.title.length >= 35 %>
+              <%= word_wrap(judgement.answer.quiz.title, line_width: 35)[/.+\n/]  %>...
             <% else %>
               <%= judgement.answer.quiz.title %>
             <% end %>
+            (#<%= judgement.answer.quiz.id %>)
           <% end %>
         </td>
         <td>
-          <%= link_to edit_judgement_path(judgement) do%>
-            <%= puts_answer_label judgement.answer%>
+          <% if judgement.user_id == current_user.id %>
+            <%= link_to edit_judgement_path(judgement) do%>
+              <%= puts_answer_label judgement.answer%>
+            <% end %>
+          <% else %>
+            <%= link_to judgement_path(judgement) do%>
+              <%= puts_answer_label judgement.answer%>
+            <% end %>
           <% end %>
         </td>
         <td>
