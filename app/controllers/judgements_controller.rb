@@ -2,10 +2,22 @@ class JudgementsController < ApplicationController
   before_action :set_judgement, only: [:show, :edit, :update, :destroy]
   authorize_resource
 
+  has_scope :chapter
+  has_scope :quiz
+  has_scope :examinee
+  has_scope :reviewer
+  has_scope :result
+  has_scope :passed, type: :boolean
+  has_scope :rejected, type: :boolean
+  has_scope :period_from
+  has_scope :period_end
+  has_scope :answer
+  has_scope :judgement
+
   # GET /judgements
   # GET /judgements.json
   def index
-    @judgements = Judgement.order("created_at DESC").all.page(params[:page]).per(50)
+    @judgements = apply_scopes(Judgement).order("created_at DESC").all.page(params[:page]).per(50)
   end
 
   # GET /judgements/1
