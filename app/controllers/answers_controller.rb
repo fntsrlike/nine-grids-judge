@@ -2,12 +2,20 @@ class AnswersController < ApplicationController
   before_action :set_answer, only: [:show, :edit, :update, :destroy]
   authorize_resource
 
+  has_scope :chapter
+  has_scope :quiz
+  has_scope :examinee
+  has_scope :status
+  has_scope :period_from
+  has_scope :period_end
+  has_scope :answer
+
   # GET /answers
   # GET /answers.json
   def index
     if can? :create, Judgement
       status = [Answer.statuses[:queue], Answer.statuses[:judgement]]
-      @answers = Answer.where(status: status).judge_piority
+      @answers = apply_scopes(Answer).where(status: status).judge_piority
       @statistics = get_answers_statistics
       @statistics_today = get_answers_statistics_today
     else

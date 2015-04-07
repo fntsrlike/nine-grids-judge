@@ -7,6 +7,18 @@ class Answer < ActiveRecord::Base
 
   validates_presence_of :content, :user_id
 
+  scope :chapter, -> chapter { joins(:quiz).where(quizzes: {chapter_id: chapter}) }
+  scope :quiz, -> quiz { where(quiz_id: quiz) }
+  scope :examinee, -> examinee { where(user_id: examinee) }
+
+  scope :status, -> status { where(status: status) }
+
+  scope :period_from, -> period_from { where("? <= created_at ", period_from) }
+  scope :period_end, -> period_end { where("created_at <= ?", period_end) }
+
+  scope :answer, -> key_word { search_answer(key_word) }
+
+
   def self.judge_piority
     select("answers.*, grids.status as grid_status, counter.count")
     .joins(:quiz, user: :grids)

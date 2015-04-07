@@ -1,6 +1,58 @@
 <h2 class="ui dividing header">Listing answers</h2>
 
 <% if can? :create, Judgement %>
+  <div class="ui styled accordion" style="width: 100%">
+    <div class="title">
+      <i class="dropdown icon"></i>
+      Filter & Search
+    </div>
+    <div class="content">
+      <%= form_tag answers_path, :method => 'get', class: "ui small form" do %>
+      <div class="four fields">
+        <div class="field">
+          <label>Chapter ID</label>
+          <input type="text" name="chapter" placeholder="Chapter ID">
+        </div>
+        <div class="field">
+          <label>Quiz ID</label>
+          <input type="text" name="quiz" placeholder="Quiz ID">
+        </div>
+        <div class="field">
+          <label>Examinee ID</label>
+          <input type="text" name="examinee" placeholder="Examinee ID">
+        </div>
+        <div class="field">
+          <label>State</label>
+          <select name="status" class="ui dropdown">
+            <option value="">State</option>
+            <option value="<%= Answer.statuses[:queue] %>">Queue</option>
+            <option value="<%= Answer.statuses[:judgement] %>">Judgement</option>
+          </select>
+        </div>
+      </div>
+      <div class="ui divider"></div>
+      <div class="four fields">
+        <div class="field">
+          <label>Search Answer</label>
+          <input type="text" name="answer" placeholder="Key word(s)">
+        </div>
+        <div class="field">
+          <label>Period From</label>
+          <input type="date" name="period_from">
+        </div>
+        <div class="field">
+          <label>Period End</label>
+          <input type="date" name="period_end">
+        </div>
+      </div>
+      <%= button_tag "Filt", class: "ui blue button"%>
+      <% end %>
+    </div>
+  </div>
+  <div class="ui hidden divider"></div>
+<% end %>
+
+<% if can? :create, Judgement %>
   <div class="ui two column centered grid">
     <div class="column">
       <h5 class="ui top attached center aligned blue header">
