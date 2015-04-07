@@ -22,7 +22,13 @@
         Log #<%= log.id %> - <%= log.judgement.result %>
       </h5>
       <div class="ui attached segment">
-        <%= markdown_render log.content %>
+        <% if params[:ans_format] == 'text' %>
+          <code style="color: black; font-size: 1em; background-color: white;">
+            <%= simple_format log.content %>
+          </code>
+        <% else %>
+          <%= markdown_render log.content %>
+        <% end %>
         <p style="text-align:right;">
           <%= time_tag log.created_at %>
         </p>
@@ -41,14 +47,28 @@
       Latest Answer
     </h5>
     <div class="ui bottom attached segment">
-      <%= markdown_render @answer.content %>
+      <% if params[:ans_format] == 'text' %>
+        <code style="color: black; font-size: 1em; background-color: white;">
+          <%= simple_format @answer.content %>
+        </code>
+      <% else %>
+        <%= markdown_render @answer.content %>
+      <% end %>
       <p style="text-align:right;">
         ——
         <%= @answer.user.realname %>
         (<%= @answer.user.username %>)
       </p>
     </div>
-
+    <% if params[:ans_format] == 'text' %>
+      <%= link_to url_for( target: params[:target] ) do %>
+        <div class="fluid ui yellow basic button">Change answer render to Markdown</div>
+      <% end %>
+    <% else %>
+      <%= link_to url_for( target: params[:target] ,ans_format: 'text' ) do %>
+        <div class="fluid ui yellow basic button">Change answer render to Text</div>
+      <% end %>
+    <% end %>
     <h5 class="ui green top attached header">
       Reference
     </h5>
