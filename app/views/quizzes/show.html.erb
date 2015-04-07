@@ -74,10 +74,12 @@
     </thead>
     <tbody>
       <% @quiz.get_passed_assignee.each do |assignee| %>
-        <td><%= link_to assignee.id, assignee %></td>
-        <td><%= assignee.username %></td>
-        <td><%= assignee.realname %></td>
-        <td> - </td>
+        <tr>
+          <td><%= link_to assignee.id, assignee %></td>
+          <td><%= assignee.username %></td>
+          <td><%= assignee.realname %></td>
+          <td> - </td>
+        </tr>
       <% end %>
     </tbody>
   </table>
@@ -94,10 +96,12 @@
     </thead>
     <tbody>
       <% @quiz.get_failed_assignee.each do |assignee| %>
-        <td><%= link_to assignee.id, assignee %></td>
-        <td><%= assignee.username %></td>
-        <td><%= assignee.realname %></td>
-        <td> - </td>
+        <tr>
+          <td><%= link_to assignee.id, assignee %></td>
+          <td><%= assignee.username %></td>
+          <td><%= assignee.realname %></td>
+          <td> - </td>
+        </tr>
       <% end %>
     </tbody>
   </table>
