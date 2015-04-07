@@ -57,6 +57,9 @@ gem 'github-linguist'
 # Pagination
 gem 'kaminari'
 
+# Filter
+gem 'has_scope'
+
 group :test, :development do
   # Mail Test
   gem "letter_opener"

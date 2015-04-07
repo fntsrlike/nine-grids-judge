@@ -58,6 +58,9 @@ GEM
       escape_utils (~> 1.0.1)
       mime-types (>= 1.19)
       rugged (~> 0.22.0b4)
+    has_scope (0.6.0)
+      actionpack (>= 3.2, < 5)
+      activesupport (>= 3.2, < 5)
     hike (1.2.3)
     html-pipeline (1.11.0)
       activesupport (>= 2)
@@ -169,6 +172,7 @@ DEPENDENCIES
   devise
   dotenv-rails
   github-linguist
+  has_scope
   html-pipeline
   jbuilder (~> 2.0)
   jquery-rails
