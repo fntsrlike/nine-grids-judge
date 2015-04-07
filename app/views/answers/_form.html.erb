@@ -12,13 +12,6 @@
   <% end %>
 
   <% if @has_quiz_param %>
-    <p>
-      <strong>
-        <%= @quiz.chapter.number %> -
-        (<%= @quiz.title %>)
-      </strong><br/>
-      <%= @quiz.content %>
-    </p>
     <%= f.hidden_field :quiz_id, value: @quiz.id %>
   <% end %>
 
@@ -35,7 +28,6 @@
 
   <% if can? :manage, Answer or @has_quiz_param %>
     <div class="field">
-      <%= f.label :content %>
       <%= f.text_area :content %>
     </div>
     <div class="field">
@@ -46,19 +38,14 @@
       Try to use it! =D
     </div>
     <%= f.button class: "ui blue button"%>
+    <%= button_tag "Preview", name: :preview, value: true, class: "ui orange button"%>
   <% else %>
     <p> You have to go to Chapter page and choose quiz from grid </p>
   <% end %>
   <% if @has_quiz_param %>
     <%= link_to quiz_path(@quiz)  do %>
-      <div class="ui button">Cancel</div>
+      <div class="ui button">Cancel and back to quiz</div>
     <% end %>
-    <%= link_to chapter_path(@quiz.chapter)  do %>
-      <div class="ui basic button">Back to chapter</div>
-    <% end %>
-  <% end %>
-  <%= link_to answers_path  do %>
-    <div class="ui basic button">Back to answers</div>
   <% end %>
 
 <% end %>

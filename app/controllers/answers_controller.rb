@@ -47,7 +47,10 @@ class AnswersController < ApplicationController
     authorize! :create, @answer
 
     respond_to do |format|
-      if @answer.save
+      if params.has_key?(:preview)
+        @preview = true
+        format.html { render :new}
+      elsif @answer.save
         @answer.queue!
         format.html { redirect_to @quiz.chapter, notice: 'Answer was successfully created.' }
         format.json { render :show, status: :created, location: @answer }

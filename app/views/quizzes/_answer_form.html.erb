@@ -23,7 +23,8 @@
       Try to use it! =D
     </div>
     <%= f.hidden_field :quiz_id, value: @quiz.id %>
-    <%= f.button "Answer it!", class: "ui blue button"%>
+    <%= hidden_field_tag :preview, true %>
+    <%= f.button "Preview", class: "ui orange button"%>
   <% else %>
     <p> You have to go to Chapter page and choose quiz from grid </p>
   <% end %>
