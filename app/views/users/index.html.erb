@@ -23,12 +23,15 @@
         <td><%= user.roles(:select => :name).collect(&:name).join(', ') %></td>
         <td><%= user.get_passed_chapter.count %></td>
         <td>
-          <% if user.last_sign_in_at > 7.day.ago %>
-            <%= distance_of_time_in_words_to_now user.last_sign_in_at %> ago
+          <% if user.last_sign_in_at.nil? %>
+            -
           <% else %>
-            <%= time_tag user.last_sign_in_at %>
+            <% if user.last_sign_in_at > 7.day.ago %>
+              <%= distance_of_time_in_words_to_now user.last_sign_in_at %> ago
+            <% else %>
+              <%= time_tag user.last_sign_in_at %>
+            <% end %>
           <% end %>
-
         </td>
       </tr>
     <% end %>
