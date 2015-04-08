@@ -31,7 +31,7 @@
     <div class="ui indicating progress <%= @quiz.get_passed_assignee_rate < 100 ? "active" : "success" %>">
       <div class="bar" style="width: <%= @quiz.get_passed_assignee_rate %>%;"></div>
       <div class="label">
-        <%= @quiz.get_passed_assignee_rate %>% Pass
+        <%= @quiz.get_passed_assignee_rate.round(0) %>% Pass
         (Pass Submits / Assignees)
       </div>
     </div>

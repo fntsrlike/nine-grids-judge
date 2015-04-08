@@ -29,7 +29,7 @@
             <div class="ui indicating small progress <%= quiz.get_passed_assignee_rate < 100 ? "active" : "success" %>" style="margin: 0;">
               <div class="bar" style="width: <%= quiz.get_passed_assignee_rate %>%;">
                 <div class="progress">
-                  <%= quiz.get_passed_assignee_rate %>%
+                  <%= quiz.get_passed_assignee_rate.round(0) %>%
                 </div>
               </div>
             </div>

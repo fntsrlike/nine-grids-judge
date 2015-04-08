@@ -67,6 +67,6 @@ class Quiz < ActiveRecord::Base
 
   def get_passed_assignee_rate
     sum = get_all_assignee_count
-    return (sum ==0) ? 0 : (get_passed_submits_count / get_all_assignee_count) * 100
+    return (sum ==0) ? 0 : (get_passed_submits_count.to_f / get_all_assignee_count.to_f) * 100
   end
 end
