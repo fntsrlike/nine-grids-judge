@@ -18,6 +18,7 @@
 # = require_tree .
 
 $ ->
+  $('.ui.checkbox').checkbox()
   $("select.dropdown").dropdown()
   $(".ui.accordion").accordion()
   return

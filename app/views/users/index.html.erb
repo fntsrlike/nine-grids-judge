@@ -1,5 +1,62 @@
 <h2 class="ui dividing header">Listing users</h2>
 
+<div class="ui styled accordion" style="width: 100%">
+  <div class="title">
+    <i class="dropdown icon"></i>
+    Filter & Search
+  </div>
+  <div class="content">
+    <%= form_tag users_path, :method => 'get', class: "ui small form" do %>
+    <div class="three fields">
+      <div class="field">
+        <label>User ID</label>
+        <input type="text" name="id" placeholder="User ID">
+      </div>
+      <div class="field">
+        <label>Username</label>
+        <input type="text" name="username" placeholder="Username">
+      </div>
+      <div class="field">
+        <label>Role</label>
+        <select name="role" class="ui dropdown">
+          <option value="">Role</option>
+          <option value="admin">Admin</option>
+          <option value="manager">Manager</option>
+          <option value="student">Student</option>
+        </select>
+      </div>
+    </div>
+    <h4 class="ui horizontal header divider">Passed Chapters</h4>
+    <div class="grouped inline fields">
+      <% Chapter.order("weight ASC").all.each do |chapter| %>
+        <div class="field">
+          <div class="ui checkbox">
+            <input type="checkbox" name="passed_chapter[]" value="<%= chapter.id %>">
+            <label><%= chapter.number %></label>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <p>Filter users have passed ALL of selected chapter(s).</p>
+    <h4 class="ui horizontal header divider">Failed Chapters</h4>
+    <div class="grouped inline fields">
+      <% Chapter.order("weight ASC").all.each do |chapter| %>
+        <div class="inline field">
+          <div class="ui checkbox">
+            <input type="checkbox" name="failed_chapter[]" value="<%= chapter.id %>">
+            <label><%= chapter.number %></label>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <p>Filter users have NOT passed ANY of selected chapter(s).</p>
+    <div class="ui hidden divider"></div>
+
+    <%= button_tag "Filter", class: "ui blue button"%>
+    <% end %>
+  </div>
+</div>
+
 <table class="ui table">
   <thead>
     <tr>

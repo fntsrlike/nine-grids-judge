@@ -2,13 +2,19 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   authorize_resource
 
+  has_scope :id
+  has_scope :role
+  has_scope :username
+  has_scope :passed_chapter, type: :array
+  has_scope :failed_chapter, type: :array
+
   # GET /users
   # GET /users.json
   def index
     if current_user.has_role? :admin
-      @users = User.all
+      @users = apply_scopes(User).all
     elsif current_user.has_role? :manager
-      @users = User.with_role :student
+      @users = apply_scopes(User).with_role :student
     end
     @users = @users.page(params[:page]).per(50)
   end
