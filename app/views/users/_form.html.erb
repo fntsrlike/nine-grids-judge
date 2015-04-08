@@ -13,23 +13,23 @@
 
   <div class="inline field"><%= f.label :roles %><br />
     <div class="ui checkbox">
-      <%= hidden_field_tag(:admin, 0) %>
+      <%= hidden_field_tag(:user_admin, 0) %>
       <%= check_box_tag(:user_admin, 1, @user.has_role?(:admin)) %>
-      <%= f.label(:admin) do %>
+      <%= f.label(:user_admin) do %>
         Admin
       <% end %>
     </div>
     <div class="ui checkbox">
-      <%= hidden_field_tag(:manager, 0) %>
+      <%= hidden_field_tag(:user_manager, 0) %>
       <%= check_box_tag(:user_manager, 1, @user.has_role?(:manager)) %>
-      <%= f.label(:manager) do %>
+      <%= f.label(:user_manager) do %>
         Manager
       <% end %>
     </div>
     <div class="ui checkbox">
-      <%= hidden_field_tag(:student, 0) %>
+      <%= hidden_field_tag(:user_student, 0) %>
       <%= check_box_tag(:user_student, 1, @user.has_role?(:student)) %>
-      <%= f.label(:student) do %>
+      <%= f.label(:user_student) do %>
         Student
       <% end %>
     </div>
