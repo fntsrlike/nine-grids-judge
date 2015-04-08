@@ -44,8 +44,9 @@
     <div class="ui basic button">Judge</div>
   <% end %>
 <% end %>
-<% if can? :create, @answer %>
-  <%= link_to new_answer_path(quiz: @answer.quiz.id) do %>
+<% if can? :destroy, @answer %>
+  <%= link_to @quiz, method: :delete, data: { confirm: 'Are you sure?' } do%>
+    <div class="ui button">Destroy</div>
   <% end %>
 <% end %>
 <% if can? :create, Answer %>
