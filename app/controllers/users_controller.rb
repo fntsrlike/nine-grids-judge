@@ -16,6 +16,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    @statistics = get_student_statistics
   end
 
   # GET /users/new
@@ -101,4 +102,11 @@ class UsersController < ApplicationController
       end
     end
 
+    def get_student_statistics
+      statistics = {
+        all_submit: {value: @user.get_submits.count, color: "black"},
+        passed_submit: {value: @user.get_passed_submits.count, color: "green"},
+        failed_submit: {value: @user.get_failed_submits.count, color: "red"}
+      }
+    end
 end

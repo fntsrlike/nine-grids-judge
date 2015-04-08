@@ -3,28 +3,33 @@
 <table class="ui table">
   <thead>
     <tr>
-      <th>Real Name</th>
+      <th>#</th>
       <th>Username</th>
+      <th>Real Name</th>
       <th>Email</th>
-      <th>Phone</th>
       <th>Roles</th>
-      <th colspan="3"></th>
+      <th>Passed Chapter</th>
+      <th>Last Login</th>
     </tr>
   </thead>
 
   <tbody>
     <% @users.each do |user| %>
       <tr>
-        <td><%= user.realname %></td>
+        <td><%= link_to user.id, user %></td>
         <td><%= user.username %></td>
+        <td><%= user.realname %></td>
         <td><%= user.email %></td>
-        <td><%= user.phone %></td>
         <td><%= user.roles(:select => :name).collect(&:name).join(', ') %></td>
-        <td><%= link_to 'Show', user %></td>
-        <% if can? :manage, User %>
-          <td><%= link_to 'Edit', edit_user_path(user) %></td>
-          <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <% end %>
+        <td><%= user.get_passed_chapter.count %></td>
+        <td>
+          <% if user.last_sign_in_at > 7.day.ago %>
+            <%= distance_of_time_in_words_to_now user.last_sign_in_at %> ago
+          <% else %>
+            <%= time_tag user.last_sign_in_at %>
+          <% end %>
+
+        </td>
       </tr>
     <% end %>
   </tbody>
