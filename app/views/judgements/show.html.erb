@@ -1,51 +1,60 @@
 <h2 class="ui dividing header">Judgement</h2>
 <p id="notice"><%= notice %></p>
 
-<table class="ui definition table">
-  <tbody>
-    <tr>
-      <td class="two wide column">Quiz</td>
-      <td>
-        <p>
-          <b><%= @judgement.answer.quiz.chapter.number %> - <%= @judgement.answer.quiz.title %></b>
-        </p>
-        <p>
-          <%= markdown_render @judgement.answer.quiz.content %>
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        Answer
-      </td>
-      <td>
-        <p>
-          <b><%= @judgement.answer.user.realname %> (<%= @judgement.answer.user.username %>)</b>
-        </p>
-        <p>
-          <%= markdown_render @judgement.answer.content %>
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        Judegement
-      </td>
-      <td>
-        <p>
-          <b><%= @judgement.user.realname %> (<%= @judgement.user.username %>)</b>
-        </p>
-        <p>
-          <%= markdown_render @judgement.content %>
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td>Result</td>
-      <td><%= puts_answer_label @judgement.answer%></td>
-    </tr>
-  </tbody>
-</table>
+<div>
+  <h5 class="ui blue top attached header">
+    <%= @judgement.answer.quiz.chapter.number %> - <%= @judgement.answer.quiz.title %>
+  </h5>
+  <div class="ui bottom attached segment">
+    <%= markdown_render @judgement.answer.quiz.content %>
+  </div>
+
+  <h5 class="ui green top attached header">
+    Reference
+  </h5>
+  <div class="ui bottom attached segment">
+    <%= markdown_render @judgement.answer.quiz.reference %>
+  </div>
+
+  <h5 class="ui orange top attached header">
+    Answer
+    <%= puts_answer_label @judgement.answer%>
+  </h5>
+  <div class="ui attached segment">
+    <% if params[:ans_format] == 'text' %>
+      <code style="color: black; font-size: 1em; background-color: white;">
+        <%= simple_format @judgement.answer.content %>
+      </code>
+    <% else %>
+      <%= markdown_render @judgement.answer.content %>
+    <% end %>
+    <p style="text-align:right;">
+      ——
+      <%= @judgement.answer.user.realname %>
+      (<%= @judgement.answer.user.username %>)
+    </p>
+  </div>
+  <div class="ui bottom attached segment">
+    <%= markdown_render @judgement.content %>
+    <p style="text-align:right;">
+      ——
+      <%= @judgement.user.username %>
+      (<%= @judgement.user.realname %>)
+    </p>
+  </div>
+
+  <% if params[:ans_format] == 'text' %>
+    <%= link_to url_for( target: params[:target] ) do %>
+      <div class="fluid ui yellow basic button">Change answer render to Markdown</div>
+    <% end %>
+  <% else %>
+    <%= link_to url_for( target: params[:target] ,ans_format: 'text' ) do %>
+      <div class="fluid ui yellow basic button">Change answer render to Text</div>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="ui hidden divider"></div>
 
 <% if can? :update, @judgement %>
   <%= link_to edit_judgement_path(@judgement) do %>
