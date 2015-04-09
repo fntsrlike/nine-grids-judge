@@ -1,47 +1,63 @@
 <h2 class="ui dividing header">
-  Answer:
-    <%= @answer.quiz.chapter.number %> -
-    (<%= @answer.quiz.title %>)
+  Answer #<%= @answer.id %>
+  <%= puts_answer_label @answer%>
 </h2>
 
-<table class="ui definition table">
-  <tbody>
-    <tr>
-      <td class="two wide column">Quiz</td>
-      <td><%= markdown_render @answer.quiz.content %></td>
-    </tr>
-    <tr>
-      <td>
-        Answer <br/>
-        by <%= @answer.user.username %>
-      </td>
-      <td><%= markdown_render @answer.content %></td>
-    </tr>
-    <% if @answer.done? %>
-      <tr>
-        <td>
-          Judegement <br/>
-          by <%= @answer.judgement.user.username %>
-        </td>
-        <td><%= markdown_render @answer.judgement.content %></td>
-      </tr>
+
+<div>
+  <h5 class="ui blue top attached header">
+    <%= @answer.quiz.chapter.number %> - <%= @answer.quiz.title %>
+  </h5>
+  <div class="ui bottom attached segment">
+    <%= markdown_render @answer.quiz.content %>
+  </div>
+
+  <h5 class="ui green top attached header">
+    Reference
+  </h5>
+  <div class="ui bottom attached segment">
+    <%= markdown_render @answer.quiz.reference %>
+  </div>
+
+  <h5 class="ui orange top attached header">
+    Answer
+  </h5>
+  <div class="ui bottom attached segment">
+    <% if params[:ans_format] == 'text' %>
+      <code style="color: black; font-size: 1em; background-color: white;">
+        <%= simple_format @answer.content %>
+      </code>
+    <% else %>
+      <%= markdown_render @answer.content %>
     <% end %>
-    <tr>
-      <td>Status</td>
-      <td><%= puts_answer_label @answer%></td>
-    </tr>
-  </tbody>
-</table>
+    <p style="text-align:right;">
+      ——
+      <%= @answer.user.realname %>
+      (<%= @answer.user.username %>)
+    </p>
+  </div>
 
-
-<% if can? :update, @answer %>
-  <%= link_to edit_answer_path(@answer) do %>
-    <div class="ui basic button">Edit</div>
+  <% if params[:ans_format] == 'text' %>
+    <%= link_to url_for( target: params[:target] ) do %>
+      <div class="fluid ui yellow basic button">Change answer render to Markdown</div>
+    <% end %>
+  <% else %>
+    <%= link_to url_for( target: params[:target] ,ans_format: 'text' ) do %>
+      <div class="fluid ui yellow basic button">Change answer render to Text</div>
+    <% end %>
   <% end %>
-<% end %>
+</div>
+
+<div class="ui hidden divider"></div>
+
 <% if can? :create, Judgement %>
   <%= link_to new_judgement_path(target: @answer.id) do %>
-    <div class="ui basic button">Judge</div>
+    <div class="ui blue button">Judge</div>
+  <% end %>
+<% end %>
+<% if can? :update, @answer %>
+  <%= link_to edit_answer_path(@answer) do %>
+    <div class="ui orange button">Edit</div>
   <% end %>
 <% end %>
 <% if can? :destroy, @answer %>
