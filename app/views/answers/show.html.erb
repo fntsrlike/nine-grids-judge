@@ -12,12 +12,14 @@
     <%= markdown_render @answer.quiz.content %>
   </div>
 
-  <h5 class="ui green top attached header">
-    Reference
-  </h5>
-  <div class="ui bottom attached segment">
-    <%= markdown_render @answer.quiz.reference %>
-  </div>
+  <% if can? :create, Judgement %>
+    <h5 class="ui green top attached header">
+      Reference
+    </h5>
+    <div class="ui bottom attached segment">
+      <%= markdown_render @answer.quiz.reference %>
+    </div>
+  <% end %>
 
   <h5 class="ui orange top attached header">
     Answer
