@@ -20,6 +20,28 @@ class User < ActiveRecord::Base
   end
   delegate :can?, :cannot?, :to => :ability
 
+  def has_passed_chapter chapter_id
+    Grid.where(user_id: self.id, status: Grid.statuses[:pass], chapter_id: chapter_id).count > 0
+  end
+
+  def get_chapter_score chapter_id, passed_chapter_points, grid_points
+    if self.has_passed_chapter chapter_id
+      return passed_chapter_points
+    else
+      if Grid.where(user_id: self.id, chapter_id: chapter_id).count == 0
+        return 0
+      end
+
+      passed_grid_num = Grid.where(user_id: self.id, chapter_id: chapter_id).first
+                        .get_passed_quizzes.count
+      if passed_grid_num * grid_points >= passed_chapter_points
+        return passed_chapter_points;
+      else
+        return passed_grid_num * grid_points
+      end
+    end
+  end
+
   def get_passed_chapter
     Grid.where(user_id: self.id, status: Grid.statuses[:pass]).map { |grid| grid.chapter }
   end

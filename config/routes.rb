@@ -2,6 +2,8 @@ Rails.application.routes.draw do
 
   root to: "home#index"
 
+  get 'score', :to => 'score#index'
+
   devise_for :users, :path_prefix => 'p'
   as :user do
     get 'p/users/edit' => 'devise/registrations#edit', :as => 'edit_user_registration'

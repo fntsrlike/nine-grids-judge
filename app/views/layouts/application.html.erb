@@ -36,6 +36,11 @@
         <i class="checkmark box icon"></i> Judgements
       <% end %>
     <% end %>
+    <% if can? :read, Judgement %>
+      <%= link_to score_path, :class => 'item' do %>
+        <i class="checkmark box icon"></i> Score
+      <% end %>
+    <% end %>
     <div class="right menu">
       <% if user_signed_in? %>
         <%= link_to destroy_user_session_path, :method => :delete, :class => 'item' do %>

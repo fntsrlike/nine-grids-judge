@@ -1,0 +1,92 @@
+<h2 class="ui dividing header">Score Computing</h2>
+<div class="ui styled accordion" style="width: 100%">
+  <div class="title active">
+    <i class="dropdown icon"></i>
+    Filter & Search
+  </div>
+  <div class="content active">
+    <%= form_tag score_path, :method => 'get', class: "ui small form" do %>
+    <div class="four fields">
+      <div class="field">
+        <label>Base Score</label>
+        <input type="text" name="base_score" placeholder="eg. 0" value="<%= params[:base_score] %>">
+      </div>
+      <div class="field">
+        <label>Point(s) / Passed Chapter</label>
+        <input type="text" name="point_per_chapter" placeholder="eg. 10" value="<%= params[:point_per_chapter] %>">
+      </div>
+      <div class="field">
+        <label>Point(s) / Passed Grid</label>
+        <input type="text" name="point_per_grid" placeholder="eg. 2" value="<%= params[:point_per_grid] %>"/>
+      </div>
+      <div class="field">
+        <label>Role</label>
+        <select name="role" class="ui dropdown">
+          <option value="">Role</option>
+          <option value="admin" <% if !params[:role].nil? && params[:role] == "admin" %>selected="selected"<% end %>>Admin</option>
+          <option value="manager" <% if !params[:role].nil? && params[:role] == "manager" %>selected="selected"<% end %>>Manager</option>
+          <option value="student" <% if !params[:role].nil? && params[:role] == "student" %>selected="selected"<% end %>>Student</option>
+        </select>
+      </div>
+    </div>
+    <h4 class="ui horizontal header divider">Valid Chapters</h4>
+    <div class="grouped inline fields">
+      <% Chapter.order("weight ASC").all.each do |chapter| %>
+        <div class="field">
+          <% is_chacked = !params[:valid_chapter].nil? && params[:valid_chapter].include?(chapter.id.to_s) %>
+          <div class="ui checkbox">
+            <input <% if is_chacked %>checked="checked"<% end %> type="checkbox" name="valid_chapter[]" value="<%= chapter.id %>">
+            <label><%= chapter.number %></label>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <p>Which chapters are valid to be calulated.</p>
+    <div class="ui hidden divider"></div>
+
+    <%= button_tag "Filter", class: "ui blue button"%>
+    <% end %>
+  </div>
+</div>
+
+
+<table class="ui table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Username</th>
+      <% if !params[:valid_chapter].nil? %>
+        <% Chapter.order("weight ASC").find(params[:valid_chapter]).each do |chapter| %>
+          <th><%= chapter.number %></th>
+        <% end %>
+        <th>Total</th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= link_to user.id, user %></td>
+        <td>
+          <%= link_to user, style: "color:rgba(0, 0, 0, 0.8);" do %>
+            <%= user.realname %>
+            (<%= user.username %>)
+          <% end %>
+        </td>
+        <% if !params[:valid_chapter].nil? %>
+          <% total_score = 0 %>
+          <% Chapter.order("weight ASC").find(params[:valid_chapter]).each do |chapter| %>
+            <td>
+              <%= score = user.get_chapter_score(chapter.id, params[:point_per_chapter].to_i, params[:point_per_grid].to_i) %>
+              <% total_score += score%>
+            </td>
+          <% end %>
+        <% end %>
+        <td>
+          <%= total_score %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
