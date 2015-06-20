@@ -77,7 +77,7 @@
         <% if !params[:valid_chapter].nil? %>
           <% total_score = 0 %>
           <% Chapter.order("weight ASC").find(params[:valid_chapter]).each do |chapter| %>
-            <td>
+            <td style="<% if !user.has_passed_chapter chapter.id%>color:#d95c5c!important;<% end %>">
               <%= score = user.get_chapter_score(chapter.id, params[:point_per_chapter].to_i, params[:point_per_grid].to_i) %>
               <% total_score += score%>
             </td>
