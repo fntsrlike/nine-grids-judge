@@ -56,6 +56,30 @@
   </div>
 </div>
 
+<div class="ui hidden divider"></div>
+
+<div class="ui centered grid">
+  <div class="sixteen wide column">
+    <h5 class="ui top attached center aligned blue header">
+      Reviewers Judgement Rank!
+    </h5>
+    <div class="ui attached blue segment">
+      <div class="ui tiny statistics">
+        <% @reviewers.each do |reviewer| %>
+          <div class="statistic" style="margin-bottom: 0;">
+            <div class="value">
+              <%=  Judgement.where(user_id: reviewer.user_id).count %>
+            </div>
+            <div class="label">
+              <%= User.find(reviewer.user_id).username %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
 <table class="ui table">
   <thead>
     <tr>

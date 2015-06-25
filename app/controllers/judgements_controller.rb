@@ -18,6 +18,7 @@ class JudgementsController < ApplicationController
   # GET /judgements.json
   def index
     @judgements = apply_scopes(Judgement).order("created_at DESC").all.page(params[:page]).per(50)
+    @reviewers = Judgement.select("user_id, count(user_id) as num").group("user_id").order("num DESC").all
   end
 
   # GET /judgements/1
