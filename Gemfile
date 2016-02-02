@@ -63,6 +63,9 @@ gem 'kaminari'
 # Filter
 gem 'has_scope'
 
+# JavaScript Runtime
+gem "therubyracer"
+
 group :test, :development do
   # Mail Test
   gem "letter_opener"
@@ -75,4 +78,3 @@ group :production do
   gem "mysql2"
   gem 'dotenv-rails'
 end
-
