@@ -47,7 +47,7 @@ sudo apt-get install libmysqlclient-dev
 ### Setup
 
 1. 在命令列輸入 `./bin/bundle` 去安裝 Gems
-2. 在命令列輸入 `./bin/rake dev:rebuild` 去部署資料庫
+2. 在命令列輸入 `./bin/rake db:migrate` 去部署資料庫
 3. 在命令列輸入 `./bin/rails s` 去啟動程式
 
 即可透過 port 3000 訪問程式
