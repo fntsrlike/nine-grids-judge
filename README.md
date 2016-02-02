@@ -6,7 +6,8 @@
 - Ruby 和 Ruby on Rails 相關環境，本程式開發時，是採用 Ruby 2.2.2 和 Rails 4.2.3。
 - MySQL Ver 14.14 Distrib 5.5.46
 
-#### Ruby 安裝
+### Ruby 安裝
+#### 自行編譯
 ```bash
 sudo apt-get update
 sudo apt-get upgrade -y
@@ -22,7 +23,10 @@ make
 sudo make install
 ```
 
-#### MySQL 安裝
+#### 透過 RVM 安裝
+請參照 [RVM 官網](https://rvm.io) 的說明。
+
+### MySQL 安裝
 ```bash
 sudo apt-get install mysql-common mysql-client libmysqlclient-dev mysql-server
 sudo gem install mysql2 --no-ri --no-rdoc
