@@ -4,8 +4,7 @@ source 'https://rubygems.nos.ncu.edu.tw'
 # Official (on Amazon S3)
 # source 'https://rubygems.org'
 
-# 指定 Ruby 版本
-ruby "2.2.2"
+# 建議使用 ruby ~> 2.2.2
 
 
 # 指定 RubyGems 的版本
