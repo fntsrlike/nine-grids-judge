@@ -16,4 +16,8 @@
 /tmp
 .env
 
+# Compiled assets
 /public/assets
+
+# list
+*.csv
