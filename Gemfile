@@ -52,7 +52,7 @@ gem 'jquery-rails', '>= 4.1.0'
 gem 'turbolinks', '>= 2.5.3'
 
 # Fix conflict between jquery and turbolinks
-gem 'jquery-turbolinks'
+gem 'jquery-turbolinks', '~> 2.1.0'
 
 # Use rails_autolink for autolink before the issue of redcarpet fixed
 gem 'rails_autolink', '~> 1.1'

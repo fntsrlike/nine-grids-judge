@@ -193,7 +193,7 @@ DEPENDENCIES
   html-pipeline (~> 2.3.0)
   jbuilder (~> 2.4)
   jquery-rails (>= 4.1.0)
-  jquery-turbolinks
+  jquery-turbolinks (~> 2.1.0)
   kaminari
   letter_opener
   mysql2 (~> 0.4)
