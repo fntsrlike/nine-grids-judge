@@ -14,7 +14,7 @@ gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails', '~> 4.0.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer',  platforms: :ruby
+gem 'therubyracer',  platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -44,7 +44,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # Authorization
 gem 'devise'
 gem 'rolify'
-gem 'cancancan', '~> 1.10'
+gem 'cancancan', '~> 1.13'
 
 # Use HTML pipeline for rendering
 gem 'html-pipeline'
@@ -55,16 +55,13 @@ gem 'rails_autolink'
 # Code highlighter
 gem 'pygments.rb'
 # Use GitHub Linguist for language detection
-gem 'github-linguist'
+gem "github-linguist",  "~> 2.6.2"
 
 # Pagination
 gem 'kaminari'
 
 # Filter
 gem 'has_scope'
-
-# JavaScript Runtime
-gem "therubyracer"
 
 group :test, :development do
   # Mail Test
