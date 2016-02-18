@@ -85,7 +85,7 @@ gem "mysql2", '~> 0.4', :group => "production"
 # Debian: `sudo apt-get install postgresql-client-9.4 libpq-dev
 # OS X: `brew install postgresql`
 #
-gem "pg", '~> 0.18', :group => "production"
+# gem "pg", '~> 0.18', :group => "production"
 
 
 
