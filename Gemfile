@@ -57,7 +57,7 @@ gem 'jquery-turbolinks', '~> 2.1.0'
 gem 'rails_autolink', '~> 1.1'
 
 # Sematic UI
-gem 'semantic-ui-sass', '~> 2.1'
+gem 'semantic-ui-sass', '~> 1.8.1'#, github: 'doabit/semantic-ui-sass'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.4'
