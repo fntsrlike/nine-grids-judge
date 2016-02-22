@@ -23,17 +23,21 @@ textarea {
 }
 
 code {
-    padding: 0.2em;
-    margin: 0 0.1em;
-    font-size: 85%;
-    background-color: rgba(0,0,0,0.1);
+    padding: 1px 5px;
+    margin: 0 0.5em;
     border-radius: 3px;
     color: rgb(200,0,0);
+    background-color: rgba(0, 0, 0, 0.0980392);
 }
 
 pre {
+    background-color: rgb(39, 40, 34);
     padding: 1em;
-    font-size: 85%;
+    /*font-size: 85%;*/
+
+    code {
+        color: white;
+    }
 }
 
 .container {
