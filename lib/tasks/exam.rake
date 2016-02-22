@@ -1,4 +1,4 @@
-namespace :chapter do
+namespace :exam do
   desc "關於章節、題目的相關工作"
 
   # 建立大量的假章節與假題目

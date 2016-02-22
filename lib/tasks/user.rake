@@ -1,6 +1,6 @@
 require 'csv'
 
-namespace :users do
+namespace :user do
   desc "關於使用者的相關工作"
 
   # 建立測試用的基本帳號
