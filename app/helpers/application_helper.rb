@@ -20,6 +20,8 @@ module ApplicationHelper
   end
 
   def markdown_render(md)
-    Article::MarkdownPipeline.call(md)[:output].to_s.html_safe
+    html = Article::MarkdownPipeline.call(md)[:output].to_s.html_safe
+    tags = %w(a acronym b strong i em li ul ol h1 h2 h3 h4 h5 h6 blockquote br cite sub sup ins p code pre)
+    return sanitize(html, tags: tags, attributes: %w(href title))
   end
 end
