@@ -1,5 +1,6 @@
 ##### 目錄
 
+```
 一、安裝
     1.1 環境需求
         1.1.1 安裝 Ruby
@@ -28,7 +29,7 @@
         4.1.1 學生（student）
     4.2 編輯器語法
     4.3 審題排序演算法
-
+```
 
 ## 安裝
 
@@ -153,8 +154,11 @@ $ rake user:basic
 
 #### 3.2.2 user:import
 
-```
+```bash
 $ rake user:import\[檔案名稱\]
+
+# eg
+$ rake user:import\[list.csv\]
 ```
 
 本指令會匯入一個不含欄位、並以逗號作為分隔字元的 csv 檔案，欄位順序如下：
@@ -165,7 +169,7 @@ $ rake user:import\[檔案名稱\]
 
 分隔符號請只使用 `,`，不要包含空白。密碼建議留空，再利用 `user:passwd`、`user:passwd_student` 去設定亂數密碼，並由系統寄信通知使用者。身份只能使用 `admin`, `manager`, `student` 三種，若不是以上三種，則自動判定為 `student`。建議可以使用試算表軟體編輯，再匯出為 csv 檔案。
 
-一個正確的內容大致如下
+一個正確的內容大致如下：
 
 ```
 林若虛,ruoshi,,fntsrlike@g.ncu.edu.tw,0923456789,admin
@@ -179,8 +183,11 @@ $ rake user:import\[檔案名稱\]
 
 #### 3.2.3 user:passwd
 
-```
+```bash
 $ rake user:passwd\[帳號\]
+
+# eg
+$ rake user:passwd\[ruoshi\]
 ```
 
 本指令是用來將指定的使用者重設密碼，並將新密碼寄信給使用者。
