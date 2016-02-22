@@ -112,6 +112,12 @@ app/views/       : 使用者介面，
 
 本系統透過編寫 Rake 去進行部分工作的自動化。使用方式為 `rake [namespace]:[task_name]`，本系統共有 dev, users, exam 三個 namespace 作為工作的分類。
 
+預設指令都會以開發環境 (Development) 為主，若是要套用在正式環境 (Production)，在指令前面需要加上 `RAILS_ENV=production` 作為環境設定。例如；
+
+```bash
+$ RAILS_ENV=production rake dev:build
+```
+
 ### 3.1 dev
 關於系統相關的指令，因為偏向開發者在使用，故以 dev 作為 namespace。
 
