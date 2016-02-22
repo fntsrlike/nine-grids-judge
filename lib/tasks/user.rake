@@ -47,8 +47,7 @@ namespace :user do
       next
     end
 
-    password = Array.new(32){[*"a".."z", *"A".."Z", *"0".."9"].sample}.join
-    user.password = password
+    user.password = gen_pass
 
     unless user.save
       puts "Reset failed!"
@@ -63,8 +62,7 @@ namespace :user do
   task :passwd_student => :environment do
     puts "Begining to reset user password and send email to notify."
     User.with_role(:student).each do |user|
-      password = Array.new(32){[*"a".."z", *"A".."Z", *"0".."9"].sample}.join
-      user.update(password: password)
+      user.update(password: gen_pass)
 
       if user.save
         StudentMailer.resetPwd(user, password).deliver
@@ -120,7 +118,7 @@ namespace :user do
       username: account[:username],
       email: account[:email],
       phone: account[:phone],
-      password: account[:password],
+      password: account[:password].nil? ? gen_pass : account[:password],
     )
 
     unless user.save
@@ -136,5 +134,9 @@ namespace :user do
 
     puts "Created user #{user.username}(#{user.realname}) successfully!"
     return true
+  end
+
+  def gen_pass
+    return Array.new(32){[*"a".."z", *"A".."Z", *"0".."9"].sample}.join
   end
 end
