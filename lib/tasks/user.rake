@@ -110,7 +110,7 @@ namespace :user do
 
   # 建立帳號
   def create(account)
-    valid_roles = [:admin, :manager, :student]
+    valid_roles = ['admin', 'manager', 'student']
     role = account[:role]
 
     user = User.new(
