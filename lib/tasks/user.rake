@@ -54,7 +54,7 @@ namespace :user do
       next
     end
 
-    StudentMailer.resetPwd(user, password).deliver
+    StudentMailer.resetPwd(user, user.password).deliver
     puts "Reset password of #{user.username} successfully. Notify has been sent."
   end
 
@@ -65,7 +65,7 @@ namespace :user do
       user.update(password: gen_pass)
 
       if user.save
-        StudentMailer.resetPwd(user, password).deliver
+        StudentMailer.resetPwd(user, user.password).deliver
         puts "Send email to #{user.username} successed!"
       else
         puts "Send email to #{user.username} failed!"
