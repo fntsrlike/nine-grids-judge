@@ -10,9 +10,9 @@ namespace :user do
     puts "----------------------\n"
 
     rows  = [
-      ["系統管理員", "admin", "qwer1234", "admine@foo.bar", "0912345678", :admin],
-      ["助教測試帳號",  "manager", "qwer1234", "manager@foo.bar", "0912345678", :manager],
-      ["學生測試帳號",  "student", "qwer1234", "student@foo.bar", "0912345678", :student],
+      ["系統管理員", "admin", "qwer1234", "admine@foo.bar", "0912345678", "admin"],
+      ["助教測試帳號",  "manager", "qwer1234", "manager@foo.bar", "0912345678", "manager"],
+      ["學生測試帳號",  "student", "qwer1234", "student@foo.bar", "0912345678", "student"],
     ]
 
     create_accounts(rows)
