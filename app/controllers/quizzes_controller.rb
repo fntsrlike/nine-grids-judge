@@ -17,6 +17,15 @@ class QuizzesController < ApplicationController
     else
       @last_answer = Answer.where(quiz_id: @quiz.id, user_id: current_user.id, status: [Answer.statuses[:queue], Answer.statuses[:judgement]]).first
       @logs = @quiz.get_answer_logs_by_user(current_user.id).reverse
+
+      # Please move this block of code to User model in the future.
+      @quizzes = @quiz.chapter.quizzes
+      @queued_answers_count = 0
+      @quizzes.each do |current_quiz|
+        @queued_answers_count += current_quiz.answers.where(user_id: current_user.id).where(status: Answer.statuses[:queue]).count
+      end
+      @can_submit_answer = @queued_answers_count < 3
+      # End.
     end
   end
 
