@@ -56,7 +56,18 @@
     <div class="ui basic button">Go to quizzes</div>
   <% end %>
 <% elsif can? :show, Quiz %>
-  <% if !@quiz.is_answer_repeat_by_user current_user.id %>
+  <% if !@can_submit_answer %>
+    <br>
+    <center>
+      <h1 class="ui red header">
+        <b>Unable to Submit Answer</b>
+      </h1>
+      <p class="text-danger">
+        Quantity of queued answers is equal or more than 3 in this Chapter.<br>
+        Please go to another chapter or wait for the judgement of your answers.
+      </p>
+    </center>
+  <% elsif !@quiz.is_answer_repeat_by_user current_user.id %>
     <%= render 'answer_form' %>
   <% end %>
 <% end %>

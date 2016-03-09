@@ -35,6 +35,13 @@
     background-color: #6bcd82;
   }
 
+  .blocked {
+    background-color: #777;
+  }
+  .blocked:hover {
+    background-color: #8c8c8c;
+  }
+
   td a {
       display:block;
       width:100%;

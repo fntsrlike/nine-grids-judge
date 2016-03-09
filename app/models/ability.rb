@@ -35,7 +35,17 @@ class Ability
         end
         can :create, Answer do |answer|
           @quiz = answer.quiz
-          @quiz.chapter.active? && is_valid_quiz? && !is_answer_repeat?
+
+          # Please move this block of code to User model in the future.
+          @quizzes = @quiz.chapter.quizzes
+          @queued_answers_count = 0
+          @quizzes.each do |current_quiz|
+            @queued_answers_count += current_quiz.answers.where(user_id: current_user.id).where(status: Answer.statuses[:queue]).count
+          end
+          @can_submit_answer = @queued_answers_count < 3
+          # End.
+
+          @quiz.chapter.active? && is_valid_quiz? && !is_answer_repeat? && @can_submit_answer
         end
       end
     end
