@@ -122,7 +122,7 @@ class Grid < ActiveRecord::Base
       end
     end
 
-    return pass_quizzes;
+    return pass_quizzes
   end
 
 end
