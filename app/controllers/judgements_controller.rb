@@ -118,7 +118,6 @@ class JudgementsController < ApplicationController
     end
 
     def rejudge_grid
-      judgement = @judgement
       answer = @judgement.answer
       grid = Grid.where(user_id: answer.user.id, chapter_id: answer.quiz.chapter_id ).first
       grid.update_status

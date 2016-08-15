@@ -21,7 +21,7 @@ namespace :user do
   end
 
   # 匯入 CSV 檔以建立帳號
-  task :import, [:filename] => :environment do |t, args|
+  task :import, [:filename] => :environment do |_, args|
     if !File.exist?(args[:filename])
       puts "Files not exist!"
     else
@@ -37,7 +37,7 @@ namespace :user do
   end
 
   # 重設特定使用者的密碼，並發送通知信
-  task :passwd, [:username] => :environment do |t, args|
+  task :passwd, [:username] => :environment do |_, args|
     puts "Begining to reset user password and send email to notify."
     username = args[:username]
     user = User.where(username: username).first
@@ -98,7 +98,7 @@ namespace :user do
 
   # 解析 CSV 的單列，並轉成 Hash
   def parse(row)
-    account = {
+    {
       realname: row[0],
       username: row[1],
       password: row[2],

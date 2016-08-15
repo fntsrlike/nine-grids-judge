@@ -107,7 +107,7 @@ class ChaptersController < ApplicationController
     end
 
     def get_chapter_statistics
-      statistics = {
+      {
         pass_people: {value: @chapter.get_pass_people_count, color: "blue"},
         challengers: {value: @chapter.get_all_people_count, color: "blue"},
         queue: {value: @chapter.get_queue_count, color: "yellow"},

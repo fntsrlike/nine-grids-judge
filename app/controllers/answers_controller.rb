@@ -110,7 +110,7 @@ class AnswersController < ApplicationController
       pass_count = Judgement.joins(:answer).where(result: Judgement.results[:pass]).count
       reject_count = Judgement.joins(:answer).where(result: Judgement.results[:reject]).count
 
-      statistics = {
+      {
         all: {value: all_count, color: :blue},
         judged: {value: judged_count, color: :purple},
         pass: {value: pass_count, color: :green},
@@ -120,12 +120,12 @@ class AnswersController < ApplicationController
 
     def get_answers_statistics_today
       new_count = Answer.today.count
-      queue_count = Answer.where(status: Answer.statuses[:queue]).today.count
+
       judged_count = Judgement.today.count
       pass_count = Judgement.joins(:answer).where(result: Judgement.results[:pass]).today.count
       reject_count = Judgement.joins(:answer).where(result: Judgement.results[:reject]).today.count
 
-      statistics = {
+      {
         new: {value: new_count, color: :blue},
         judged: {value: judged_count, color: :purple},
         pass: {value: pass_count, color: :green},

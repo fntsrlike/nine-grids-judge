@@ -33,7 +33,7 @@ class Answer < ActiveRecord::Base
     .order("created_at ASC")  # Ealier submit is higher than later one
   end
 
-  def self.today(is_join = false)
+  def self.today()
     where("answers.created_at >= ?", Time.zone.now.beginning_of_day)
   end
 end

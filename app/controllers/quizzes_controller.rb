@@ -102,7 +102,7 @@ class QuizzesController < ApplicationController
     end
 
     def get_quiz_statistics
-      statistics = {
+      {
         pass_submits: {value: @quiz.get_passed_submits_count, color: "green"},
         reject_submits: {value: @quiz.get_failed_submits_count, color: "red"},
         submits: {value: @quiz.get_all_submits_count, color: "blue"},
