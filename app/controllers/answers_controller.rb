@@ -1,7 +1,14 @@
 class AnswersController < ApplicationController
+
+  # 在指定的方法執行前，先設置相關的實例變數，以省略冗贅的敘述
   before_action :set_answer, only: [:show, :edit, :update, :destroy]
+
+  # Authorizing controller actions
+  # Ref: https://github.com/ryanb/cancan/wiki/authorizing-controller-actions
   authorize_resource
 
+  # HasScope Gem: resources filter
+  # Ref: https://github.com/plataformatec/has_scope
   has_scope :chapter
   has_scope :quiz
   has_scope :examinee
@@ -11,7 +18,6 @@ class AnswersController < ApplicationController
   has_scope :answer
 
   # GET /answers
-  # GET /answers.json
   def index
     if can? :create, Judgement
       status = [Answer.statuses[:queue], Answer.statuses[:judgement]]
@@ -25,7 +31,6 @@ class AnswersController < ApplicationController
   end
 
   # GET /answers/1
-  # GET /answers/1.json
   def show
   end
 
@@ -46,7 +51,6 @@ class AnswersController < ApplicationController
   end
 
   # POST /answers
-  # POST /answers.json
   def create
     @answer = Answer.new(answer_params)
     @answer.user_id = current_user.id if cannot? :manage, Answer
@@ -54,83 +58,71 @@ class AnswersController < ApplicationController
     @has_quiz_param = !@quiz.nil?
     authorize! :create, @answer
 
-    respond_to do |format|
-      if params.has_key?(:preview)
-        @preview = true
-        format.html { render :new}
-      elsif @answer.save
-        @answer.queue!
-        format.html { redirect_to @quiz.chapter, notice: 'Answer was successfully created.' }
-        format.json { render :show, status: :created, location: @answer }
-      else
-        format.html { render :new }
-        format.json { render json: @answer.errors, status: :unprocessable_entity }
-      end
+    if params.has_key?(:preview)
+      @preview = true
+      render :new
+    elsif @answer.save
+      @answer.queue!
+      redirect_to @quiz.chapter, notice: 'Answer was successfully created.'
+    else
+      render :new, {answer: @answer}
     end
   end
 
   # PATCH/PUT /answers/1
-  # PATCH/PUT /answers/1.json
   def update
-    respond_to do |format|
-      if @answer.update(answer_params)
-        format.html { redirect_to @answer, notice: 'Answer was successfully updated.' }
-        format.json { render :show, status: :ok, location: @answer }
-      else
-        format.html { render :edit }
-        format.json { render json: @answer.errors, status: :unprocessable_entity }
-      end
+    if @answer.update(answer_params)
+      redirect_to @answer, notice: 'Answer was successfully updated.'
+    else
+      render :edit
     end
   end
 
   # DELETE /answers/1
-  # DELETE /answers/1.json
   def destroy
     @answer.destroy
-    respond_to do |format|
-      format.html { redirect_to answers_url, notice: 'Answer was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    redirect_to answers_url, notice: 'Answer was successfully destroyed.'
   end
 
   private
 
-    # Use callbacks to share common setup or constraints between actions.
-    def set_answer
-      @answer = Answer.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_answer
+    @answer = Answer.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def answer_params
-      params.require(:answer).permit(:user_id, :quiz_id, :content)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def answer_params
+    params.require(:answer).permit(:user_id, :quiz_id, :content)
+  end
 
-    def get_answers_statistics
-      all_count = Answer.count
-      judged_count = Judgement.count
-      pass_count = Judgement.joins(:answer).where(result: Judgement.results[:pass]).count
-      reject_count = Judgement.joins(:answer).where(result: Judgement.results[:reject]).count
+  # 取得解答的統計數據
+  def get_answers_statistics
+    all_count = Answer.count
+    judged_count = Judgement.count
+    pass_count = Judgement.joins(:answer).where(result: Judgement.results[:pass]).count
+    reject_count = Judgement.joins(:answer).where(result: Judgement.results[:reject]).count
 
-      {
-        all: {value: all_count, color: :blue},
-        judged: {value: judged_count, color: :purple},
-        pass: {value: pass_count, color: :green},
-        reject: {value: reject_count, color: :red}
-      }
-    end
+    {
+      all: {value: all_count, color: :blue},
+      judged: {value: judged_count, color: :purple},
+      pass: {value: pass_count, color: :green},
+      reject: {value: reject_count, color: :red}
+    }
+  end
 
-    def get_answers_statistics_today
-      new_count = Answer.today.count
+  # 取得僅限於今日解答的統計數據
+  def get_answers_statistics_today
+    new_count = Answer.today.count
+    judged_count = Judgement.today.count
+    pass_count = Judgement.joins(:answer).where(result: Judgement.results[:pass]).today.count
+    reject_count = Judgement.joins(:answer).where(result: Judgement.results[:reject]).today.count
 
-      judged_count = Judgement.today.count
-      pass_count = Judgement.joins(:answer).where(result: Judgement.results[:pass]).today.count
-      reject_count = Judgement.joins(:answer).where(result: Judgement.results[:reject]).today.count
-
-      {
-        new: {value: new_count, color: :blue},
-        judged: {value: judged_count, color: :purple},
-        pass: {value: pass_count, color: :green},
-        reject: {value: reject_count, color: :red}
-      }
-    end
+    {
+      new: {value: new_count, color: :blue},
+      judged: {value: judged_count, color: :purple},
+      pass: {value: pass_count, color: :green},
+      reject: {value: reject_count, color: :red}
+    }
+  end
 end

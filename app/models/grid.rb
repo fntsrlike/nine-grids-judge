@@ -1,11 +1,16 @@
 class Grid < ActiveRecord::Base
+
+  # Relationship
   belongs_to :user
   belongs_to :chapter
 
+  # Enum
   enum status: [ :fail, :pass ]
+
   GRID_NUMBER = 9
 
-  def self.contain_quiz quiz_id
+  # 九宮格是否含指定的題目
+  def self.contain_quiz(quiz_id)
     where(
       Arel::Nodes::Group.new(
         Grid.arel_table[:quiz_1].eq(quiz_id)
@@ -22,6 +27,7 @@ class Grid < ActiveRecord::Base
     )
   end
 
+  # 本九宮格的題目陣列
   def get_quizzes
     quizzes = []
     for i in 1..GRID_NUMBER
@@ -30,6 +36,7 @@ class Grid < ActiveRecord::Base
     return quizzes
   end
 
+  # 本九宮格的題目編號陣列
   def get_quizzes_id
     quizzes = []
     for i in 1..GRID_NUMBER
@@ -38,6 +45,7 @@ class Grid < ActiveRecord::Base
     return quizzes
   end
 
+  # 本九宮格的題目通過狀態陣列
   def get_quizzes_status
     status = Array.new(GRID_NUMBER,0)
     get_quizzes.each_with_index do |quiz, index|
@@ -52,6 +60,7 @@ class Grid < ActiveRecord::Base
     return status
   end
 
+  # 指定題目在本九宮格裡所在的位置
   def get_quiz_sort quiz_id
     for i in 1..GRID_NUMBER
       return i if self["quiz_#{i}"] == quiz_id
@@ -59,6 +68,7 @@ class Grid < ActiveRecord::Base
     return nil
   end
 
+  # 更新本九宮個的通過狀態
   def update_status
     status = ""
     is_pass = false
@@ -84,6 +94,7 @@ class Grid < ActiveRecord::Base
     is_pass ? self.pass! : self.fail!
   end
 
+  # 隨機設定本九宮格所擁有的題目
   def set_quizzes_random
     quizzes = Quiz.where(:chapter_id => self.chapter_id).pluck(:id).shuffle[0..8]
     attributes = {}
@@ -93,10 +104,12 @@ class Grid < ActiveRecord::Base
     update(attributes)
   end
 
+  # 重設本九宮格
   def reset_user_grids
     update(get_reset_attributes)
   end
 
+  # 將本九宮格裡未通過的題目格替換為隨機的新題目
   def get_reset_attributes
     pass_quizzes = get_passed_quizzes
     fail_quizzes_count = GRID_NUMBER - pass_quizzes.count
@@ -114,6 +127,7 @@ class Grid < ActiveRecord::Base
     return attributes
   end
 
+  # 取得本九宮格中已通過的題目
   def get_passed_quizzes
     pass_quizzes = {}
     get_quizzes.each_with_index do |quiz, index|

@@ -1,5 +1,10 @@
 class ScoreController < ApplicationController
+
+  # 在指定的方法執行前，先設置相關的實例變數，以省略冗贅的敘述
   before_action :authenticate_user!
+
+  # Authorizing controller actions
+  # Ref: https://github.com/ryanb/cancan/wiki/authorizing-controller-actions
   has_scope :role
 
   # GET /quizzes

@@ -1,15 +1,18 @@
 class ChaptersController < ApplicationController
+
+  # 在指定的方法執行前，先設置相關的實例變數，以省略冗贅的敘述
   before_action :set_chapter, only: [:show, :edit, :update, :destroy]
+
+  # Authorizing controller actions
+  # Ref: https://github.com/ryanb/cancan/wiki/authorizing-controller-actions
   authorize_resource
 
   # GET /chapters
-  # GET /chapters.json
   def index
     @chapters = Chapter.all.page(params[:page]).per(50)
   end
 
   # GET /chapters/1
-  # GET /chapters/1.json
   def show
     if can? :manage, Quiz
       @quizzes = Quiz.where( :chapter_id => @chapter.id )
@@ -35,86 +38,73 @@ class ChaptersController < ApplicationController
   end
 
   # POST /chapters
-  # POST /chapters.json
   def create
     @chapter = Chapter.new(chapter_params)
-
-    respond_to do |format|
-      if @chapter.save
-        format.html { redirect_to @chapter, notice: 'Chapter was successfully created.' }
-        format.json { render :show, status: :created, location: @chapter }
-      else
-        format.html { render :new }
-        format.json { render json: @chapter.errors, status: :unprocessable_entity }
-      end
+    if @chapter.save
+      redirect_to @chapter, notice: 'Chapter was successfully created.'
+    else
+      render :new
     end
   end
 
   # PATCH/PUT /chapters/1
-  # PATCH/PUT /chapters/1.json
   def update
-    respond_to do |format|
-      if !params[:button].nil? && params[:button] == "reset_grids"
-        reset_chapter_grids @chapter.id
-        format.html { redirect_to @chapter, notice: 'Grids of chapter was successfully reset.' }
-      elsif !params[:button].nil? && params[:button] == "reload_status"
-        reload_chapter_status @chapter.id
-        format.html { redirect_to @chapter, notice: 'All of students\' chapter passing status are reloaded.' }
-      elsif @chapter.update(chapter_params)
-        format.html { redirect_to @chapter, notice: 'Chapter was successfully updated.' }
-        format.json { render :show, status: :ok, location: @chapter }
-      else
-        format.html { render :edit }
-        format.json { render json: @chapter.errors, status: :unprocessable_entity }
-      end
+    if !params[:button].nil? && params[:button] == "reset_grids"
+      reset_chapter_grids @chapter.id
+      redirect_to @chapter, notice: 'Grids of chapter was successfully reset.'
+    elsif !params[:button].nil? && params[:button] == "reload_status"
+      reload_chapter_status @chapter.id
+      redirect_to @chapter, notice: 'All of students\' chapter passing status are reloaded.'
+    elsif @chapter.update(chapter_params)
+      redirect_to @chapter, notice: 'Chapter was successfully updated.'
+    else
+      render :edit
     end
   end
 
   # DELETE /chapters/1
-  # DELETE /chapters/1.json
   def destroy
     @chapter.destroy
-    respond_to do |format|
-      format.html { redirect_to chapters_url, notice: 'Chapter was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    redirect_to chapters_url, notice: 'Chapter was successfully destroyed.'
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_chapter
-      @chapter = Chapter.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def chapter_params
-      params.require(:chapter).permit(:number, :title, :description, :weight, :status)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_chapter
+    @chapter = Chapter.find(params[:id])
+  end
 
-    # Reset no passed quizzes of no passed user's grids of the chapter
-    def reset_chapter_grids chapter_id
-      failed_grids = Grid.where(chapter_id: chapter_id, status: Grid.statuses[:fail])
-      failed_grids.each do |grids|
-        grids.reset_user_grids
-      end
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def chapter_params
+    params.require(:chapter).permit(:number, :title, :description, :weight, :status)
+  end
 
-    # Reload chapter passing status of all student
-    def reload_chapter_status chapter_id
-      Grid.where(chapter_id: chapter_id).each do | grid |
-        grid.update_status
-      end
+  # Reset no passed quizzes of no passed user's grids of the chapter
+  def reset_chapter_grids(chapter_id)
+    failed_grids = Grid.where(chapter_id: chapter_id, status: Grid.statuses[:fail])
+    failed_grids.each do |grids|
+      grids.reset_user_grids
     end
+  end
 
-    def get_chapter_statistics
-      {
-        pass_people: {value: @chapter.get_pass_people_count, color: "blue"},
-        challengers: {value: @chapter.get_all_people_count, color: "blue"},
-        queue: {value: @chapter.get_queue_count, color: "yellow"},
-        pass: {value: @chapter.get_pass_submit_count, color: "green"},
-        reject: {value: @chapter.get_reject_submit_count, color: "red"},
-        submits: {value: @chapter.get_all_submit_count, color: "purple"},
-        quizzes: {value: @chapter.get_all_quizzes_count},
-      }
+  # Reload chapter passing status of all student
+  def reload_chapter_status(chapter_id)
+    Grid.where(chapter_id: chapter_id).each do | grid |
+      grid.update_status
     end
+  end
+
+  # 取得章節的統計數據
+  def get_chapter_statistics
+    {
+      pass_people: {value: @chapter.get_pass_people_count, color: "blue"},
+      challengers: {value: @chapter.get_all_people_count, color: "blue"},
+      queue: {value: @chapter.get_queue_count, color: "yellow"},
+      pass: {value: @chapter.get_pass_submit_count, color: "green"},
+      reject: {value: @chapter.get_reject_submit_count, color: "red"},
+      submits: {value: @chapter.get_all_submit_count, color: "purple"},
+      quizzes: {value: @chapter.get_all_quizzes_count},
+    }
+  end
 end
