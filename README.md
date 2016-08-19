@@ -31,6 +31,13 @@
     4.3 審題排序演算法
 ```
 
+## 前置知識
+- [二十分鐘 Ruby 體驗](http://www.ruby-lang.org/zh_tw/documentation/quickstart/)
+- [Ruby 使用手冊](http://guides.ruby.tw/ruby/)
+- [Rails 初上手指南 (Rails 3.0)](http://guides.ruby.tw/rails3/getting_started.html)
+- [Ruby 風格指南](https://github.com/JuanitoFatas/ruby-style-guide/blob/master/README-zhTW.md)
+- [Ruby on Rails 實戰聖經](https://ihower.tw/rails4/)
+
 ## 安裝
 
 ### 1.1 環境需求
