@@ -1,11 +1,11 @@
 class Chapter < ActiveRecord::Base
 
   # Relationship
-  has_many :quizzes
-  has_many :grids
+  has_many(:quizzes)
+  has_many(:grids)
 
   # Enum
-  enum status: [ :inactive, :active ]
+  enum(status: [ :inactive, :active ])
 
   # 本章節已通過的使用者數量
   def get_pass_people_count

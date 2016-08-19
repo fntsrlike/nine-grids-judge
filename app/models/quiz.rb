@@ -1,7 +1,7 @@
 class Quiz < ActiveRecord::Base
   # Relationship
-  belongs_to :chapter
-  has_many :answers
+  belongs_to(:chapter)
+  has_many(:answers)
 
   # 指定使用者編號是否已通過本題目
   def is_passed_by_user(user_id)

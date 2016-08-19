@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
 
   # 在指定的方法執行前，先設置相關的實例變數，以省略冗贅的敘述
-  before_action :set_answer, only: [:show, :edit, :update, :destroy]
+  before_action(:set_answer, only: [:show, :edit, :update, :destroy])
 
   # Authorizing controller actions
   # Ref: https://github.com/ryanb/cancan/wiki/authorizing-controller-actions
@@ -9,17 +9,17 @@ class AnswersController < ApplicationController
 
   # HasScope Gem: resources filter
   # Ref: https://github.com/plataformatec/has_scope
-  has_scope :chapter
-  has_scope :quiz
-  has_scope :examinee
-  has_scope :status
-  has_scope :period_from
-  has_scope :period_end
-  has_scope :answer
+  has_scope(:chapter)
+  has_scope(:quiz)
+  has_scope(:examinee)
+  has_scope(:status)
+  has_scope(:period_from)
+  has_scope(:period_end)
+  has_scope(:answer)
 
   # GET /answers
   def index
-    if can? :create, Judgement
+    if can?(:create, Judgement)
       status = [Answer.statuses[:queue], Answer.statuses[:judgement]]
       @answers = apply_scopes(Answer).where(status: status).judge_piority
       @statistics = get_answers_statistics
@@ -37,7 +37,7 @@ class AnswersController < ApplicationController
   # GET /answers/new
   def new
     has_target = !params[:target].nil?
-    is_target_valid = Quiz.exists? id: params[:target]
+    is_target_valid = Quiz.exists?(id: params[:target])
     @has_quiz_param = has_target && is_target_valid
 
     if @has_quiz_param
@@ -53,35 +53,35 @@ class AnswersController < ApplicationController
   # POST /answers
   def create
     @answer = Answer.new(answer_params)
-    @answer.user_id = current_user.id if cannot? :manage, Answer
+    @answer.user_id = current_user.id if cannot?(:manage, Answer)
     @quiz = Quiz.find(@answer.quiz_id)
     @has_quiz_param = !@quiz.nil?
-    authorize! :create, @answer
+    authorize!(:create, @answer)
 
     if params.has_key?(:preview)
       @preview = true
       render :new
     elsif @answer.save
       @answer.queue!
-      redirect_to @quiz.chapter, notice: 'Answer was successfully created.'
+      redirect_to(@quiz.chapter, notice: 'Answer was successfully created.')
     else
-      render :new, {answer: @answer}
+      render(:new, {answer: @answer})
     end
   end
 
   # PATCH/PUT /answers/1
   def update
     if @answer.update(answer_params)
-      redirect_to @answer, notice: 'Answer was successfully updated.'
+      redirect_to(@answer, notice: 'Answer was successfully updated.')
     else
-      render :edit
+      render(:edit)
     end
   end
 
   # DELETE /answers/1
   def destroy
     @answer.destroy
-    redirect_to answers_url, notice: 'Answer was successfully destroyed.'
+    redirect_to(answers_url, notice: 'Answer was successfully destroyed.')
   end
 
   private

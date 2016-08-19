@@ -1,7 +1,7 @@
 class QuizzesController < ApplicationController
 
   # 在指定的方法執行前，先設置相關的實例變數，以省略冗贅的敘述
-  before_action :set_quiz, only: [:show, :edit, :update, :destroy]
+  before_action(:set_quiz, only: [:show, :edit, :update, :destroy])
 
   # Authorizing controller actions
   # Ref: https://github.com/ryanb/cancan/wiki/authorizing-controller-actions
@@ -15,7 +15,7 @@ class QuizzesController < ApplicationController
   # GET /quizzes/1
   def show
     @answer = Answer.new
-    if can? :manage, Quiz
+    if can?(:manage, Quiz)
       @statistics = get_quiz_statistics
     else
       @last_answer = Answer.where(quiz_id: @quiz.id, user_id: current_user.id, status: [Answer.statuses[:queue], Answer.statuses[:judgement]]).first
@@ -47,25 +47,25 @@ class QuizzesController < ApplicationController
   def create
     @quiz = Quiz.new(quiz_params)
     if @quiz.save
-      format.html { redirect_to @quiz, notice: 'Quiz was successfully created.' }
+      redirect_to(@quiz, notice: 'Quiz was successfully created.')
     else
-      format.html { render :new }
+      render(:new)
     end
   end
 
   # PATCH/PUT /quizzes/1
   def update
       if @quiz.update(quiz_params)
-        redirect_to @quiz, notice: 'Quiz was successfully updated.'
+        redirect_to(@quiz, notice: 'Quiz was successfully updated.')
       else
-        render :edit
+        render(:edit)
       end
   end
 
   # DELETE /quizzes/1
   def destroy
     @quiz.destroy
-    redirect_to quizzes_url, notice: 'Quiz was successfully destroyed.'
+    redirect_to(quizzes_url, notice: 'Quiz was successfully destroyed.')
   end
 
   private
@@ -83,7 +83,7 @@ class QuizzesController < ApplicationController
   # new action parameters
   def new_params
     has_chapter = !params[:chapter].nil?
-    is_chapter_valid = Chapter.exists? number: params[:chapter]
+    is_chapter_valid = Chapter.exists?(number: params[:chapter])
     @has_chapter_param = has_chapter && is_chapter_valid
 
     if @has_chapter_param

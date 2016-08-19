@@ -1,7 +1,7 @@
 class ChaptersController < ApplicationController
 
   # 在指定的方法執行前，先設置相關的實例變數，以省略冗贅的敘述
-  before_action :set_chapter, only: [:show, :edit, :update, :destroy]
+  before_action(:set_chapter, only: [:show, :edit, :update, :destroy])
 
   # Authorizing controller actions
   # Ref: https://github.com/ryanb/cancan/wiki/authorizing-controller-actions
@@ -14,10 +14,10 @@ class ChaptersController < ApplicationController
 
   # GET /chapters/1
   def show
-    if can? :manage, Quiz
+    if can?(:manage, Quiz)
       @quizzes = Quiz.where( :chapter_id => @chapter.id )
       @statistics = get_chapter_statistics
-    elsif can? :create, Answer
+    elsif can?(:create, Answer)
       if !Grid.exists?( :user_id => current_user.id, :chapter_id => @chapter.id )
         grids = Grid.new( :user_id => current_user.id, :chapter_id => @chapter.id )
         grids.set_quizzes_random
@@ -41,31 +41,31 @@ class ChaptersController < ApplicationController
   def create
     @chapter = Chapter.new(chapter_params)
     if @chapter.save
-      redirect_to @chapter, notice: 'Chapter was successfully created.'
+      redirect_to(@chapter, notice: 'Chapter was successfully created.')
     else
-      render :new
+      render(:new)
     end
   end
 
   # PATCH/PUT /chapters/1
   def update
     if !params[:button].nil? && params[:button] == "reset_grids"
-      reset_chapter_grids @chapter.id
-      redirect_to @chapter, notice: 'Grids of chapter was successfully reset.'
+      reset_chapter_grids(@chapter.id)
+      redirect_to(@chapter, notice: 'Grids of chapter was successfully reset.')
     elsif !params[:button].nil? && params[:button] == "reload_status"
-      reload_chapter_status @chapter.id
-      redirect_to @chapter, notice: 'All of students\' chapter passing status are reloaded.'
+      reload_chapter_status(@chapter.id)
+      redirect_to(@chapter, notice: 'All of students\' chapter passing status are reloaded.')
     elsif @chapter.update(chapter_params)
-      redirect_to @chapter, notice: 'Chapter was successfully updated.'
+      redirect_to(@chapter, notice: 'Chapter was successfully updated.')
     else
-      render :edit
+      render(:edit)
     end
   end
 
   # DELETE /chapters/1
   def destroy
     @chapter.destroy
-    redirect_to chapters_url, notice: 'Chapter was successfully destroyed.'
+    redirect_to(chapters_url, notice: 'Chapter was successfully destroyed.')
   end
 
   private

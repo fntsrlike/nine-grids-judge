@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   # 在指定的方法執行前，先設置相關的實例變數，以省略冗贅的敘述
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action(:set_user, only: [:show, :edit, :update, :destroy])
 
   # Authorizing controller actions
   # Ref: https://github.com/ryanb/cancan/wiki/authorizing-controller-actions
@@ -9,18 +9,18 @@ class UsersController < ApplicationController
 
   # HasScope Gem: resources filter
   # Ref: https://github.com/plataformatec/has_scope
-  has_scope :id
-  has_scope :role
-  has_scope :username
-  has_scope :passed_chapter, type: :array
-  has_scope :failed_chapter, type: :array
+  has_scope(:id)
+  has_scope(:role)
+  has_scope(:username)
+  has_scope(:passed_chapter, type: :array)
+  has_scope(:failed_chapter, type: :array)
 
   # GET /users
   def index
-    if current_user.has_role? :admin
+    if current_user.has_role?(:admin)
       @users = apply_scopes(User).all
-    elsif current_user.has_role? :manager
-      @users = apply_scopes(User).with_role :student
+    elsif current_user.has_role?(:manager)
+      @users = apply_scopes(User).with_role(:student)
     end
     @users = @users.page(params[:page]).per(50)
   end
@@ -48,7 +48,7 @@ class UsersController < ApplicationController
       role_params
       redirect_to @user, notice: 'User was successfully created.'
     else
-      render :new
+      render(:new)
     end
   end
 
@@ -56,16 +56,16 @@ class UsersController < ApplicationController
   def update
     if @user.update(user_params)
       role_params
-      redirect_to @user, notice: 'User was successfully updated.'
+      redirect_to(@user, notice: 'User was successfully updated.')
     else
-      render :edit
+      render(:edit)
     end
   end
 
   # DELETE /users/1
   def destroy
     @user.destroy
-    redirect_to users_url, notice: 'User was successfully destroyed.'
+    redirect_to(users_url, notice: 'User was successfully destroyed.')
   end
 
   private

@@ -1,11 +1,11 @@
 class Grid < ActiveRecord::Base
 
   # Relationship
-  belongs_to :user
-  belongs_to :chapter
+  belongs_to(:user)
+  belongs_to(:chapter)
 
   # Enum
-  enum status: [ :fail, :pass ]
+  enum(status: [ :fail, :pass ])
 
   GRID_NUMBER = 9
 
@@ -33,7 +33,7 @@ class Grid < ActiveRecord::Base
     for i in 1..GRID_NUMBER
       quizzes.push(Quiz.find(self["quiz_#{i}"]))
     end
-    return quizzes
+    quizzes
   end
 
   # 本九宮格的題目編號陣列
@@ -42,7 +42,7 @@ class Grid < ActiveRecord::Base
     for i in 1..GRID_NUMBER
       quizzes.push(self["quiz_#{i}"])
     end
-    return quizzes
+    quizzes
   end
 
   # 本九宮格的題目通過狀態陣列
@@ -57,7 +57,7 @@ class Grid < ActiveRecord::Base
         status[index] = 0
       end
     end
-    return status
+    status
   end
 
   # 指定題目在本九宮格裡所在的位置
@@ -65,7 +65,7 @@ class Grid < ActiveRecord::Base
     for i in 1..GRID_NUMBER
       return i if self["quiz_#{i}"] == quiz_id
     end
-    return nil
+    nil
   end
 
   # 更新本九宮個的通過狀態
@@ -124,7 +124,7 @@ class Grid < ActiveRecord::Base
       end
     end
 
-    return attributes
+    attributes
   end
 
   # 取得本九宮格中已通過的題目
@@ -136,7 +136,7 @@ class Grid < ActiveRecord::Base
       end
     end
 
-    return pass_quizzes
+    pass_quizzes
   end
 
 end
