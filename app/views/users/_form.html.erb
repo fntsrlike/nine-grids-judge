@@ -1,4 +1,4 @@
-<%= form_for(@user, html: { class: "ui form" }) do |f| %>
+  <%= form_for(@user, html: { class: "ui form" }) do |f| %>
   <% if @user.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
@@ -11,7 +11,7 @@
     </div>
   <% end %>
 
-  <div class="inline field"><%= f.label :roles %><br />
+  <div class="inline field"><%= f.label(:roles) %><br />
     <div class="ui checkbox">
       <%= hidden_field_tag(:user_admin, 0) %>
       <%= check_box_tag(:user_admin, 1, @user.has_role?(:admin)) %>
@@ -36,21 +36,21 @@
   </div>
 
   <div class="field">
-    <%= f.label :username %>
-    <%= f.text_field :username, autofocus: true %>
+    <%= f.label(:username) %>
+    <%= f.text_field(:username, autofocus: true) %>
   </div>
   <div class="field">
-    <%= f.label :realname %>
-    <%= f.text_field :realname%>
+    <%= f.label(:realname) %>
+    <%= f.text_field(:realname) %>
   </div>
   <div class="field">
-    <%= f.label :email %>
-    <%= f.email_field :email %>
+    <%= f.label(:email) %>
+    <%= f.email_field(:email) %>
   </div>
   <div class="field">
-    <%= f.label :phone %>
-    <%= f.text_field :phone %>
+    <%= f.label(:phone) %>
+    <%= f.text_field(:phone) %>
   </div>
 
-  <%= f.button class: "ui blue button"%>
+  <%= f.button(class: "ui blue button") %>
 <% end %>

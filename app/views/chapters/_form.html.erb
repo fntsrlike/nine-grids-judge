@@ -12,33 +12,33 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :number %>
-    <%= f.text_field :number %>
+    <%= f.label(:number) %>
+    <%= f.text_field(:number) %>
   </div>
   <div class="field">
-    <%= f.label :title %>
-    <%= f.text_field :title %>
+    <%= f.label(:title) %>
+    <%= f.text_field(:title) %>
   </div>
   <div class="field">
-    <%= f.label :description %>
-    <%= f.text_area :description %>
+    <%= f.label(:description) %>
+    <%= f.text_area(:description) %>
   </div>
   <div class="field">
-    <%= f.label :weight %>
-    <%= f.number_field :weight %>
+    <%= f.label(:weight) %>
+    <%= f.number_field(:weight) %>
   </div>
   <div class="grouped fields">
-    <%= f.label :status %>
+    <%= f.label(:status) %>
     <div class="field">
       <div class="ui radio checkbox">
-        <%= f.radio_button :status, :inactive %>
-        <%= f.label :status, :inactive, value: :inactive %>
+        <%= f.radio_button(:status, :inactive) %>
+        <%= f.label(:status, :inactive, value: :inactive) %>
       </div>
     </div>
     <div class="field">
       <div class="ui radio checkbox">
-        <%= f.radio_button :status, :active %>
-        <%= f.label :status, :active, value: :active %>
+        <%= f.radio_button(:status, :active) %>
+        <%= f.label(:status, :active, value: :active) %>
       </div>
     </div>
   </div>
@@ -49,5 +49,5 @@
     <a href="https://help.github.com/articles/github-flavored-markdown/" target="_blank">GitHub Flavored Markdown</a>.
     Try to use it! =D
   </div>
-  <%= f.button class: "ui blue button"%>
+  <%= f.button(class: "ui blue button")%>
 <% end %>

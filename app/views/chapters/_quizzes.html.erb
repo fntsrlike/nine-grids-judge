@@ -12,10 +12,10 @@
   </thead>
 
   <tbody>
-    <% quizzes.each do |quiz| %>
+    <% @quizzes.each do |quiz| %>
       <tr>
-        <td><%= link_to quiz.id, quiz %></td>
-        <td><%= link_to quiz.title, quiz, style: "color:rgba(0, 0, 0, 0.8);"%></td>
+        <td><%= link_to(quiz.id, quiz) %></td>
+        <td><%= link_to(quiz.title, quiz, style: "color:rgba(0, 0, 0, 0.8);") %></td>
         <td><%= quiz.get_all_assignee_count %></td>
         <td><%= quiz.get_passed_submits_count %></td>
         <td>
@@ -36,6 +36,6 @@
   </tbody>
 </table>
 
-<%= link_to new_quiz_path(chapter: @chapter.number) do %>
+<%= link_to(new_quiz_path(chapter: @chapter.number)) do %>
   <div class="ui blue button">New Quiz</div>
 <% end %>

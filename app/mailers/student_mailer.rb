@@ -10,7 +10,7 @@ class StudentMailer < ActionMailer::Base
   #
   #   en.student_mailer.resetPwd.subject
   #
-  def resetPwd user, password
+  def resetPwd(user, password)
     @course_name = Rails.env.production? ? ENV["COURSE_NAME"] : "Compiler"
     @user = user
     @password = password

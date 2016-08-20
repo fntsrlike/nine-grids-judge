@@ -2,12 +2,12 @@
 
 <h5 class="ui top attached blue header"><%= @answer.quiz.chapter.number %>: <%= @answer.quiz.title %></h5>
 <div class="ui attached segment">
-  <%= markdown_render @answer.quiz.content %>
+  <%= markdown_render(@answer.quiz.content) %>
 </div>
 <% if @preview %>
   <h5 class="ui top attached orange header">Preview</h5>
   <div class="ui attached segment">
-    <%= markdown_render @answer.content %>
+    <%= markdown_render(@answer.content) %>
   </div>
   <div style="margin-bottom: 1em;"></div>
 <% end %>
@@ -17,5 +17,5 @@
 <% if @answer&.quiz&.is_answer_repeat_by_user(current_user.id) %>
   <p> You have already passed this quiz or your submit still being judgement. </p>
 <% else %>
-  <%= render 'form' %>
+  <%= render('form') %>
 <% end %>

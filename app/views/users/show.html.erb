@@ -30,14 +30,14 @@
     </tbody>
   </table>
   <% if can? :manage, User %>
-    <%= link_to edit_user_path(@user) do %>
+    <%= link_to(edit_user_path(@user)) do %>
       <div class="ui blue button">Edit</div>
     <% end %>
-    <%= link_to @user, method: :delete, data: { confirm: 'Are you sure?' } do %>
+    <%= link_to(@user, method: :delete, data: { confirm: 'Are you sure?' }) do %>
       <div class="ui button">Destroy</div>
     <% end %>
   <% end %>
-  <%= link_to users_path do %>
+  <%= link_to(users_path) do %>
   <div class="ui basic button">Back</div>
   <% end %>
 </div>

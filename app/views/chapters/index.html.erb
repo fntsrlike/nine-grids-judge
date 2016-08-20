@@ -5,10 +5,10 @@
     <tr>
       <th>Number</th>
       <th>Title</th>
-    <% if can? :create, Answer and cannot? :manage, @chapter%>
+    <% if can?(:create, Answer) && cannot?(:manage, @chapter) %>
       <th>Is Passed</th>
     <% end %>
-    <% if can? :manage, Chapter %>
+    <% if can?(:manage, Chapter) %>
       <th>Weight</th>
       <th>Activity</th>
       <th colspan="3"></th>
@@ -22,15 +22,15 @@
         <td><%= chapter.number %></td>
         <td>
         <% if chapter.active? %>
-          <%= link_to chapter.title, chapter %>
+          <%= link_to(chapter.title, chapter) %>
         <% else %>
           <%= chapter.title %>
         <% end %>
         </td>
-      <% if can? :create, Answer and cannot? :manage, @chapter%>
+      <% if can?(:create, Answer) && cannot?(:manage, @chapter) %>
         <td>
-          <% if Grid.exists?( :user_id => current_user.id, :chapter_id => chapter.id ) %>
-            <% if Grid.where( :user_id => current_user.id, :chapter_id => chapter.id ).first.pass? %>
+          <% if Grid.exists?( user_id: current_user.id, chapter_id: chapter.id ) %>
+            <% if Grid.where( user_id: current_user.id, chapter_id: chapter.id ).first.pass? %>
               <a class="ui green label">Pass</a>
             <% else %>
               <a class="ui red label">Not Pass</a>
@@ -38,7 +38,7 @@
           <% end %>
         </td>
       <% end %>
-      <% if can? :manage, chapter %>
+      <% if can?(:manage, chapter) %>
         <td><%= chapter.weight %></td>
         <td>
           <% if chapter.active? %>
@@ -47,18 +47,18 @@
             <a class="ui label">Inactive</a>
           <% end %>
         </td>
-        <td><%= link_to 'Show', chapter %></td>
-        <td><%= link_to 'Edit', edit_chapter_path(chapter) %></td>
+        <td><%= link_to('Show', chapter) %></td>
+        <td><%= link_to('Edit', edit_chapter_path(chapter)) %></td>
       <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
 <div class="ui column centered grid" style="margin-top:1em;">
-  <%= paginate @chapters, window: 2, outer_window: 1 %>
+  <%= paginate(@chapters, window: 2, outer_window: 1) %>
 </div>
-<% if can? :create, Chapter %>
-  <%= link_to new_chapter_path do %>
+<% if can?(:create, Chapter) %>
+  <%= link_to(new_chapter_path) do %>
     <div class="ui blue button" style="margin-top:1em;">New Chapter</div>
   <% end %>
 <% end %>

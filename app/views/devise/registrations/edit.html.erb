@@ -4,18 +4,18 @@
   <%= devise_error_messages! %>
 
   <div class="field">
-    <%= f.label :realname %>
-    <%= f.text_field :realname, autofocus: true %>
+    <%= f.label(:realname) %>
+    <%= f.text_field(:realname, autofocus: true) %>
   </div>
 
   <div class="field">
-    <%= f.label :email %>
-    <%= f.email_field :email %>
+    <%= f.label(:email) %>
+    <%= f.email_field(:email) %>
   </div>
 
   <div class="field">
-    <%= f.label :phone %>
-    <%= f.text_field :phone %>
+    <%= f.label(:phone) %>
+    <%= f.text_field(:phone) %>
   </div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
@@ -25,22 +25,22 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i>
-    <%= f.password_field :password, autocomplete: "off" %>
+    <%= f.label(:password) %> <i>(leave blank if you don't want to change it)</i>
+    <%= f.password_field(:password, autocomplete: "off") %>
   </div>
 
   <div class="field">
-    <%= f.label :password_confirmation %>
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
+    <%= f.label(:password_confirmation) %>
+    <%= f.password_field(:password_confirmation, autocomplete: "off") %>
   </div>
 
   <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i>
-    <%= f.password_field :current_password, autocomplete: "off" %>
+    <%= f.label(:current_password) %> <i>(we need your current password to confirm your changes)</i>
+    <%= f.password_field(:current_password, autocomplete: "off") %>
   </div>
 
-  <%= f.button "Update" ,class: "ui blue button"%>
-  <%= link_to :back  do %>
+  <%= f.button("Update" ,class: "ui blue button") %>
+  <%= link_to(:back)  do %>
     <div class="ui button">Cancel</div>
   <% end %>
 <% end %>

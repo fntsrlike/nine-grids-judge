@@ -6,27 +6,27 @@
     <%= @judgement.answer.quiz.chapter.number %> - <%= @judgement.answer.quiz.title %>
   </h5>
   <div class="ui bottom attached segment">
-    <%= markdown_render @judgement.answer.quiz.content %>
+    <%= markdown_render(@judgement.answer.quiz.content) %>
   </div>
 
   <h5 class="ui green top attached header">
     Reference
   </h5>
   <div class="ui bottom attached segment">
-    <%= markdown_render @judgement.answer.quiz.reference %>
+    <%= markdown_render(@judgement.answer.quiz.reference) %>
   </div>
 
   <h5 class="ui orange top attached header">
     Answer
-    <%= puts_answer_label @judgement.answer%>
+    <%= puts_answer_label(@judgement.answer) %>
   </h5>
   <div class="ui attached segment">
     <% if params[:ans_format] == 'text' %>
       <code style="color: black; font-size: 1em; background-color: white;">
-        <%= simple_format @judgement.answer.content %>
+        <%= simple_format(@judgement.answer.content) %>
       </code>
     <% else %>
-      <%= markdown_render @judgement.answer.content %>
+      <%= markdown_render(@judgement.answer.content) %>
     <% end %>
     <p style="text-align:right;">
       ——
@@ -35,7 +35,7 @@
     </p>
   </div>
   <div class="ui bottom attached segment">
-    <%= markdown_render @judgement.content %>
+    <%= markdown_render(@judgement.content) %>
     <p style="text-align:right;">
       ——
       <%= @judgement.user.username %>
@@ -44,11 +44,11 @@
   </div>
 
   <% if params[:ans_format] == 'text' %>
-    <%= link_to url_for( target: params[:target] ) do %>
+    <%= link_to(url_for(target: params[:target])) do %>
       <div class="fluid ui yellow basic button">Change answer render to Markdown</div>
     <% end %>
   <% else %>
-    <%= link_to url_for( target: params[:target] ,ans_format: 'text' ) do %>
+    <%= link_to(url_for(target: params[:target] ,ans_format: 'text')) do %>
       <div class="fluid ui yellow basic button">Change answer render to Text</div>
     <% end %>
   <% end %>
@@ -56,19 +56,19 @@
 
 <div class="ui hidden divider"></div>
 
-<% if can? :update, @judgement %>
-  <%= link_to edit_judgement_path(@judgement) do %>
+<% if can?(:update, @judgement) %>
+  <%= link_to(edit_judgement_path(@judgement)) do %>
     <div class="ui blue button">Rejudge</div>
   <% end %>
 <% end %>
-<%= link_to judgements_path do %>
+<%= link_to(judgements_path) do %>
   <div class="ui basic button">Back to list</div>
 <% end %>
-<%= link_to answers_path do %>
+<%= link_to(answers_path) do %>
   <div class="ui basic button">Back to answers</div>
 <% end %>
-<% if can? :destroy, @judgement %>
-  <%= link_to @judgement, method: :delete, data: { confirm: "It will be destroy and requeue answer.\nAre you sure?" } do %>
+<% if can?(:destroy, @judgement) %>
+  <%= link_to(@judgement, method: :delete, data: { confirm: "It will be destroy and requeue answer.\nAre you sure?" }) do %>
     <div class="ui button">Destroy</div>
   <% end %>
 <% end %>

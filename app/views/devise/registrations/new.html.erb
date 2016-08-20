@@ -4,37 +4,37 @@
   <%= devise_error_messages! %>
 
   <div class="field">
-    <%= f.label :username %>
-    <%= f.text_field :username, autofocus: true, class: "field" %>
+    <%= f.label(:username) %>
+    <%= f.text_field(:username, autofocus: true, class: "field") %>
   </div>
 
   <div class="field">
-    <%= f.label :realname %>
-    <%= f.text_field :realname%>
+    <%= f.label(:realname) %>
+    <%= f.text_field(:realname) %>
   </div>
 
   <div class="field">
-    <%= f.label :email %>
-    <%= f.email_field :email %>
+    <%= f.label(:email) %>
+    <%= f.email_field(:email) %>
   </div>
 
   <div class="field">
-    <%= f.label :phone %>
-    <%= f.text_field :phone %>
+    <%= f.label(:phone) %>
+    <%= f.text_field(:phone) %>
   </div>
 
   <div class="field">
-    <%= f.label :password %>
-    <%= f.password_field :password, autocomplete: "off" %>
+    <%= f.label(:password) %>
+    <%= f.password_field(:password, autocomplete: "off") %>
   </div>
 
   <div class="field">
-    <%= f.label :password_confirmation %>
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
+    <%= f.label(:password_confirmation) %>
+    <%= f.password_field(:password_confirmation, autocomplete: "off") %>
   </div>
 
-  <%= f.button "Sign up" ,class: "ui blue button"%>
-  <%= link_to :root  do %>
+  <%= f.button("Sign up" ,class: "ui blue button") %>
+  <%= link_to(:root)  do %>
     <div class="ui button">Cancel</div>
   <% end %>
 <% end %>

@@ -1,13 +1,13 @@
 <h2 class="ui dividing header">Listing answers</h2>
 
-<% if can? :create, Judgement %>
+<% if can?(:create, Judgement) %>
   <div class="ui styled accordion" style="width: 100%">
     <div class="title">
       <i class="dropdown icon"></i>
       Filter & Search
     </div>
     <div class="content">
-      <%= form_tag answers_path, :method => 'get', class: "ui small form" do %>
+      <%= form_tag(answers_path, :method => 'get', class: "ui small form") do %>
       <div class="four fields">
         <div class="field">
           <label>Chapter ID</label>
@@ -45,14 +45,14 @@
           <input type="date" name="period_end">
         </div>
       </div>
-      <%= button_tag "Filt", class: "ui blue button"%>
+      <%= button_tag("Filt", class: "ui blue button") %>
       <% end %>
     </div>
   </div>
   <div class="ui hidden divider"></div>
 <% end %>
 
-<% if can? :create, Judgement %>
+<% if can?(:create, Judgement) %>
   <div class="ui centered grid">
     <div class="six wide column">
       <h5 class="ui top attached center aligned blue header">
@@ -117,7 +117,7 @@
   <thead>
     <tr>
       <th>#</th>
-      <% if can? :create, Judgement %>
+      <% if can?(:create, Judgement) %>
         <th>Examinee</th>
       <% end %>
       <th>CH</th>
@@ -132,11 +132,11 @@
     <% @answers.each do |answer| %>
       <tr>
         <td>
-          <%= link_to answer.id, answer %>
+          <%= link_to(answer.id, answer) %>
         </td>
-        <% if can? :create, Judgement %>
+        <% if can?(:create, Judgement) %>
           <td>
-            <%= link_to answer.user, style: "color:rgba(0, 0, 0, 0.8);"  do %>
+            <%= link_to(answer.user, style: "color:rgba(0, 0, 0, 0.8);")  do %>
               <%= answer.user.realname %>
               (<%= answer.user.username %>)
             <% end %>
@@ -151,32 +151,32 @@
             <% grid = answer.quiz.chapter.grids.where(user_id: current_user.id).first %>
             <% if !grid.nil? && !grid.get_quiz_sort(answer.quiz_id).nil? %>
               <span style="color:rgba(180, 180, 180, 0.8);">
-                (<%= grid.get_quiz_sort answer.quiz_id%>)
+                (<%= grid.get_quiz_sort(answer.quiz_id) %>)
               </span>
             <% end %>
           <% end %>
         </td>
         <td>
-          <%= link_to quiz_path answer.quiz do %>
+          <%= link_to(quiz_path answer.quiz) do %>
             <span style="color:rgba(0, 0, 0, 0.8);">
               <%= answer.quiz.title %>
             </span>
           <% end %>
         </td>
         <td>
-          <% if can? :create, Judgement %>
-            <%= link_to new_judgement_path(target: answer.id) do%>
-              <%= puts_answer_label answer%>
+          <% if can?(:create, Judgement) %>
+            <%= link_to(new_judgement_path(target: answer.id)) do%>
+              <%= puts_answer_label(answer) %>
             <% end %>
           <% else %>
-            <%= puts_answer_label answer%>
+            <%= puts_answer_label(answer) %>
           <% end %>
         </td>
         <td>
           <% if answer.created_at > 7.day.ago %>
-            <%= distance_of_time_in_words_to_now answer.created_at %> ago
+            <%= distance_of_time_in_words_to_now(answer.created_at) %> ago
           <% else %>
-            <%= time_tag answer.created_at %>
+            <%= time_tag(answer.created_at) %>
           <% end %>
         </td>
       </tr>
@@ -184,5 +184,5 @@
   </tbody>
 </table>
 <div class="ui column centered grid" style="margin-top:1em;">
-  <%= paginate @answers, window: 2, outer_window: 1 %>
+  <%= paginate(@answers, window: 2, outer_window: 1) %>
 </div>

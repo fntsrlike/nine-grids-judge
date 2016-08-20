@@ -8,18 +8,18 @@ class Chapter < ActiveRecord::Base
   enum(status: [ :inactive, :active ])
 
   def get_grids_by_user(user)
-    grids = self.grids.first(user: user)
-    unless grids
-      grids = Grid.new( user:user, chapter: self)
-      grids.set_quizzes_random
+    nine_grid = self.grids.where(user: user).first
+    unless nine_grid
+      nine_grid = Grid.new( user:user, chapter: self)
+      nine_grid.set_quizzes_random
     end
 
-    grids
+    nine_grid
   end
 
   # 本章節已通過的使用者數量
   def get_pass_people_count
-    Grid.where(chapter_id: self.id, status: 1).count
+    self.grids.where(status: :pass).count
   end
 
   # 挑戰本章節的使用者數量

@@ -12,12 +12,12 @@
     <%= markdown_render @answer.quiz.content %>
   </div>
 
-  <% if can? :create, Judgement %>
+  <% if can?(:create, Judgement) %>
     <h5 class="ui green top attached header">
       Reference
     </h5>
     <div class="ui bottom attached segment">
-      <%= markdown_render @answer.quiz.reference %>
+      <%= markdown_render(@answer.quiz.reference) %>
     </div>
   <% end %>
 
@@ -27,10 +27,10 @@
   <div class="ui bottom attached segment">
     <% if params[:ans_format] == 'text' %>
       <code style="color: black; font-size: 1em; background-color: white;">
-        <%= simple_format @answer.content %>
+        <%= simple_format(@answer.content )%>
       </code>
     <% else %>
-      <%= markdown_render @answer.content %>
+      <%= markdown_render(@answer.content )%>
     <% end %>
     <p style="text-align:right;">
       ——
@@ -52,26 +52,26 @@
 
 <div class="ui hidden divider"></div>
 
-<% if can? :create, Judgement %>
-  <%= link_to new_judgement_path(target: @answer.id) do %>
+<% if can?(:create, Judgement) %>
+  <%= link_to(new_judgement_path(target: @answer.id)) do %>
     <div class="ui blue button">Judge</div>
   <% end %>
 <% end %>
-<% if can? :update, @answer %>
-  <%= link_to edit_answer_path(@answer) do %>
+<% if can?(:update, @answer) %>
+  <%= link_to(edit_answer_path(@answer)) do %>
     <div class="ui orange button">Edit</div>
   <% end %>
 <% end %>
-<% if can? :destroy, @answer %>
-  <%= link_to @answer.quiz, method: :delete, data: { confirm: 'Are you sure?' } do%>
+<% if can?(:destroy, @answer) %>
+  <%= link_to(@answer.quiz, method: :delete, data: { confirm: 'Are you sure?' }) do%>
     <div class="ui button">Destroy</div>
   <% end %>
 <% end %>
-<% if can? :create, Answer %>
-  <%= link_to chapter_path(@answer.quiz.chapter) do %>
+<% if can?(:create, Answer) %>
+  <%= link_to(chapter_path(@answer.quiz.chapter)) do %>
     <div class="ui basic button">Back to chapter</div>
   <% end %>
 <% end %>
-<%= link_to answers_path do %>
+<%= link_to(answers_path) do %>
   <div class="ui basic button">Back to answers</div>
 <% end %>

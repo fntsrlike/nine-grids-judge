@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
       return points_by_passed_chapter
     end
 
-    if Grid.where(user_id: self.id, chapter_id: chapter_id).count == 0
+    if self.grids.where(chapter: chapter).count == 0
       return 0
     end
 

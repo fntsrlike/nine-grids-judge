@@ -6,10 +6,10 @@
   Description
 </h5>
 <div class="ui attached segment">
-  <%= markdown_render @chapter.description %>
+  <%= markdown_render(@chapter.description) %>
 </div>
 
-<% if can? :manage, Chapter %>
+<% if can?(:manage, Chapter) %>
   <h5 class="ui attached orange header">
     Properties
   </h5>
@@ -25,7 +25,7 @@
   Statistics
 </h5>
 <div class="ui attached segment" style="margin-bottom: 1em;">
-  <% if can? :manage, Chapter %>
+  <% if can?(:manage, Chapter) %>
     <div class="ui small statistics">
       <% get_chapter_statistics.each do | index, properties | %>
         <div class="<%= properties[:color] %> statistic" style="margin-bottom: 1em;">
@@ -47,32 +47,32 @@
 </div>
 
 
-<% if can? :update, Chapter %>
-  <%= link_to edit_chapter_path(@chapter) do %>
+<% if can?(:update, Chapter) %>
+  <%= link_to(edit_chapter_path(@chapter)) do %>
     <div class="ui blue button">Edit</div>
   <% end %>
 <% end %>
-<% if can? :update, Chapter %>
+<% if can?(:update, Chapter) %>
   <%= form_for(@chapter, html: { class: "ui form", style: "display: inline;" }) do |f| %>
-    <%= f.hidden_field :reset_grids, value: true %>
-    <%= f.button "Reset Grids", value: 'reset_grids', class: "ui red button", data: { confirm: "It will reset grids of no passing quiz. \nAre you sure?" } %>
+    <%= f.hidden_field(:reset_grids, value: true) %>
+    <%= f.button("Reset Grids", value: 'reset_grids', class: "ui red button", data: { confirm: "It will reset grids of no passing quiz. \nAre you sure?" }) %>
   <% end %>
   <%= form_for(@chapter, html: { class: "ui form", style: "display: inline;" }) do |f| %>
-    <%= f.hidden_field :reset_grids, value: true %>
-    <%= f.button "Reload status", value: 'reload_status', class: "ui orange button", data: { confirm: "It will All of students' chapter passing status. Are you sure?" } %>
+    <%= f.hidden_field(:reset_grids, value: true) %>
+    <%= f.button("Reload status", value: 'reload_status', class: "ui orange button", data: { confirm: "It will All of students' chapter passing status. Are you sure?" }) %>
   <% end %>
 <% end %>
-<% if can? :destroy, @chapter %>
-  <%= link_to @chapter, method: :delete, data: { confirm: 'Are you sure?' } do%>
+<% if can?(:destroy, @chapter) %>
+  <%= link_to(@chapter, method: :delete, data: { confirm: 'Are you sure?' }) do%>
     <div class="ui button">Destroy</div>
   <% end %>
 <% end %>
-<%= link_to chapters_path do %>
+<%= link_to(chapters_path) do %>
   <div class="ui basic button">Back to chapters</div>
 <% end %>
 
-<% if can? :manage, Quiz %>
-  <%= render 'quizzes', locals: {quizzes:  @chapter.quizzes} %>
-<% elsif can? :create, Answer %>
-  <%= render 'grids' %>
+<% if can?(:manage, Quiz) %>
+  <%= render('quizzes', locals: {quizzes:  @chapter.quizzes}) %>
+<% elsif can?(:create, Answer) %>
+  <%= render('grids') %>
 <% end %>

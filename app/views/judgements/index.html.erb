@@ -5,7 +5,7 @@
     Filter & Search
   </div>
   <div class="content">
-    <%= form_tag judgements_path, :method => 'get', class: "ui small form" do %>
+    <%= form_tag(judgements_path, method: 'get', class: "ui small form") do %>
     <div class="six fields">
       <div class="field">
         <label>Chapter ID</label>
@@ -51,7 +51,7 @@
         <input type="date" name="period_end">
       </div>
     </div>
-    <%= button_tag "Filt", class: "ui blue button"%>
+    <%= button_tag("Filt", class: "ui blue button") %>
     <% end %>
   </div>
 </div>
@@ -97,21 +97,21 @@
     <% @judgements.each do |judgement| %>
       <tr>
         <td>
-          <%= link_to judgement.id, judgement %>
+          <%= link_to(judgement.id, judgement) %>
         </td>
         <td>
-          <%= link_to judgement.answer.user, style: "color:rgba(0, 0, 0, 0.8);" do %>
+          <%= link_to(judgement.answer.user, style: "color:rgba(0, 0, 0, 0.8);") do %>
             <%= judgement.answer.user.realname %>
             (<%= judgement.answer.user.username %>)
           <% end %>
         </td>
         <td>
-          <%= link_to chapter_path(judgement.answer.quiz.chapter), style: "color:rgba(0, 0, 0, 0.8);" do %>
+          <%= link_to(chapter_path(judgement.answer.quiz.chapter), style: "color:rgba(0, 0, 0, 0.8);") do %>
             <%= judgement.answer.quiz.chapter.number %>
           <% end %>
         </td>
         <td>
-          <%= link_to quiz_path(judgement.answer.quiz), style: "color:rgba(76, 0, 0, 0.8);" do %>
+          <%= link_to(quiz_path(judgement.answer.quiz), style: "color:rgba(76, 0, 0, 0.8);") do %>
             <% if judgement.answer.quiz.title.length >= 35 %>
               <%= word_wrap(judgement.answer.quiz.title, line_width: 35)[/.+\n/]  %>...
             <% else %>
@@ -122,26 +122,26 @@
         </td>
         <td>
           <% if judgement.user_id == current_user.id %>
-            <%= link_to edit_judgement_path(judgement) do%>
-              <%= puts_answer_label judgement.answer%>
+            <%= link_to(edit_judgement_path(judgement)) do%>
+              <%= puts_answer_label(judgement.answer) %>
             <% end %>
           <% else %>
-            <%= link_to judgement_path(judgement) do%>
-              <%= puts_answer_label judgement.answer%>
+            <%= link_to(judgement_path(judgement)) do%>
+              <%= puts_answer_label(judgement.answer) %>
             <% end %>
           <% end %>
         </td>
         <td>
-          <%= link_to judgement.user, style: "color:rgba(0, 0, 0, 0.8);" do %>
+          <%= link_to(judgement.user, style: "color:rgba(0, 0, 0, 0.8);") do %>
             <%= judgement.user.username %>
           <% end %>
 
         </td>
         <td>
           <% if judgement.updated_at > 7.day.ago %>
-            <%= distance_of_time_in_words_to_now judgement.updated_at %> ago
+            <%= distance_of_time_in_words_to_now(judgement.updated_at) %> ago
           <% else %>
-            <%= time_tag judgement.updated_at %>
+            <%= time_tag(judgement.updated_at) %>
           <% end %>
         </td>
       </tr>
@@ -149,5 +149,5 @@
   </tbody>
 </table>
 <div class="ui column centered grid" style="margin-top:1em;">
-  <%= paginate @judgements, window: 2, outer_window: 1 %>
+  <%= paginate(@judgements, window: 2, outer_window: 1) %>
 </div>

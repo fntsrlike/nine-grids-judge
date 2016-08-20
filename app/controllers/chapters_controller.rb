@@ -15,7 +15,7 @@ class ChaptersController < ApplicationController
   # GET /chapters/1
   def show
     if can?(:create, Answer)
-      grids = @chapter.get_grids_by_user(curremt_user)
+      grids = @chapter.get_grids_by_user(current_user)
       @quizzes = grids.get_quizzes
       @quiz_status = grids.get_quizzes_status
     end

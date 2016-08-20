@@ -2,52 +2,52 @@
 <html>
 <head>
   <title>Nine Grids</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag('application', media: 'all', 'data-turbolinks-track' => true) %>
+  <%= javascript_include_tag('application', 'data-turbolinks-track' => true) %>
   <%= csrf_meta_tags %>
 </head>
 <body id="main">
   <nav class="ui secondary pointing menu">
-    <%= link_to root_path, :class => 'item' do %>
+    <%= link_to(root_path, :class => 'item') do %>
       <i class="home icon"></i> Home
     <% end %>
-    <% if can? :read, User %>
-      <%= link_to users_path, :class => 'item' do %>
+    <% if can?(:read, User) %>
+      <%= link_to(users_path, :class => 'item') do %>
         <i class="users icon"></i> User
       <% end %>
     <% end %>
-    <% if can? :read, Chapter %>
-      <%= link_to chapters_path, :class => 'item' do %>
+    <% if can?(:read, Chapter) %>
+      <%= link_to(chapters_path, :class => 'item') do %>
         <i class="list icon"></i> Chapters
       <% end %>
     <% end %>
-    <% if can? :manage, Quiz %>
-      <%= link_to quizzes_path, :class => 'item' do %>
+    <% if can?(:manage, Quiz) %>
+      <%= link_to(quizzes_path, :class => 'item') do %>
         <i class="file text icon"></i> Quizzes
       <% end %>
     <% end %>
-    <% if can? :read, Answer %>
-      <%= link_to answers_path, :class => 'item' do %>
+    <% if can?(:read, Answer) %>
+      <%= link_to(answers_path, :class => 'item') do %>
         <i class="idea icon"></i> Answers
       <% end %>
     <% end %>
-    <% if can? :read, Judgement %>
-      <%= link_to judgements_path, :class => 'item' do %>
+    <% if can?(:read, Judgement) %>
+      <%= link_to(judgements_path, :class => 'item') do %>
         <i class="checkmark box icon"></i> Judgements
       <% end %>
     <% end %>
-    <% if can? :read, Judgement %>
-      <%= link_to score_path, :class => 'item' do %>
+    <% if can?(:read, Judgement) %>
+      <%= link_to(score_path, :class => 'item') do %>
         <i class="checkmark box icon"></i> Score
       <% end %>
     <% end %>
     <div class="right menu">
       <% if user_signed_in? %>
-        <%= link_to destroy_user_session_path, :method => :delete, :class => 'item' do %>
+        <%= link_to(destroy_user_session_path, :method => :delete, :class => 'item') do %>
           <i class="sign out icon"></i> Sign out
         <% end %>
       <% else %>
-        <%= link_to new_user_session_path, :class => 'item' do %>
+        <%= link_to(new_user_session_path, :class => 'item') do %>
           <i class="sign in icon"></i> Sign in
         <% end %>
       <% end %>

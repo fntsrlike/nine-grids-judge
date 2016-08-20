@@ -1,5 +1,5 @@
 module ApplicationHelper
-  def puts_answer_label answer
+  def puts_answer_label(answer)
     if answer.done?
       status = answer.judgement.result
       if answer.judgement.pass?

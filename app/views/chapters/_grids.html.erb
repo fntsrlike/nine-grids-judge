@@ -14,7 +14,7 @@
       <% elsif @quiz_status[index] == 0 %>
         <td class="fail">
       <% end %>
-        <%= link_to index+1, quiz_path(quiz) %>
+        <%= link_to(index+1, quiz_path(quiz)) %>
       </td>
     <% if index%3 == 2 %> </tr> <% end %>
   <% end %>

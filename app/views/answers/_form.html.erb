@@ -12,23 +12,23 @@
   <% end %>
 
   <% if @answer.quiz %>
-    <%= f.hidden_field :quiz_id, value: @answer.quiz.id %>
+    <%= f.hidden_field(:quiz_id, value: @answer.quiz.id) %>
   <% end %>
 
-  <% if can? :manage, Answer %>
+  <% if can?(:manage, Answer) %>
     <div class="field">
-      <%= f.label :user_id %>
-      <%= f.text_field :user_id %>
+      <%= f.label(:user_id) %>
+      <%= f.text_field(:user_id) %>
     </div>
     <div class="field">
-      <%= f.label :quiz_id %>
-      <%= f.text_field :quiz_id %>
+      <%= f.label(:quiz_id) %>
+      <%= f.text_field(:quiz_id) %>
     </div>
   <% end %>
 
-  <% if (can? :manage, Answer) || (can? :create, @answer) %>
+  <% if can?(:manage, Answer) || can?(:create, @answer) %>
     <div class="field">
-      <%= f.text_area :content %>
+      <%= f.text_area(:content) %>
     </div>
     <div class="field">
       Editor have supported
@@ -37,13 +37,13 @@
       <a href="https://help.github.com/articles/github-flavored-markdown/" target="_blank">GitHub Flavored Markdown</a>.
       Try to use it! =D
     </div>
-    <%= f.button class: "ui blue button"%>
-    <%= button_tag "Preview", name: :preview, value: true, class: "ui orange button"%>
+    <%= f.button(class: "ui blue button") %>
+    <%= button_tag("Preview", name: :preview, value: true, class: "ui orange button") %>
   <% else %>
     <p> You have to go to Chapter page and choose quiz from grid </p>
   <% end %>
   <% if @answer.quiz %>
-    <%= link_to quiz_path(@answer.quiz)  do %>
+    <%= link_to(quiz_path(@answer.quiz)) do %>
       <div class="ui button">Cancel and back to quiz</div>
     <% end %>
   <% end %>

@@ -11,9 +11,9 @@
     </div>
   <% end %>
 
-  <% if can? :manage, Answer or !@quiz.nil? %>
+  <% if can?(:manage, Answer) || @quiz %>
     <div class="field">
-      <%= f.text_area :content, placeholder: "Write your answer..." %>
+      <%= f.text_area(:content, placeholder: "Write your answer...") %>
     </div>
     <div class="field">
       Editor have supported
@@ -22,13 +22,13 @@
       <a href="https://help.github.com/articles/github-flavored-markdown/" target="_blank">GitHub Flavored Markdown</a>.
       Try to use it! =D
     </div>
-    <%= f.hidden_field :quiz_id, value: @quiz.id %>
-    <%= hidden_field_tag :preview, true %>
-    <%= f.button "Preview", class: "ui orange button"%>
+    <%= f.hidden_field(:quiz_id, value: @quiz.id) %>
+    <%= hidden_field_tag(:preview, true) %>
+    <%= f.button("Preview", class: "ui orange button") %>
   <% else %>
     <p> You have to go to Chapter page and choose quiz from grid </p>
   <% end %>
-  <%= link_to chapter_path @quiz.chapter do %>
+  <%= link_to(chapter_path @quiz.chapter) do %>
     <div class="ui basic button">Back to Chapter</div>
   <% end %>
 <% end %>

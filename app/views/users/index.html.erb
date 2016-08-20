@@ -6,7 +6,7 @@
     Filter & Search
   </div>
   <div class="content">
-    <%= form_tag users_path, :method => 'get', class: "ui small form" do %>
+    <%= form_tag(users_path, :method => 'get', class: "ui small form") do %>
     <div class="three fields">
       <div class="field">
         <label>User ID</label>
@@ -52,7 +52,7 @@
     <p>Filter users have NOT passed ANY of selected chapter(s).</p>
     <div class="ui hidden divider"></div>
 
-    <%= button_tag "Filter", class: "ui blue button"%>
+    <%= button_tag("Filter", class: "ui blue button") %>
     <% end %>
   </div>
 </div>
@@ -73,7 +73,7 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
-        <td><%= link_to user.id, user %></td>
+        <td><%= link_to(user.id, user) %></td>
         <td><%= user.username %></td>
         <td><%= user.realname %></td>
         <td><%= user.email %></td>
@@ -84,9 +84,9 @@
             -
           <% else %>
             <% if user.last_sign_in_at > 7.day.ago %>
-              <%= distance_of_time_in_words_to_now user.last_sign_in_at %> ago
+              <%= distance_of_time_in_words_to_now(user.last_sign_in_at) %> ago
             <% else %>
-              <%= time_tag user.last_sign_in_at %>
+              <%= time_tag(user.last_sign_in_at) %>
             <% end %>
           <% end %>
         </td>
@@ -95,8 +95,8 @@
   </tbody>
 </table>
 <div class="ui column centered grid" style="margin-top:1em;">
-  <%= paginate @users, window: 2, outer_window: 1 %>
+  <%= paginate(@users, window: 2, outer_window: 1) %>
 </div>
-<%= link_to new_user_path do %>
+<%= link_to(new_user_path) do %>
   <div class="ui blue button" style="margin-top:1em;">New User</div>
 <% end %>

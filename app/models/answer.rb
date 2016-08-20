@@ -40,7 +40,7 @@ class Answer < ActiveRecord::Base
   end
 
   # 萃取今天提交的答案
-  def self.today()
+  def self.today
     where("answers.created_at >= ?", Time.zone.now.beginning_of_day)
   end
 end

@@ -13,15 +13,15 @@
   <tbody>
     <% @quizzes.each do |quiz| %>
       <tr>
-        <td><%= link_to quiz.id, quiz, style: "color:rgba(0, 0, 0, 0.8);"%></td>
+        <td><%= link_to(quiz.id, quiz, style: "color:rgba(0, 0, 0, 0.8);") %></td>
         <td>
-          <% if !quiz.chapter.nil? and Quiz.exists?(id: quiz.chapter.id) %>
-            <%= link_to quiz.chapter.number, quiz.chapter, style: "color:rgba(0, 0, 0, 0.8);" %>
+          <% if quiz.chapter %>
+            <%= link_to(quiz.chapter.number, quiz.chapter, style: "color:rgba(0, 0, 0, 0.8);") %>
           <% else %>
             -
           <% end %>
         </td>
-        <td><%= link_to quiz.title, quiz %></td>
+        <td><%= link_to(quiz.title, quiz) %></td>
         <td>
           <% if quiz.get_all_assignee_count == 0 %>
             -
@@ -40,5 +40,5 @@
   </tbody>
 </table>
 <div class="ui column centered grid" style="margin-top:1em;">
-  <%= paginate @quizzes, window: 2, outer_window: 1 %>
+  <%= paginate(@quizzes, window: 2, outer_window: 1) %>
 </div>

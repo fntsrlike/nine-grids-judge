@@ -15,7 +15,7 @@
       <%= @answer.quiz.chapter.number %> - <%= @answer.quiz.title %>
     </h5>
     <div class="ui bottom attached segment">
-      <%= markdown_render @answer.quiz.content %>
+      <%= markdown_render(@answer.quiz.content) %>
     </div>
     <% @logs.each do | log | %>
       <h5 class="ui red top attached header">
@@ -24,17 +24,17 @@
       <div class="ui attached segment">
         <% if params[:ans_format] == 'text' %>
           <code style="color: black; font-size: 1em; background-color: white;">
-            <%= simple_format log.content %>
+            <%= simple_format(log.content) %>
           </code>
         <% else %>
-          <%= markdown_render log.content %>
+          <%= markdown_render(log.content) %>
         <% end %>
         <p style="text-align:right;">
-          <%= time_tag log.created_at %>
+          <%= time_tag(log.created_at) %>
         </p>
       </div>
       <div class="ui bottom attached segment">
-        <%= markdown_render log.judgement.content %>
+        <%= markdown_render(log.judgement.content) %>
         <p style="text-align:right;">
           ——
           <%= log.judgement.user.username %>
@@ -49,10 +49,10 @@
     <div class="ui bottom attached segment">
       <% if params[:ans_format] == 'text' %>
         <code style="color: black; font-size: 1em; background-color: white;">
-          <%= simple_format @answer.content %>
+          <%= simple_format(@answer.content) %>
         </code>
       <% else %>
-        <%= markdown_render @answer.content %>
+        <%= markdown_render(@answer.content) %>
       <% end %>
       <p style="text-align:right;">
         ——
@@ -61,11 +61,11 @@
       </p>
     </div>
     <% if params[:ans_format] == 'text' %>
-      <%= link_to url_for( target: params[:target] ) do %>
+      <%= link_to(url_for(target: params[:target])) do %>
         <div class="fluid ui yellow basic button">Change answer render to Markdown</div>
       <% end %>
     <% else %>
-      <%= link_to url_for( target: params[:target] ,ans_format: 'text' ) do %>
+      <%= link_to(url_for(target: params[:target] ,ans_format: 'text')) do %>
         <div class="fluid ui yellow basic button">Change answer render to Text</div>
       <% end %>
     <% end %>
@@ -73,43 +73,43 @@
       Reference
     </h5>
     <div class="ui bottom attached segment">
-      <%= markdown_render @answer.quiz.reference %>
+      <%= markdown_render(@answer.quiz.reference) %>
     </div>
   </div>
 
 <div style="margin: 1em 0"/>
 
 <%= form_for(@judgement, html: { class: "ui large form" }) do |f| %>
-  <% if can? :manage, Judgement %>
+  <% if can?(:manage, Judgement) %>
     <div class="field">
-      <%= f.label :answer_id %>
-      <%= f.text_field :answer_id, value: @answer.id %>
+      <%= f.label(:answer_id) %>
+      <%= f.text_field(:answer_id, value: @answer.id) %>
     </div>
     <div class="field">
-      <%= f.label :reviewers %>
-      <%= f.text_field :user_id, value: current_user.id %>
+      <%= f.label(:reviewers) %>
+      <%= f.text_field(:user_id, value: current_user.id) %>
     </div>
   <% else %>
-    <%= f.hidden_field :answer_id, value: @answer.id %>
+    <%= f.hidden_field(:answer_id, value: @answer.id) %>
   <% end %>
 
   <div class="field">
-    <%= f.label :content %>
-    <%= f.text_area :content %>
+    <%= f.label(:content) %>
+    <%= f.text_area(:content) %>
   </div>
 
   <div class="grouped fields">
-    <%= f.label :result %>
+    <%= f.label(:result) %>
     <div class="field">
       <div class="ui radio checkbox">
-        <%= f.radio_button :result, :pass %>
-        <%= f.label :result, :pass, value: :pass %>
+        <%= f.radio_button(:result, :pass) %>
+        <%= f.label(:result, :pass, value: :pass) %>
       </div>
     </div>
     <div class="field">
       <div class="ui radio checkbox">
-        <%= f.radio_button :result, :reject %>
-        <%= f.label :result, :reject, value: :reject %>
+        <%= f.radio_button(:result, :reject) %>
+        <%= f.label(:result, :reject, value: :reject) %>
       </div>
     </div>
   </div>
@@ -120,6 +120,6 @@
     <a href="https://help.github.com/articles/github-flavored-markdown/" target="_blank">GitHub Flavored Markdown</a>.
     Try to use it! =D
   </div>
-  <%= f.button class: "ui blue button"%>
-  <%= f.button "Cancel", name: "cancel", class: "ui button"%>
+  <%= f.button(class: "ui blue button") %>
+  <%= f.button("Cancel", name: "cancel", class: "ui button") %>
 <% end %>

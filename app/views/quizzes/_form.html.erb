@@ -10,23 +10,23 @@
       </ul>
     </div>
   <% end %>
-  <% if !@quiz.chapter.nil? or @has_chapter_param %>
+  <% if @quiz.chapter || @has_chapter_param %>
     <div class="field">
-      <%= f.hidden_field :chapter_id, value: @chapter.id %>
-      <%= f.label :chapter_id %>
+      <%= f.hidden_field(:chapter_id, value: @chapter.id) %>
+      <%= f.label(:chapter_id) %>
       <%= @chapter.number %> - <%= @chapter.title %>
     </div>
     <div class="field">
-      <%= f.label :title %>
-      <%= f.text_field :title %>
+      <%= f.label(:title) %>
+      <%= f.text_field(:title) %>
     </div>
     <div class="field">
-      <%= f.label :content %>
-      <%= f.text_area :content %>
+      <%= f.label(:content) %>
+      <%= f.text_area(:content) %>
     </div>
     <div class="field">
-      <%= f.label :reference %>
-      <%= f.text_area :reference %>
+      <%= f.label(:reference) %>
+      <%= f.text_area(:reference) %>
     </div>
     <div class="field">
       Editor have supported
@@ -36,7 +36,7 @@
       Try to use it! =D
     </div>
     <div class="actions">
-      <%= f.button class: "ui blue button"%>
+      <%= f.button(class: "ui blue button") %>
     </div>
   <% else %>
     <p> You have to go to Chapter page and choose quiz from grid </p>

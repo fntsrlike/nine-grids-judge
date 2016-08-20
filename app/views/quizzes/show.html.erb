@@ -6,10 +6,10 @@
 <div class="ui attached segment">
   <%= markdown_render @quiz.content %>
 </div>
-<% if can? :manage, Quiz %>
+<% if can?(:manage, Quiz) %>
   <h5 class="ui attached orange header">Reference</h5>
   <div class="ui attached segment">
-    <%= markdown_render @quiz.reference %>
+    <%= markdown_render(@quiz.reference) %>
   </div>
   <h5 class="ui attached teal header">
     Statistics
@@ -41,21 +41,21 @@
 
 <!-- Buttons or Form -->
 <% if can? :manage, Quiz %>
-  <%= link_to edit_quiz_path(@quiz) do %>
+  <%= link_to(edit_quiz_path(@quiz)) do %>
     <div class="ui blue button">Edit</div>
   <% end %>
   <% if can? :destroy, @quiz %>
-    <%= link_to @quiz, method: :delete, data: { confirm: 'Are you sure?' } do%>
+    <%= link_to(@quiz, method: :delete, data: { confirm: 'Are you sure?' }) do%>
       <div class="ui button">Destroy</div>
     <% end %>
   <% end %>
-  <%= link_to chapter_path @quiz.chapter do %>
+  <%= link_to(chapter_path @quiz.chapter) do %>
     <div class="ui basic button">Back to Chapter</div>
   <% end %>
-  <%= link_to quizzes_path do %>
+  <%= link_to(quizzes_path) do %>
     <div class="ui basic button">Go to quizzes</div>
   <% end %>
-<% elsif can? :show, Quiz %>
+<% elsif can?(:show, Quiz) %>
   <% if !@can_submit_answer %>
     <br>
     <center>
@@ -72,7 +72,7 @@
   <% end %>
 <% end %>
 
-<% if can? :manage, Quiz %>
+<% if can?(:manage, Quiz) %>
   <h4>Passed Assignees</h4>
   <table class="ui table">
     <thead>
@@ -118,7 +118,7 @@
   </table>
 <% end %>
 
-<% if !can? :manage, Quiz %>
+<% if !can?(:manage, Quiz) %>
   <% if !@last_answer.nil? || !@logs.empty? %>
     <h3 class="ui horizontal header divider">Logs</h3>
   <% end %>

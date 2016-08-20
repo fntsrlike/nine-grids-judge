@@ -61,7 +61,7 @@ class Grid < ActiveRecord::Base
   end
 
   # 指定題目在本九宮格裡所在的位置
-  def get_quiz_sort quiz_id
+  def get_quiz_sort(quiz_id)
     for i in 1..GRID_NUMBER
       return i if self["quiz_#{i}"] == quiz_id
     end

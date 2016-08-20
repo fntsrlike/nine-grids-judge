@@ -5,7 +5,7 @@
     Filter & Search
   </div>
   <div class="content active">
-    <%= form_tag score_path, :method => 'get', class: "ui small form" do %>
+    <%= form_tag(score_path, :method => 'get', class: "ui small form") do %>
     <div class="four fields">
       <div class="field">
         <label>Base Score</label>
@@ -33,9 +33,13 @@
     <div class="grouped inline fields">
       <% Chapter.order("weight ASC").all.each do |chapter| %>
         <div class="field">
-          <% is_chacked = !params[:valid_chapter].nil? && params[:valid_chapter].include?(chapter.id.to_s) %>
+          <% is_chacked = params[:valid_chapter] && params[:valid_chapter].include?(chapter.id.to_s) %>
           <div class="ui checkbox">
-            <input <% if is_chacked %>checked="checked"<% end %> type="checkbox" name="valid_chapter[]" value="<%= chapter.id %>">
+            <% if params[:valid_chapter] && params[:valid_chapter].include?(chapter.id.to_s) %>
+                <input type="checkbox" name="valid_chapter[]" value="<%= chapter.id %>" checked="checked">
+            <% else %>
+                <input type="checkbox" name="valid_chapter[]" value="<%= chapter.id %>">
+            <% end %>
             <label><%= chapter.number %></label>
           </div>
         </div>
@@ -44,7 +48,7 @@
     <p>Which chapters are valid to be calulated.</p>
     <div class="ui hidden divider"></div>
 
-    <%= button_tag "Filter", class: "ui blue button"%>
+    <%= button_tag("Filter", class: "ui blue button") %>
     <% end %>
   </div>
 </div>
@@ -67,14 +71,14 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
-        <td><%= link_to user.id, user %></td>
+        <td><%= link_to(user.id, user) %></td>
         <td>
-          <%= link_to user, style: "color:rgba(0, 0, 0, 0.8);" do %>
+          <%= link_to(user, style: "color:rgba(0, 0, 0, 0.8);") do %>
             <%= user.realname %>
             (<%= user.username %>)
           <% end %>
         </td>
-        <% if !params[:valid_chapter].nil? %>
+        <% if params[:valid_chapter] %>
           <% total_score = 0 %>
           <% Chapter.order("weight ASC").find(params[:valid_chapter]).each do |chapter| %>
             <td style="<% if !user.has_passed_chapter?(chapter)%>color:#d95c5c!important;<% end %>">

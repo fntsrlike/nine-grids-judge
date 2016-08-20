@@ -1,6 +1,6 @@
-<p>Dear <%=@user.realname%>: </p>
+<p>Dear <%= @user.realname %>: </p>
 <p>
-  Welcome to <%=@course_name%> course!
+  Welcome to <%= @course_name %> course!
 </p>
 <p>
   We have already create a account of <%=link_to "Nine-grid Judge System", root_url%> for you.
@@ -9,8 +9,8 @@
 </p>
 
 <code>
-  Username: <%=@user.username%><br/>
-  Password: <%=@password%>
+  Username: <%= @user.username %><br/>
+  Password: <%= @password %>
 </code>
 
 <p>
@@ -18,8 +18,8 @@
 </p>
 
 <code>
-  Username: <%=@user.username%><br/>
-  Password: <%=@user.username%>+<%=@user.phone%>
+  Username: <%= @user.username %><br/>
+  Password: <%= @user.username %>+<%= @user.phone %>
 </code>
 
 <p>
