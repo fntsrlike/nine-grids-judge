@@ -42,7 +42,7 @@
 
 ### 1.1 環境需求
 - Ubuntu 14.04 (Linux kernel 3.13.0-68-generic)
-- Ruby 和 Ruby on Rails 相關環境，本程式開發時，是採用 Ruby 2.2.2 和 Rails 4.2.3。
+- Ruby 和 Ruby on Rails 相關環境，本程式開發時，是採用 Ruby 2.3.1 和 Rails 4.2.3。
 - MySQL Ver 14.14 Distribute 5.5.46
 - CMake
 
