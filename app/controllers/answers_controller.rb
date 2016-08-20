@@ -17,65 +17,56 @@ class AnswersController < ApplicationController
   has_scope(:period_end)
   has_scope(:answer)
 
-  # GET /answers
   def index
     if can?(:create, Judgement)
       status = [Answer.statuses[:queue], Answer.statuses[:judgement]]
-      @answers = apply_scopes(Answer).where(status: status).judge_piority
-      @statistics = get_answers_statistics
-      @statistics_today = get_answers_statistics_today
+      answers = apply_scopes(Answer).where(status: status).judge_piority
     else
-      @answers = Answer.where(user_id: current_user.id).order("created_at DESC")
+      answers = Answer.where(user_id: current_user.id).order("created_at DESC")
     end
-    @answers = @answers.page(params[:page]).per(50)
+    @answers = answers.page(params[:page]).per(50)
   end
 
   # GET /answers/1
-  def show
-  end
+  def show; end
 
   # GET /answers/new
   def new
-    has_target = !params[:target].nil?
-    is_target_valid = Quiz.exists?(id: params[:target])
-    @has_quiz_param = has_target && is_target_valid
-
-    if @has_quiz_param
-      @quiz = Quiz.find(params[:target])
+    unless Quiz.exists?(id: params[:target])
+      return redirect_to(answers_url)
     end
     @answer = Answer.new
-  end
-
-  # GET /answers/1/edit
-  def edit
+    @answer.quiz = Quiz.find(params[:target])
   end
 
   # POST /answers
   def create
     @answer = Answer.new(answer_params)
     @answer.user_id = current_user.id if cannot?(:manage, Answer)
-    @quiz = Quiz.find(@answer.quiz_id)
-    @has_quiz_param = !@quiz.nil?
     authorize!(:create, @answer)
-
-    if params.has_key?(:preview)
+    if params[:preview]
       @preview = true
-      render :new
-    elsif @answer.save
-      @answer.queue!
-      redirect_to(@quiz.chapter, notice: 'Answer was successfully created.')
-    else
-      render(:new, {answer: @answer})
+      return render(:new)
     end
+
+    if @answer.save
+      @answer.queue!
+      return redirect_to(@answer.quiz.chapter, notice: 'Answer was successfully created.')
+    end
+
+    render(:new)
   end
+
+  # GET /answers/1/edit
+  def edit; end
 
   # PATCH/PUT /answers/1
   def update
     if @answer.update(answer_params)
-      redirect_to(@answer, notice: 'Answer was successfully updated.')
-    else
-      render(:edit)
+      return redirect_to(@answer, notice: 'Answer was successfully updated.')
     end
+
+    render(:edit)
   end
 
   # DELETE /answers/1
@@ -97,32 +88,22 @@ class AnswersController < ApplicationController
   end
 
   # 取得解答的統計數據
-  def get_answers_statistics
-    all_count = Answer.count
-    judged_count = Judgement.count
-    pass_count = Judgement.joins(:answer).where(result: Judgement.results[:pass]).count
-    reject_count = Judgement.joins(:answer).where(result: Judgement.results[:reject]).count
-
+  helper_method def get_answers_statistics
     {
-      all: {value: all_count, color: :blue},
-      judged: {value: judged_count, color: :purple},
-      pass: {value: pass_count, color: :green},
-      reject: {value: reject_count, color: :red}
+      all:    {color: :blue,    value: Answer.count             },
+      judged: {color: :purple,  value: Judgement.count          },
+      pass:   {color: :green,   value: Judgement.passed.count   },
+      reject: {color: :red,     value: Judgement.rejected.count }
     }
   end
 
   # 取得僅限於今日解答的統計數據
-  def get_answers_statistics_today
-    new_count = Answer.today.count
-    judged_count = Judgement.today.count
-    pass_count = Judgement.joins(:answer).where(result: Judgement.results[:pass]).today.count
-    reject_count = Judgement.joins(:answer).where(result: Judgement.results[:reject]).today.count
-
+  helper_method def get_answers_statistics_today
     {
-      new: {value: new_count, color: :blue},
-      judged: {value: judged_count, color: :purple},
-      pass: {value: pass_count, color: :green},
-      reject: {value: reject_count, color: :red}
+        all:    {color: :blue,    value: Answer.today.count             },
+        judged: {color: :purple,  value: Judgement.today.count          },
+        pass:   {color: :green,   value: Judgement.passed.today.count   },
+        reject: {color: :red,     value: Judgement.rejected.today.count }
     }
   end
 end

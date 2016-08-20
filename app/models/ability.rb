@@ -20,29 +20,29 @@ class Ability
     elsif current_user.has_role?(:manager)
       can(:manage, [Chapter, Quiz])
       can(:read, Judgement)
-      can(:create, Judgement do |judgement|
+      can(:create, Judgement) do |judgement|
         !Judgement.exists?(answer_id: judgement.answer.id)
-      end)
-      can([:update, :destroy], Judgement do |judgement|
+      end
+      can([:update, :destroy], Judgement) do |judgement|
         judgement.user_id == current_user.id
-      end)
+      end
       can(:read, Answer)
-      can(:read, User do |user|
+      can(:read, User) do |user|
         user.has_role?(:student)
-      end)
+      end
 
     # student 有關看章節、題目、與自身九宮格的權限，並能答題
     elsif current_user.has_role?(:student)
-      can(:show, Quiz do |quiz|
+      can(:show, Quiz) do |quiz|
         quiz.chapter.active? && can_user_read_the_quiz?(current_user, quiz)
-      end)
-      can(:read, Grid do |grid|
+      end
+      can(:read, Grid) do |grid|
         grid.user_id == current_user.id
-      end)
-      can(:read, Answer do |answer|
+      end
+      can(:read, Answer) do |answer|
         answer.user_id == current_user.id
-      end)
-      can(:create, Answer do |answer|
+      end
+      can(:create, Answer) do |answer|
         quiz = answer.quiz
         quizzes = quiz.chapter.quizzes
         queued_answers_count = 0
@@ -52,7 +52,7 @@ class Ability
         can_submit_answer = queued_answers_count < 3
 
         quiz.chapter.active? && can_user_read_the_quiz?(current_user, quiz) && !can_user_answer_the_quiz?(current_user, quiz) && can_submit_answer
-      end)
+      end
     end
 
     # Define abilities for the passed in user here. For example:
@@ -88,15 +88,15 @@ class Ability
   # 最基本的權限，只能觀看已經開啟的章節的基本資訊
   def initialize_permission_to_basic
     cannot(:manage, :all)
-    can(:read, Chapter do |chapter|
+    can(:read, Chapter) do |chapter|
       chapter.active?
-    end)
+    end
   end
 
   # 指定使用者是否有讀取該題目的權限
   def can_user_read_the_quiz?(user_id, quiz)
     grid = Grid.where(chapter_id: quiz.chapter.id, user_id: user_id.id).first
-    (!grid.nil?) && (grid.get_quizzes_id.include? quiz.id)
+    (!grid.nil?) && (grid.get_quizzes_id.include?(quiz.id))
   end
 
   # 指定使用者是否有作答該題目的權限

@@ -14,15 +14,8 @@ class ChaptersController < ApplicationController
 
   # GET /chapters/1
   def show
-    if can?(:manage, Quiz)
-      @quizzes = Quiz.where( :chapter_id => @chapter.id )
-      @statistics = get_chapter_statistics
-    elsif can?(:create, Answer)
-      if !Grid.exists?( :user_id => current_user.id, :chapter_id => @chapter.id )
-        grids = Grid.new( :user_id => current_user.id, :chapter_id => @chapter.id )
-        grids.set_quizzes_random
-      end
-      grids = Grid.where( :user_id => current_user.id, :chapter_id => @chapter.id ).first
+    if can?(:create, Answer)
+      grids = @chapter.get_grids_by_user(curremt_user)
       @quizzes = grids.get_quizzes
       @quiz_status = grids.get_quizzes_status
     end
@@ -96,7 +89,7 @@ class ChaptersController < ApplicationController
   end
 
   # 取得章節的統計數據
-  def get_chapter_statistics
+  helper_method def get_chapter_statistics
     {
       pass_people: {value: @chapter.get_pass_people_count, color: "blue"},
       challengers: {value: @chapter.get_all_people_count, color: "blue"},

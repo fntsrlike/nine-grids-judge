@@ -27,7 +27,7 @@
 <div class="ui attached segment" style="margin-bottom: 1em;">
   <% if can? :manage, Chapter %>
     <div class="ui small statistics">
-      <% @statistics.each do | index, properties | %>
+      <% get_chapter_statistics.each do | index, properties | %>
         <div class="<%= properties[:color] %> statistic" style="margin-bottom: 1em;">
           <div class="value">
             <%= properties[:value] %>
@@ -72,7 +72,7 @@
 <% end %>
 
 <% if can? :manage, Quiz %>
-  <%= render 'quizzes' %>
+  <%= render 'quizzes', locals: {quizzes:  @chapter.quizzes} %>
 <% elsif can? :create, Answer %>
   <%= render 'grids' %>
 <% end %>

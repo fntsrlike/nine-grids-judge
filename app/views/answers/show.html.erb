@@ -63,7 +63,7 @@
   <% end %>
 <% end %>
 <% if can? :destroy, @answer %>
-  <%= link_to @quiz, method: :delete, data: { confirm: 'Are you sure?' } do%>
+  <%= link_to @answer.quiz, method: :delete, data: { confirm: 'Are you sure?' } do%>
     <div class="ui button">Destroy</div>
   <% end %>
 <% end %>

@@ -10,9 +10,9 @@ class ApplicationController < ActionController::Base
 
   # 將不符合權限的 Request，透過 Exception 的方式導向首頁，並且顯示訊息
   # Ref: https://github.com/ryanb/cancan/wiki/exception-handling
-  rescue_from(CanCan::AccessDenied do |exception|
+  rescue_from CanCan::AccessDenied do |exception|
     redirect_to(root_url, :alert => exception.message)
-  end)
+  end
 
   protected
 

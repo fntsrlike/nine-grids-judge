@@ -1,8 +1,8 @@
 <h2 class="ui dividing header">New answer</h2>
 
-<h5 class="ui top attached blue header"><%= @quiz.chapter.number %>: <%= @quiz.title %></h5>
+<h5 class="ui top attached blue header"><%= @answer.quiz.chapter.number %>: <%= @answer.quiz.title %></h5>
 <div class="ui attached segment">
-  <%= markdown_render @quiz.content %>
+  <%= markdown_render @answer.quiz.content %>
 </div>
 <% if @preview %>
   <h5 class="ui top attached orange header">Preview</h5>
@@ -14,7 +14,7 @@
 
 <h3 class="ui horizontal header divider">New Answer</h3>
 
-<% if @has_quiz_param && (@quiz.is_answer_repeat_by_user current_user.id) %>
+<% if @answer&.quiz&.is_answer_repeat_by_user(current_user.id) %>
   <p> You have already passed this quiz or your submit still being judgement. </p>
 <% else %>
   <%= render 'form' %>

@@ -12,7 +12,7 @@
   </thead>
 
   <tbody>
-    <% @quizzes.each do |quiz| %>
+    <% quizzes.each do |quiz| %>
       <tr>
         <td><%= link_to quiz.id, quiz %></td>
         <td><%= link_to quiz.title, quiz, style: "color:rgba(0, 0, 0, 0.8);"%></td>

@@ -11,8 +11,8 @@
     </div>
   <% end %>
 
-  <% if @has_quiz_param %>
-    <%= f.hidden_field :quiz_id, value: @quiz.id %>
+  <% if @answer.quiz %>
+    <%= f.hidden_field :quiz_id, value: @answer.quiz.id %>
   <% end %>
 
   <% if can? :manage, Answer %>
@@ -26,7 +26,7 @@
     </div>
   <% end %>
 
-  <% if can? :manage, Answer or @has_quiz_param %>
+  <% if (can? :manage, Answer) || (can? :create, @answer) %>
     <div class="field">
       <%= f.text_area :content %>
     </div>
@@ -42,8 +42,8 @@
   <% else %>
     <p> You have to go to Chapter page and choose quiz from grid </p>
   <% end %>
-  <% if @has_quiz_param %>
-    <%= link_to quiz_path(@quiz)  do %>
+  <% if @answer.quiz %>
+    <%= link_to quiz_path(@answer.quiz)  do %>
       <div class="ui button">Cancel and back to quiz</div>
     <% end %>
   <% end %>
