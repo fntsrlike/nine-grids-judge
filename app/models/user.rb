@@ -40,8 +40,7 @@ class User < ActiveRecord::Base
       return 0
     end
 
-    passed_grid_num = Grid.where(user_id: self.id, chapter_id: chapter_id).first
-                      .get_passed_quizzes.count
+    passed_grid_num = grids.where(chapter: chapter).first.get_passed_quizzes.count
     if passed_grid_num * grid_points >= points_by_passed_chapter
       points_by_passed_chapter;
     else
@@ -83,14 +82,18 @@ class User < ActiveRecord::Base
     queued_count = 0
     quizzes = grids.find_by(chapter: chapter).get_quizzes;
 
-
     quizzes.each do |current_quiz|
-      queued_count += current_quiz.answers.where(user: current_user).where(status: Answer.statuses[:queue]).count
+      queued_count += answers.where(quiz: current_quiz, status: Answer.statuses[:queue]).count
     end
+    queued_count
   end
 
-  def can_answer_chapter(chapter)
-    chaater_queue_count(chapter) < 3
+  def can_answer_chapter?(chapter)
+    chapter_queue_count(chapter) < 3
+  end
+
+  def can_answer_quiz?(quiz)
+    can_answer_chapter?(quiz.chapter) && !quiz.is_answer_repeat_by_user(self)
   end
 
   # 萃取出通過指定章節編號清單的使用者名單

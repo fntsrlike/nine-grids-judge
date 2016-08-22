@@ -14,25 +14,19 @@ class QuizzesController < ApplicationController
 
   # GET /quizzes/1
   def show
+    # Used by answer's form
     @answer = Answer.new
     @answer.quiz = @quiz
 
     if can?(:manage, Quiz)
-      @statistics = get_quiz_statistics
-      return render(:manage)
+      statistics = get_quiz_statistics
+      return render(:manage, locals: {statistics: statistics})
     end
 
-    @last_answer = @quiz.answers.find_by(user: current_user, status: [Answer.statuses[:queue], Answer.statuses[:judging]])
-    @logs = @quiz.get_answer_logs_by_user(current_user.id).reverse
+    last_answer = @quiz.answers.find_by(user: current_user, status: [Answer.statuses[:queue], Answer.statuses[:judging]])
+    logs = @quiz.get_answer_logs_by_user(current_user.id).reverse
+    render(locals: {last_answer: last_answer, logs: logs})
 
-    # Please move this block of code to User model in the future.
-    quizzes = @quiz.chapter.quizzes
-    queued_answers_count = 0
-    quizzes.each do |current_quiz|
-      queued_answers_count += current_quiz.answers.where(user: current_user).where(status: Answer.statuses[:queue]).count
-    end
-    @can_submit_answer = current_user.can?(create)
-    # End.
   end
 
   # GET /quizzes/new

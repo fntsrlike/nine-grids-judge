@@ -4,16 +4,16 @@ class Quiz < ActiveRecord::Base
   has_many(:answers)
 
   # 指定使用者編號是否已通過本題目
-  def is_passed_by_user(user_id)
-    Answer.joins(:judgement)
-          .exists?(quiz_id: self.id, user_id: user_id, status: Answer.statuses[:done], judgements: { result: Judgement.results[:pass] })
+  def is_passed_by_user(user)
+    answers.joins(:judgement)
+          .exists?(user: user, status: Answer.statuses[:done], judgements: { result: Judgement.results[:pass] })
   end
 
   # 指定使用者編號是否有權限回答本題目
-  def is_answer_repeat_by_user(user_id)
+  def is_answer_repeat_by_user(user)
     statuses = [Answer.statuses[:queue], Answer.statuses[:judging]]
-    is_not_done = Answer.exists?(quiz_id: self.id, status: statuses, user_id: user_id)
-    is_quiz_passed = is_passed_by_user user_id
+    is_not_done = answers.exists?(status: statuses, user: user)
+    is_quiz_passed = is_passed_by_user(user)
 
     is_not_done || is_quiz_passed
   end

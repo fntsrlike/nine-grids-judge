@@ -16,7 +16,7 @@
 </h5>
 <div class="ui attached segment" style="margin-bottom: 1em;">
   <div class="ui small statistics">
-    <% @statistics.each do | index, properties | %>
+    <% statistics.each do | index, properties | %>
       <div class="<%= properties[:color] %> statistic" style="margin-bottom: 1em;">
         <div class="value">
           <%= properties[:value] %>

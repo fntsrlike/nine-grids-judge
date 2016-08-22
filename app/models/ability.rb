@@ -100,7 +100,7 @@ class Ability
   end
 
   # 指定使用者是否有作答該題目的權限
-  def can_user_answer_the_quiz?(user_id, quiz)
-    quiz.is_answer_repeat_by_user(user_id)
+  def can_user_answer_the_quiz?(user, quiz)
+    quiz.is_answer_repeat_by_user(user)
   end
 end

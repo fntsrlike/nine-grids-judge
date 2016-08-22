@@ -54,10 +54,9 @@ class JudgementsController < ApplicationController
 
   # POST /judgements
   def create
-    authorize!(:create, @judgement)
-
     @judgement = Judgement.new(judgement_params)
     @judgement.user = current_user if cannot?(:manage, Answer)
+    authorize!(:create, @judgement)
 
     if params[:cancel]
       @judgement.answer.queue!

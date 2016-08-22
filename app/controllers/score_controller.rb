@@ -7,14 +7,13 @@ class ScoreController < ApplicationController
   # Ref: https://github.com/ryanb/cancan/wiki/authorizing-controller-actions
   has_scope(:role)
 
-  # GET /quizzes
   def index
     if params[:valid_chapter].nil?
       @users = [];
     else
       @users = apply_scopes(User).all
+      @chapters = Chapter.order("weight ASC").find(params[:valid_chapter])
     end
-    @chapters = Chapter.order("weight ASC").find(params[:valid_chapter])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
