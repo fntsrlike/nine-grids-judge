@@ -1,24 +1,24 @@
 Rails.application.routes.draw do
 
-  root to: "home#index"
+  root(to: "home#index")
 
-  get 'score', :to => 'score#index'
+  get('score', to: 'score#index')
 
-  devise_for :users, :path_prefix => 'p'
-  as :user do
-    get 'p/users/edit' => 'devise/registrations#edit', :as => 'edit_user_registration'
-    put 'p/users' => 'devise/registrations#update', :as => 'user_registration'
+  devise_for(:users, path_prefix: 'p')
+  as(:user) do
+    get('p/users/edit' => 'devise/registrations#edit', as: 'edit_user_registration')
+    put('p/users' => 'devise/registrations#update', as: 'user_registration')
   end
 
-  concern :paginatable do
-    get '(page/:page)', :action => :index, :on => :collection, :as => ''
+  concern(:paginatable) do
+    get('(page/:page)', action: :index, on: :collection, as: '')
   end
 
-  resources :users, :concerns => :paginatable
-  resources :judgements, :concerns => :paginatable
-  resources :answers, :concerns => :paginatable
-  resources :quizzes, :concerns => :paginatable
-  resources :chapters, :concerns => :paginatable
+  resources(:users, concerns: :paginatable)
+  resources(:judgements, concerns: :paginatable)
+  resources(:answers, concerns: :paginatable)
+  resources(:quizzes, concerns: :paginatable)
+  resources(:chapters, concerns: :paginatable)
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
