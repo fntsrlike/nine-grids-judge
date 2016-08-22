@@ -23,8 +23,8 @@ class JudgementsController < ApplicationController
 
   # GET /judgements
   def index
-    @judgements = apply_scopes(Judgement).order("created_at DESC").all.page(params[:page]).per(50)
-    @reviewers = Judgement.select("user_id, count(user_id) as num").group("user_id").order("num DESC").all
+    @judgements = apply_scopes(Judgement).order('created_at DESC').all.page(params[:page]).per(50)
+    @reviewers = Judgement.includes(:user).group(:user_id).order('COUNT(*) DESC').map(&:user)
   end
 
   # GET /judgements/1
@@ -33,67 +33,69 @@ class JudgementsController < ApplicationController
 
   # GET /judgements/new
   def new
-    has_target = !params[:target].nil?
-    is_target_valid = Answer.exists?(id: params[:target])
-    @has_answer_param = has_target && is_target_valid
-
-    if @has_answer_param
-      @answer = Answer.find(params[:target])
-      if !@answer.done?
-        @answer.judgement
-      else
-        redirect_to(answers_url, alert: 'The answer has been judged.')
-      end
+    answer = Answer.find(params[:target])
+    unless answer
+      return render(:wrong_target)
     end
+
+    if answer.done?
+      return redirect_to(answers_url, alert: 'The answer has been judged.')
+    end
+
+    answer.judging!
     @judgement = Judgement.new
-    @logs = @answer.quiz.get_answer_logs_by_user(@answer.user_id)
+    @judgement.answer = answer
   end
 
   # GET /judgements/1/edit
   def edit
-    authorize! :update, @judgement
-    @answer = @judgement.answer
-    @logs = @answer.quiz.get_answer_logs_by_user(@answer.user_id)
+    authorize!(:update, @judgement)
   end
 
   # POST /judgements
   def create
-    @judgement = Judgement.new(judgement_params)
-    @judgement.user_id = current_user.id if cannot?(:manage, Answer)
     authorize!(:create, @judgement)
 
-    if !params[:cancel].nil?
-      Answer.find(@judgement.answer_id).queue!
-      redirect_to(answers_url, alert: 'Judgement canceled! Answer return to queue.')
-    elsif @judgement.save
+    @judgement = Judgement.new(judgement_params)
+    @judgement.user = current_user if cannot?(:manage, Answer)
+
+    if params[:cancel]
+      @judgement.answer.queue!
+      return redirect_to(answers_url, alert: 'Judgement canceled! Answer return to queue.')
+    end
+
+    if @judgement.save
       @judgement.answer.done!
       rejudge_grid
-      redirect_to(answers_url, notice: 'Judgement was successfully created.')
-    else
-      render(:new)
+      return redirect_to(answers_url, notice: 'Judgement was successfully created.')
     end
+
+    render(:new)
   end
 
   # PATCH/PUT /judgements/1
   def update
     authorize!(:update, @judgement)
-    @judgement.user_id = current_user.id if cannot?(:manage, Answer)
+
+    @judgement.user = current_user if cannot?(:manage, Answer)
 
     if @judgement.update(judgement_params)
       @judgement.answer.done!
       rejudge_grid
-      redirect_to(judgements_url, notice: 'Judgement was successfully updated.')
-    else
-      render(:edit, local: {judgement: @judgement})
+      return redirect_to(judgements_url, notice: 'Judgement was successfully updated.')
     end
+
+    render(:edit, local: {judgement: @judgement})
   end
 
   # DELETE /judgements/1
   def destroy
     authorize!(:destroy, @judgement)
+
     @judgement.answer.queue!
-    rejudge_grid
     @judgement.destroy
+    rejudge_grid
+
     redirect_to(judgements_url, notice: 'Judgement was successfully destroyed.')
   end
 
@@ -112,7 +114,7 @@ class JudgementsController < ApplicationController
   # 重新判定該判定所屬的九宮格的通過狀態
   def rejudge_grid
     answer = @judgement.answer
-    grid = Grid.where(user_id: answer.user.id, chapter_id: answer.quiz.chapter_id ).first
+    grid = @judgement.answer.quiz.chapter.grids.where(user: answer.user).first
     grid.update_status
   end
 end

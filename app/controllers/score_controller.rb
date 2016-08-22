@@ -14,11 +14,25 @@ class ScoreController < ApplicationController
     else
       @users = apply_scopes(User).all
     end
-
+    @chapters = Chapter.order("weight ASC").find(params[:valid_chapter])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def score_params
      params.require(:user).permit(:realname, :username, :email, :phone)
+  end
+
+  private
+
+  helper_method def chapter_score_by_user(chapter, user)
+    user.get_chapter_score(chapter, params[:point_per_chapter].to_i, params[:point_per_grid].to_i)
+  end
+
+  helper_method def total_score_by_user(user)
+    total = 0
+    @chapters.each do |chapter|
+      total += user.get_chapter_score(chapter, params[:point_per_chapter].to_i, params[:point_per_grid].to_i)
+    end
+    total
   end
 end

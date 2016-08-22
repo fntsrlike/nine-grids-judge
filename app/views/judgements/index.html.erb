@@ -68,10 +68,10 @@
         <% @reviewers.each do |reviewer| %>
           <div class="statistic" style="margin-bottom: 0;">
             <div class="value">
-              <%=  Judgement.where(user_id: reviewer.user_id).count %>
+              <%= reviewer.judgements.count %>
             </div>
             <div class="label">
-              <%= User.find(reviewer.user_id).username %>
+              <%= reviewer.username %>
             </div>
           </div>
         <% end %>

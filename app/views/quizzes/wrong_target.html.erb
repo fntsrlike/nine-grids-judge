@@ -1,0 +1,14 @@
+<%= form_for(@quiz, html: { class: 'ui form' }) do |_| %>
+  <% if @quiz.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@quiz.errors.count, 'error') %> prohibited this quiz from being saved:</h2>
+
+      <ul>
+      <% @quiz.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <p> You have to go to Chapter page and choose quiz from grid </p>
+<% end %>

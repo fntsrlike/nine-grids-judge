@@ -1,6 +1,6 @@
 <h2 class="ui dividing header">
   Answer #<%= @answer.id %>
-  <%= puts_answer_label @answer%>
+  <%= puts_answer_label(@answer)%>
 </h2>
 
 
@@ -9,7 +9,7 @@
     <%= @answer.quiz.chapter.number %> - <%= @answer.quiz.title %>
   </h5>
   <div class="ui bottom attached segment">
-    <%= markdown_render @answer.quiz.content %>
+    <%= markdown_render(@answer.quiz.content) %>
   </div>
 
   <% if can?(:create, Judgement) %>
@@ -40,11 +40,11 @@
   </div>
 
   <% if params[:ans_format] == 'text' %>
-    <%= link_to url_for( target: params[:target] ) do %>
+    <%= link_to url_for(target: params[:target]) do %>
       <div class="fluid ui yellow basic button">Change answer render to Markdown</div>
     <% end %>
   <% else %>
-    <%= link_to url_for( target: params[:target] ,ans_format: 'text' ) do %>
+    <%= link_to url_for(target: params[:target] ,ans_format: 'text') do %>
       <div class="fluid ui yellow basic button">Change answer render to Text</div>
     <% end %>
   <% end %>

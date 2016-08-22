@@ -11,7 +11,7 @@ class Quiz < ActiveRecord::Base
 
   # 指定使用者編號是否有權限回答本題目
   def is_answer_repeat_by_user(user_id)
-    statuses = [Answer.statuses[:queue], Answer.statuses[:judgement]]
+    statuses = [Answer.statuses[:queue], Answer.statuses[:judging]]
     is_not_done = Answer.exists?(quiz_id: self.id, status: statuses, user_id: user_id)
     is_quiz_passed = is_passed_by_user user_id
 
@@ -83,5 +83,18 @@ class Quiz < ActiveRecord::Base
   def get_passed_assignee_rate
     sum = get_all_assignee_count
     (sum ==0) ? 0 : (get_passed_submits_count.to_f / get_all_assignee_count.to_f) * 100
+  end
+
+  def get_sort_by_user(user)
+    grid = chapter.grids.by_user(user).first
+    grid&.get_quiz_sort(self)
+  end
+
+  def is_passed_by_user?(user)
+    answers.includes(:judgement).where(user: user).exists?(judgements: { result: Judgement.results[:pass] } )
+  end
+
+  def is_queue_by_user?(user)
+    answers.where(user: user).exists?(status: [Answer.statuses[:queue], Answer.statuses[:judging]])
   end
 end

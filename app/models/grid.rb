@@ -27,6 +27,10 @@ class Grid < ActiveRecord::Base
     )
   end
 
+  def self.by_user(user)
+    where(user: user)
+  end
+
   # 本九宮格的題目陣列
   def get_quizzes
     quizzes = []
@@ -47,23 +51,22 @@ class Grid < ActiveRecord::Base
 
   # 本九宮格的題目通過狀態陣列
   def get_quizzes_status
-    status = Array.new(GRID_NUMBER,0)
-    get_quizzes.each_with_index do |quiz, index|
-      if Answer.joins(:judgement).exists?(quiz_id: quiz.id, user_id: self.user_id, status: Answer.statuses[:done], judgements: { result: Judgement.results[:pass] })
-        status[index] = 2
-      elsif Answer.exists?(:quiz_id => quiz.id, :user_id => self.user_id, :status => [Answer.statuses[:queue], Answer.statuses[:judgement]])
-        status[index] = 1
+    @statuses ||= get_quizzes.map do |quiz|
+      case
+      when quiz.is_passed_by_user?(user)
+        :pass
+      when quiz.is_queue_by_user?(user)
+        :judgement
       else
-        status[index] = 0
+        :fail
       end
     end
-    status
   end
 
   # 指定題目在本九宮格裡所在的位置
-  def get_quiz_sort(quiz_id)
+  def get_quiz_sort(quiz)
     for i in 1..GRID_NUMBER
-      return i if self["quiz_#{i}"] == quiz_id
+      return i if self["quiz_#{i}"] == quiz.id
     end
     nil
   end
@@ -130,8 +133,10 @@ class Grid < ActiveRecord::Base
   # 取得本九宮格中已通過的題目
   def get_passed_quizzes
     pass_quizzes = {}
+    user.answers.where(quiz: get_quizzes, status: Answer.statuses[:done])
+
     get_quizzes.each_with_index do |quiz, index|
-      if Answer.joins(:judgement).exists?(quiz_id: quiz.id, user_id: self.user_id, status: Answer.statuses[:done], judgements: { result: Judgement.results[:pass] })
+      if quiz.is_passed_by_user?(user)
         pass_quizzes[index+1] = quiz.id
       end
     end

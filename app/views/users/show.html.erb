@@ -29,7 +29,7 @@
       </tr>
     </tbody>
   </table>
-  <% if can? :manage, User %>
+  <% if can?(:manage, User) %>
     <%= link_to(edit_user_path(@user)) do %>
       <div class="ui blue button">Edit</div>
     <% end %>
@@ -47,12 +47,12 @@
 </h5>
 <div class="ui attached segment">
   <h4 class="ui header">Passed Chpater</h4>
-  <%= raw @user.get_passed_chapter.map { |chapter| link_to(chapter.number, chapter) }.join(', ') %>
+  <%= raw(@user.get_passed_chapter.map { |chapter| link_to(chapter.number, chapter) }.join(', ')) %>
   <h4 class="ui header">Not Passed Chpater</h4>
-  <%= raw @user.get_failed_chapter.map { |chapter| link_to(chapter.number, chapter) }.join(', ') %>
+  <%= raw(@user.get_failed_chapter.map { |chapter| link_to(chapter.number, chapter) }.join(', ')) %>
   <div class="ui divider"></div>
   <div class="ui small statistics">
-    <% @statistics.each do | index, properties | %>
+    <% statistics.each do | index, properties | %>
       <div class="<%= properties[:color] %> statistic" style="margin-bottom: 1em;">
         <div class="value">
           <%= properties[:value] %>
@@ -65,7 +65,7 @@
   </div>
 </div>
 
-<% Grid.where(user_id: @user.id).order("chapter_id ASC").each do |grid| %>
+<% grids.each do |grid| %>
   <h5 class="ui top attached header">
     <%= grid.chapter.number %> - <%= grid.chapter.title %>
   </h5>
@@ -73,17 +73,11 @@
     <table class="nine-grids">
       <tbody>
       <% grid.get_quizzes.each_with_index do |quiz, index| %>
-        <% if index%3 == 0 %> <tr> <% end %>
-          <% if grid.get_quizzes_status[index] == 2 %>
-            <td class="pass">
-          <% elsif grid.get_quizzes_status[index] == 1 %>
-            <td class="judgement">
-          <% elsif grid.get_quizzes_status[index] == 0 %>
-            <td class="fail">
-          <% end %>
-            <%= link_to index+1, quiz_path(quiz) %>
+        <%= cycle("<tr>", "", "", name: "begin").html_safe %>
+          <td class="<%= grid.get_quizzes_status[index] %>">
+            <%= link_to(index+1, quiz_path(quiz)) %>
           </td>
-        <% if index%3 == 2 %> </tr> <% end %>
+        <%= cycle("", "", "</tr>", name: "end").html_safe %>
       <% end %>
       </tbody>
     </table>

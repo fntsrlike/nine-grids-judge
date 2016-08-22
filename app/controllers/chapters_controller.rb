@@ -42,17 +42,22 @@ class ChaptersController < ApplicationController
 
   # PATCH/PUT /chapters/1
   def update
-    if !params[:button].nil? && params[:button] == "reset_grids"
+    if params[:button] && params[:button] == :reset_grids.to_s
       reset_chapter_grids(@chapter.id)
-      redirect_to(@chapter, notice: 'Grids of chapter was successfully reset.')
-    elsif !params[:button].nil? && params[:button] == "reload_status"
-      reload_chapter_status(@chapter.id)
-      redirect_to(@chapter, notice: 'All of students\' chapter passing status are reloaded.')
-    elsif @chapter.update(chapter_params)
-      redirect_to(@chapter, notice: 'Chapter was successfully updated.')
-    else
-      render(:edit)
+      return redirect_to(@chapter, notice: 'Grids of chapter was successfully reset.')
     end
+
+    if params[:button] && params[:button] == :reload_status.to_s
+      reload_chapter_status(@chapter.id)
+      return redirect_to(@chapter, notice: 'All of students\' chapter passing status are reloaded.')
+    end
+
+    if @chapter.update(chapter_params)
+      return redirect_to(@chapter, notice: 'Chapter was successfully updated.')
+    end
+
+    render(:edit)
+
   end
 
   # DELETE /chapters/1

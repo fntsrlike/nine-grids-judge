@@ -6,152 +6,58 @@
 <div class="ui attached segment">
   <%= markdown_render @quiz.content %>
 </div>
-<% if can?(:manage, Quiz) %>
-  <h5 class="ui attached orange header">Reference</h5>
-  <div class="ui attached segment">
-    <%= markdown_render(@quiz.reference) %>
-  </div>
-  <h5 class="ui attached teal header">
-    Statistics
-  </h5>
-  <div class="ui attached segment" style="margin-bottom: 1em;">
-    <div class="ui small statistics">
-      <% @statistics.each do | index, properties | %>
-        <div class="<%= properties[:color] %> statistic" style="margin-bottom: 1em;">
-          <div class="value">
-            <%= properties[:value] %>
-          </div>
-          <div class="label">
-            <%= "#{index}".humanize.upcase %>
-          </div>
-        </div>
-      <% end %>
-    </div>
-
-    <div class="ui indicating progress <%= @quiz.get_passed_assignee_rate.round(0) < 100 ? "active" : "success" %>">
-      <div class="bar" style="width: <%= @quiz.get_passed_assignee_rate.round(0) %>%;"></div>
-      <div class="label">
-        <%= @quiz.get_passed_assignee_rate.round(0) %>% Pass
-        (Pass Submits / Assignees)
-      </div>
-    </div>
-  </div>
-<% end %>
 <div style="margin-bottom: 1em;"></div>
 
 <!-- Buttons or Form -->
-<% if can? :manage, Quiz %>
-  <%= link_to(edit_quiz_path(@quiz)) do %>
-    <div class="ui blue button">Edit</div>
-  <% end %>
-  <% if can? :destroy, @quiz %>
-    <%= link_to(@quiz, method: :delete, data: { confirm: 'Are you sure?' }) do%>
-      <div class="ui button">Destroy</div>
-    <% end %>
-  <% end %>
-  <%= link_to(chapter_path @quiz.chapter) do %>
-    <div class="ui basic button">Back to Chapter</div>
-  <% end %>
-  <%= link_to(quizzes_path) do %>
-    <div class="ui basic button">Go to quizzes</div>
-  <% end %>
-<% elsif can?(:show, Quiz) %>
-  <% if !@can_submit_answer %>
-    <br>
-    <center>
-      <h1 class="ui red header">
-        <b>Unable to Submit Answer</b>
-      </h1>
-      <p class="text-danger">
-        Quantity of queued answers is equal or more than 3 in this Chapter.<br>
-        Please go to another chapter or wait for the judgement of your answers.
-      </p>
-    </center>
-  <% elsif !@quiz.is_answer_repeat_by_user current_user.id %>
-    <%= render 'answer_form' %>
-  <% end %>
+<% if !@can_submit_answer %>
+  <br>
+  <div style="text-align: center;">
+    <h1 class="ui red header">
+      <b>Unable to Submit Answer</b>
+    </h1>
+    <p class="text-danger">
+      Quantity of queued answers is equal or more than 3 in this Chapter.<br>
+      Please go to another chapter or wait for the judgement of your answers.
+    </p>
+  </div>
+<% elsif !@quiz.is_answer_repeat_by_user(current_user.id) %>
+  <%= render 'answer_form' %>
 <% end %>
 
-<% if can?(:manage, Quiz) %>
-  <h4>Passed Assignees</h4>
-  <table class="ui table">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Username</th>
-        <th>Realname</th>
-        <th>Passed Time</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @quiz.get_passed_assignee.each do |assignee| %>
-        <tr>
-          <td><%= link_to assignee.id, assignee %></td>
-          <td><%= assignee.username %></td>
-          <td><%= assignee.realname %></td>
-          <td> - </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
 
-  <h4>No Pass Assignees</h4>
-  <table class="ui table">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Username</th>
-        <th>Realname</th>
-        <th>Try TImes</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @quiz.get_failed_assignee.each do |assignee| %>
-        <tr>
-          <td><%= link_to assignee.id, assignee %></td>
-          <td><%= assignee.username %></td>
-          <td><%= assignee.realname %></td>
-          <td> - </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+<% if @last_answer || @logs %>
+  <h3 class="ui horizontal header divider">Logs</h3>
 <% end %>
 
-<% if !can?(:manage, Quiz) %>
-  <% if !@last_answer.nil? || !@logs.empty? %>
-    <h3 class="ui horizontal header divider">Logs</h3>
-  <% end %>
-
-  <!-- Laster Answer -->
-  <% if !@last_answer.nil? %>
-    <h5 class="ui orange top attached header">
-      Latest Answer
-    </h5>
-    <div class="ui bottom attached segment">
-      <%= markdown_render @last_answer.content %>
-      <p style="text-align:right;">
-        <%= time_tag @last_answer.created_at %>
-      </p>
-    </div>
-  <% end %>
-
-  <!-- Answer Logs -->
-  <% @logs.each do | log | %>
-    <h5 class="ui top attached header">
-      Log #<%= log.id %> <%= puts_answer_label log %>
-    </h5>
-    <div class="ui attached segment">
-      <%= markdown_render log.content %>
-      <p style="text-align:right;">
-        <%= time_tag log.created_at %>
-      </p>
-    </div>
-    <div class="ui bottom attached segment">
-      <%= markdown_render log.judgement.content %>
-      <p style="text-align:right;">
-        <em>—— <%= log.judgement.user.username %></em>
-      </p>
-    </div>
-  <% end %>
+<!-- Laster Answer -->
+<% if @last_answer %>
+  <h5 class="ui orange top attached header">
+    Latest Answer
+  </h5>
+  <div class="ui bottom attached segment">
+    <%= markdown_render @last_answer.content %>
+    <p style="text-align:right;">
+      <%= time_tag @last_answer.created_at %>
+    </p>
+  </div>
 <% end %>
+
+<!-- Answer Logs -->
+<% @logs.each do | log | %>
+  <h5 class="ui top attached header">
+    Log #<%= log.id %> <%= puts_answer_label log %>
+  </h5>
+  <div class="ui attached segment">
+    <%= markdown_render log.content %>
+    <p style="text-align:right;">
+      <%= time_tag log.created_at %>
+    </p>
+  </div>
+  <div class="ui bottom attached segment">
+    <%= markdown_render log.judgement.content %>
+    <p style="text-align:right;">
+      <em>—— <%= log.judgement.user.username %></em>
+    </p>
+  </div>
+<% end %>
+

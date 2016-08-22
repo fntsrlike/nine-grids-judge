@@ -23,9 +23,9 @@
         <label>Role</label>
         <select name="role" class="ui dropdown">
           <option value="">Role</option>
-          <option value="admin" <% if !params[:role].nil? && params[:role] == "admin" %>selected="selected"<% end %>>Admin</option>
-          <option value="manager" <% if !params[:role].nil? && params[:role] == "manager" %>selected="selected"<% end %>>Manager</option>
-          <option value="student" <% if !params[:role].nil? && params[:role] == "student" %>selected="selected"<% end %>>Student</option>
+          <option value="admin" <% if params[:role] && params[:role] == "admin" %>selected="selected"<% end %>>Admin</option>
+          <option value="manager" <% if params[:role] && params[:role] == "manager" %>selected="selected"<% end %>>Manager</option>
+          <option value="student" <% if params[:role] && params[:role] == "student" %>selected="selected"<% end %>>Student</option>
         </select>
       </div>
     </div>
@@ -33,7 +33,6 @@
     <div class="grouped inline fields">
       <% Chapter.order("weight ASC").all.each do |chapter| %>
         <div class="field">
-          <% is_chacked = params[:valid_chapter] && params[:valid_chapter].include?(chapter.id.to_s) %>
           <div class="ui checkbox">
             <% if params[:valid_chapter] && params[:valid_chapter].include?(chapter.id.to_s) %>
                 <input type="checkbox" name="valid_chapter[]" value="<%= chapter.id %>" checked="checked">
@@ -59,8 +58,8 @@
     <tr>
       <th>#</th>
       <th>Username</th>
-      <% if !params[:valid_chapter].nil? %>
-        <% Chapter.order("weight ASC").find(params[:valid_chapter]).each do |chapter| %>
+      <% if params[:valid_chapter] %>
+        <% @chapters.each do |chapter| %>
           <th><%= chapter.number %></th>
         <% end %>
         <th>Total</th>
@@ -79,16 +78,14 @@
           <% end %>
         </td>
         <% if params[:valid_chapter] %>
-          <% total_score = 0 %>
-          <% Chapter.order("weight ASC").find(params[:valid_chapter]).each do |chapter| %>
+          <% @chapters.each do |chapter| %>
             <td style="<% if !user.has_passed_chapter?(chapter)%>color:#d95c5c!important;<% end %>">
-              <%= score = user.get_chapter_score(chapter, params[:point_per_chapter].to_i, params[:point_per_grid].to_i) %>
-              <% total_score += score%>
+              <%= chapter_score_by_user(chapter, user) %>
             </td>
           <% end %>
         <% end %>
         <td>
-          <%= total_score %>
+          <%= total_score_by_user(user) %>
         </td>
       </tr>
     <% end %>

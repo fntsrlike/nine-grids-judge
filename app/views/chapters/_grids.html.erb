@@ -6,17 +6,11 @@
 <table class="nine-grids">
   <tbody>
   <% @quizzes.each_with_index do |quiz, index| %>
-    <% if index%3 == 0 %> <tr> <% end %>
-      <% if @quiz_status[index] == 2 %>
-        <td class="pass">
-      <% elsif @quiz_status[index] == 1 %>
-        <td class="judgement">
-      <% elsif @quiz_status[index] == 0 %>
-        <td class="fail">
-      <% end %>
+    <%= cycle("<tr>", "", "", name: "begin").html_safe %>
+      <td class="<%= @quiz_status[index] %>">
         <%= link_to(index+1, quiz_path(quiz)) %>
       </td>
-    <% if index%3 == 2 %> </tr> <% end %>
+    <%= cycle("", "", "</tr>", name: "end").html_safe %>
   <% end %>
   </tbody>
 </table>

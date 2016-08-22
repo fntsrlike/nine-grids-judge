@@ -29,8 +29,8 @@
         </td>
       <% if can?(:create, Answer) && cannot?(:manage, @chapter) %>
         <td>
-          <% if Grid.exists?( user_id: current_user.id, chapter_id: chapter.id ) %>
-            <% if Grid.where( user_id: current_user.id, chapter_id: chapter.id ).first.pass? %>
+          <% if chapter.grids.exists?(user: current_user) %>
+            <% if chapter.grids.find_by(user: current_user).pass? %>
               <a class="ui green label">Pass</a>
             <% else %>
               <a class="ui red label">Not Pass</a>

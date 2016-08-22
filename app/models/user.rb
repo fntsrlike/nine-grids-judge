@@ -79,6 +79,20 @@ class User < ActiveRecord::Base
       .map { |judgement| judgement.answer }
   end
 
+  def chapter_queue_count(chapter)
+    queued_count = 0
+    quizzes = grids.find_by(chapter: chapter).get_quizzes;
+
+
+    quizzes.each do |current_quiz|
+      queued_count += current_quiz.answers.where(user: current_user).where(status: Answer.statuses[:queue]).count
+    end
+  end
+
+  def can_answer_chapter(chapter)
+    chaater_queue_count(chapter) < 3
+  end
+
   # 萃取出通過指定章節編號清單的使用者名單
   def self.by_passed_chapters(chapters)
     # 透過先挑選有通過這些章節的九宮格，在擷取這些九宮格的使用者名單

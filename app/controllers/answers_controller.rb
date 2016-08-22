@@ -19,7 +19,7 @@ class AnswersController < ApplicationController
 
   def index
     if can?(:create, Judgement)
-      status = [Answer.statuses[:queue], Answer.statuses[:judgement]]
+      status = [Answer.statuses[:queue], Answer.statuses[:judging]]
       answers = apply_scopes(Answer).where(status: status).judge_piority
     else
       answers = Answer.where(user_id: current_user.id).order("created_at DESC")
@@ -105,5 +105,10 @@ class AnswersController < ApplicationController
         pass:   {color: :green,   value: Judgement.passed.today.count   },
         reject: {color: :red,     value: Judgement.rejected.today.count }
     }
+  end
+
+  # 取得解答的統計數據
+  helper_method def get_queue_answers_count
+    Answer.where(status: Answer.statuses[:queue]).count
   end
 end

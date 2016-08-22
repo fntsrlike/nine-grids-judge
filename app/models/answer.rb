@@ -6,7 +6,7 @@ class Answer < ActiveRecord::Base
   has_one(:judgement)
 
   # Enum
-  enum(status: [:queue, :judgement, :done])
+  enum(status: [:queue, :judging, :done])
 
   # 檢查指定欄位不為 nil 或空字串
   validates_presence_of(:content, :user_id)
@@ -42,5 +42,9 @@ class Answer < ActiveRecord::Base
   # 萃取今天提交的答案
   def self.today
     where("answers.created_at >= ?", Time.zone.now.beginning_of_day)
+  end
+
+  def get_answers_history
+    quiz.get_answer_logs_by_user(user_id)
   end
 end

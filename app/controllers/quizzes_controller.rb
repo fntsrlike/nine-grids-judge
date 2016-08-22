@@ -15,27 +15,34 @@ class QuizzesController < ApplicationController
   # GET /quizzes/1
   def show
     @answer = Answer.new
+    @answer.quiz = @quiz
+
     if can?(:manage, Quiz)
       @statistics = get_quiz_statistics
-    else
-      @last_answer = Answer.where(quiz_id: @quiz.id, user_id: current_user.id, status: [Answer.statuses[:queue], Answer.statuses[:judgement]]).first
-      @logs = @quiz.get_answer_logs_by_user(current_user.id).reverse
-
-      # Please move this block of code to User model in the future.
-      @quizzes = @quiz.chapter.quizzes
-      @queued_answers_count = 0
-      @quizzes.each do |current_quiz|
-        @queued_answers_count += current_quiz.answers.where(user_id: current_user.id).where(status: Answer.statuses[:queue]).count
-      end
-      @can_submit_answer = @queued_answers_count < 3
-      # End.
+      return render(:manage)
     end
+
+    @last_answer = @quiz.answers.find_by(user: current_user, status: [Answer.statuses[:queue], Answer.statuses[:judging]])
+    @logs = @quiz.get_answer_logs_by_user(current_user.id).reverse
+
+    # Please move this block of code to User model in the future.
+    quizzes = @quiz.chapter.quizzes
+    queued_answers_count = 0
+    quizzes.each do |current_quiz|
+      queued_answers_count += current_quiz.answers.where(user: current_user).where(status: Answer.statuses[:queue]).count
+    end
+    @can_submit_answer = current_user.can?(create)
+    # End.
   end
 
   # GET /quizzes/new
   def new
-    new_params
+    unless Chapter.exists?(number: params[:chapter])
+      render(:wrong_target)
+    end
+
     @quiz = Quiz.new
+    @quiz.chapter = Chapter.find_by(number: params[:chapter])
   end
 
   # GET /quizzes/1/edit
@@ -78,17 +85,6 @@ class QuizzesController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def quiz_params
     params.require(:quiz).permit(:title, :content, :reference, :chapter_id)
-  end
-
-  # new action parameters
-  def new_params
-    has_chapter = !params[:chapter].nil?
-    is_chapter_valid = Chapter.exists?(number: params[:chapter])
-    @has_chapter_param = has_chapter && is_chapter_valid
-
-    if @has_chapter_param
-      @chapter = Chapter.where(number: params[:chapter]).first
-    end
   end
 
   # 取得題目相關的統計數據

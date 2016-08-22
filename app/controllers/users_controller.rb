@@ -27,7 +27,10 @@ class UsersController < ApplicationController
 
   # GET /users/1
   def show
-    @statistics = get_student_statistics
+    statistics = get_student_statistics
+    grids =  @user.grids.order('chapter_id ASC')
+
+    render(locals: {statistics: statistics, grids: grids})
   end
 
   # GET /users/new
@@ -64,7 +67,7 @@ class UsersController < ApplicationController
 
   # DELETE /users/1
   def destroy
-    @user.destroy
+    @user .destroy
     redirect_to(users_url, notice: 'User was successfully destroyed.')
   end
 

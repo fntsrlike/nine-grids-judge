@@ -26,7 +26,7 @@
           <select name="status" class="ui dropdown">
             <option value="">State</option>
             <option value="<%= Answer.statuses[:queue] %>">Queue</option>
-            <option value="<%= Answer.statuses[:judgement] %>">Judgement</option>
+            <option value="<%= Answer.statuses[:judging] %>">Judgement</option>
           </select>
         </div>
       </div>
@@ -81,7 +81,7 @@
         <div class="ui tiny statistics">
           <div class="yellow statistic" style="margin-bottom: 0; width: 57px;">
             <div class="value">
-              <%= Answer.where(status: Answer.statuses[:queue]).count %>
+              <%= get_queue_answers_count %>
             </div>
             <div class="label">
               Queue
@@ -146,18 +146,17 @@
           </td>
         <% end %>
         <td>
-          <%= link_to chapter_path(answer.quiz.chapter), style: "color:rgba(0, 0, 0, 0.8);"  do %>
+          <%= link_to(chapter_path(answer.quiz.chapter), style: "color:rgba(0, 0, 0, 0.8);")  do %>
             <%= answer.quiz.chapter.number %>
-            <% grid = answer.quiz.chapter.grids.where(user_id: current_user.id).first %>
-            <% if !grid.nil? && !grid.get_quiz_sort(answer.quiz_id).nil? %>
+            <% if answer.quiz.get_sort_by_user(current_user) %>
               <span style="color:rgba(180, 180, 180, 0.8);">
-                (<%= grid.get_quiz_sort(answer.quiz_id) %>)
+                (<%= answer.quiz.get_sort_by_user(current_user) %>)
               </span>
             <% end %>
           <% end %>
         </td>
         <td>
-          <%= link_to(quiz_path answer.quiz) do %>
+          <%= link_to(quiz_path(answer.quiz)) do %>
             <span style="color:rgba(0, 0, 0, 0.8);">
               <%= answer.quiz.title %>
             </span>

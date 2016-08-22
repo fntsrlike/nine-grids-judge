@@ -11,7 +11,7 @@ module ApplicationHelper
       status = answer.status
       if answer.queue?
         label = "label"
-      elsif answer.judgement?
+      elsif answer.judging?
         label = "yellow label"
       end
     end
