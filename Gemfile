@@ -1,5 +1,5 @@
 # 中央大學網路開源社鏡像
-source 'https://rubygems.nos.ncu.edu.tw'
+source 'https://rubygems.org/'
 
 # Official (on Amazon S3)
 # source 'https://rubygems.org'
