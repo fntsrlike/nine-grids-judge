@@ -67,6 +67,9 @@ sudo make install
 ##### 透過 RVM 安裝
 請參照 [RVM 官網](https://rvm.io) 的說明。
 
+##### 透過本專案提供的安裝腳本安裝
+./deploy.sh
+
 #### 1.1.2 MySQL 安裝
 ```bash
 sudo apt-get install mysql-common mysql-client libmysqlclient-dev mysql-server
