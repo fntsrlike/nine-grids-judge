@@ -68,7 +68,7 @@ sudo make install
 請參照 [RVM 官網](https://rvm.io) 的說明。
 
 ##### 透過本專案提供的安裝腳本安裝
-./deploy.sh
+`./deploy.sh`
 
 #### 1.1.2 MySQL 安裝
 ```bash
