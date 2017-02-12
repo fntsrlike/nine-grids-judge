@@ -1,8 +1,26 @@
 #!/bin/bash
 
+# show help message
 if [[ $1 == '-h' ]]; then
-	printf "deploy.sh [options] \n\t-h for help\n\t-y for non-checking mode\n\t-d DOMAIN-NAME\n\t-q NINE-GRIDS-QUESTION-FILE\n"
-	exit
+    printf "deploy.sh [options] \n\t-h for help\n\t-y for non-checking mode\n\t-d DOMAIN-NAME\n\t-q NINE-GRIDS-QUESTION-FILE\n"
+    exit
+fi
+
+# check if "sudo" installed
+if ! hash sudo 2>/dev/null; then
+    printf 'Program "sudo" not installed. Please first execute following command as root:\n'
+    printf 'apt-get update && apt-get install -y sudo\n'
+    exit
+fi
+
+# check OS version
+echo "Checking OS version (sudo privilege required)..."
+sudo apt-get update > /dev/null && sudo apt-get install -y lsb-release > /dev/null
+OS=$(lsb_release -si)
+OS=$(echo "${OS,,}")
+if [ $OS != "ubuntu" ]; then
+    printf "OS version should be Ubuntu.\nInstallation of POC web server will be terminated!\n"
+    exit 1
 fi
 
 YES=false
@@ -11,45 +29,35 @@ NINE_GRIDS_QUESTION_FILE=false
 
 while test $# -gt 0
 do
-	case "$1" in
-		-y ) YES=true ;;
-		-d ) DOMAIN_NAME=$2 ;;
-		-q ) NINE_GRIDS_QUESTION_FILE=$2 ;;
-	esac
-	shift
+    case "$1" in
+        -y ) YES=true ;;
+        -d ) DOMAIN_NAME=$2 ;;
+        -q ) NINE_GRIDS_QUESTION_FILE=$2 ;;
+    esac
+    shift
 done
 
 if ! $YES; then
-	echo "Please make sure you're at the root directory of Nine-Grids APP. Press [Enter] to continue and [Ctrl+C] to cancel."
-	read -s -n 1 key
-	if [[ $key != "" ]]; then
-		echo "Invalid key. Abort installation."
-		exit
-	fi
+    echo "Please make sure you're at the root directory of Nine-Grids APP. Press [Enter] to continue and [Ctrl+C] to cancel."
+    read -s -n 1 key
+    if [[ $key != "" ]]; then
+        echo "Invalid key. Abort installation."
+        exit
+    fi
 fi
 
 if [[ $DOMAIN_NAME == false || $DOMAIN_NAME == '' ]]; then
-	read -p "Please enter the domain name of your server: " DOMAIN_NAME
-	if [[ $DOMAIN_NAME == '' ]]; then
-		echo 'Domain name not set. Please manually set your domain name to "/etc/nginx/sites-available/default" later.'
-	fi
+    read -p "Please enter the domain name of your server: " DOMAIN_NAME
+    if [[ $DOMAIN_NAME == '' ]]; then
+        echo 'Domain name not set. Please manually set your domain name to "/etc/nginx/sites-available/default" later.'
+    fi
 fi
 
 if [[ $NINE_GRIDS_QUESTION_FILE == false || $NINE_GRIDS_QUESTION_FILE == '' ]]; then
-	read -p "Where is the question SQL backup file of Nine-Grids: " NINE_GRIDS_QUESTION_FILE
-	if [[ $NINE_GRIDS_QUESTION_FILE == '' ]]; then
-		echo 'Nine-Grids question SQL backup file not provided, no auto-question-preparation action will be taken.'
-	fi
-fi
-
-# check OS version
-sudo apt-get update && sudo apt-get install -y lsb-release
-OS=$(lsb_release -si)
-OS=$(echo "${OS,,}")
-if [ $OS != "ubuntu" ]
-  then
-    printf "OS version should be Ubuntu.\nInstallation of POC web server will be terminated!\n"
-    exit 1
+    read -p "Where is the question SQL backup file of Nine-Grids: " NINE_GRIDS_QUESTION_FILE
+    if [[ $NINE_GRIDS_QUESTION_FILE == '' ]]; then
+        echo 'Nine-Grids question SQL backup file not provided, no auto-question-preparation action will be taken.'
+    fi
 fi
 
 # environment setup
@@ -105,12 +113,12 @@ APP_ROOT="$(pwd)/public"
 
 DIR_CHAIN=$APP_ROOT
 while [[ $DIR_CHAIN != "/" ]]; do
-	sudo chmod o+x $DIR_CHAIN;
-	DIR_CHAIN=$(dirname $DIR_CHAIN);
+    sudo chmod o+x $DIR_CHAIN;
+    DIR_CHAIN=$(dirname $DIR_CHAIN);
 done
 
 # configure NginX virtual host for Nine-Grids APP
-sudo printf "server {\n	listen 80 default_server;\n	listen [::]:80 default_server;\n\n	root $APP_ROOT;\n\n	server_name $DOMAIN_NAME;\n\n	passenger_enabled on;\n	passenger_friendly_error_pages on;\n	passenger_ruby $RUBY_PATH;\n}\n" > /etc/nginx/sites-available/default
+sudo printf "server {\n listen 80 default_server;\n listen [::]:80 default_server;\n\n  root $APP_ROOT;\n\n server_name $DOMAIN_NAME;\n\n   passenger_enabled on;\n passenger_friendly_error_pages on;\n    passenger_ruby $RUBY_PATH;\n}\n" > /etc/nginx/sites-available/default
 
 # build APP
 bundle
@@ -118,7 +126,7 @@ sudo cp -p .env.sample .env
 sudo echo '# Basic Files' >> .env
 sudo echo 'COURSE_NAME = "Compiler"' >> .env
 sudo printf "\n" >> .env
-sudo echo '# Mailer (OO Lab SMTP)' >> .env
+sudo echo '# Mailer (OO Lab Google SMTP)' >> .env
 sudo echo 'SMTP_FROM = compiler@csie.ncu.edu.tw' >> .env
 sudo echo 'SMTP_USERNAME = ncuoolab@gmail.com' >> .env
 sudo echo 'SMTP_PASSWORD = rpfmbnvrvpiqjcni' >> .env
@@ -143,7 +151,7 @@ RAILS_ENV=production bundle exec rake db:migrate
 RAILS_ENV=production bundle exec rake assets:precompile
 
 if [[ $NINE_GRIDS_QUESTION_FILE != '' ]]; then
-	mysql -u root -p123456 nine_grids < $NINE_GRIDS_QUESTION_FILE
+    mysql -u root -p123456 nine_grids < $NINE_GRIDS_QUESTION_FILE
 fi
 
 RAILS_ENV=production bundle exec rake user:basic
