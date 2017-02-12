@@ -121,7 +121,7 @@ done
 sudo printf "server {\n listen 80 default_server;\n listen [::]:80 default_server;\n\n  root $APP_ROOT;\n\n server_name $DOMAIN_NAME;\n\n   passenger_enabled on;\n passenger_friendly_error_pages on;\n    passenger_ruby $RUBY_PATH;\n}\n" > /etc/nginx/sites-available/default
 
 # build APP
-bundle
+sudo bundle
 sudo cp -p .env.sample .env
 sudo echo '# Basic Files' >> .env
 sudo echo 'COURSE_NAME = "Compiler"' >> .env
