@@ -118,7 +118,9 @@ while [[ $DIR_CHAIN != "/" ]]; do
 done
 
 # configure NginX virtual host for Nine-Grids APP
+sudo chmod 666 /etc/nginx/sites-available/default
 sudo printf "server {\n listen 80 default_server;\n listen [::]:80 default_server;\n\n  root $APP_ROOT;\n\n server_name $DOMAIN_NAME;\n\n   passenger_enabled on;\n passenger_friendly_error_pages on;\n    passenger_ruby $RUBY_PATH;\n}\n" > /etc/nginx/sites-available/default
+sudo chmod 644 /etc/nginx/sites-available/default
 
 # build APP
 sudo bundle
