@@ -130,6 +130,9 @@ sudo echo '# Basic Files' >> .env
 sudo echo 'COURSE_NAME = "Compiler"' >> .env
 sudo printf "\n" >> .env
 sudo echo '# Mailer (OO Lab Google SMTP)' >> .env
+sudo echo 'SMTP_ADDRESS = smtp.gmail.com' >> .env
+sudo echo 'SMTP_DOMAIN = smtp.gmail.com' >> .env
+sudo echo 'SMTP_PORT = 587' >> .env
 sudo echo 'SMTP_FROM = compiler@csie.ncu.edu.tw' >> .env
 sudo echo 'SMTP_USERNAME = ncuoolab@gmail.com' >> .env
 sudo echo 'SMTP_PASSWORD = rpfmbnvrvpiqjcni' >> .env
