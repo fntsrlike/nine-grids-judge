@@ -14,7 +14,7 @@ if ! hash sudo 2>/dev/null; then
 fi
 
 # check OS version
-echo "Checking OS version (sudo privilege required)..."
+echo 'Checking OS version (sudo privilege required)...'
 sudo apt-get update > /dev/null && sudo apt-get install -y lsb-release > /dev/null
 OS=$(lsb_release -si)
 OS=$(echo "${OS,,}")
@@ -22,6 +22,7 @@ if [ $OS != "ubuntu" ]; then
     printf "OS version should be Ubuntu.\nInstallation of POC web server will be terminated!\n"
     exit 1
 fi
+echo 'OS checked.'
 
 YES=false
 DOMAIN_NAME=false
