@@ -126,6 +126,7 @@ sudo chmod 644 /etc/nginx/sites-available/default
 # build APP
 sudo bundle
 sudo cp -p .env.sample .env
+sudo echo '' > .env
 sudo echo '# Basic Files' >> .env
 sudo echo 'COURSE_NAME = "Compiler"' >> .env
 sudo printf "\n" >> .env
