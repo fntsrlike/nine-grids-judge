@@ -64,7 +64,7 @@ fi
 sudo apt-get -y upgrade && sudo apt-get autoclean && sudo apt-get -y autoremove
 
 # install custom tools
-sudo apt-get update && sudo apt-get install -y vim lsb-release net-tools curl
+sudo apt-get update && sudo apt-get install -y vim lsb-release net-tools curl cron
 
 # install MySQL
 sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password 123456'
@@ -158,3 +158,10 @@ RAILS_ENV=production bundle exec rake user:basic
 RAILS_ENV=production bundle exec rake tmp:cache:clear
 
 sudo service nginx restart
+
+# set auto-backup
+sudo mkdir /backups 2>/dev/null
+sudo crontab -l > /tmp/cronjob 2>/dev/null
+sudo echo "* 0 * * * sh $(pwd)/backup-script.sh" >> /tmp/cronjob
+sudo crontab /tmp/cronjob
+sudo rm /tmp/cronjob
