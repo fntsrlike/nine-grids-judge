@@ -86,11 +86,13 @@ APP_DIR=$(pwd)
 cd /tmp
 sudo wget http://ftp.ruby-lang.org/pub/ruby/2.3/ruby-2.3.1.tar.gz
 sudo tar -xzvf ruby-2.3.1.tar.gz
-sudo cd ruby-2.3.1/
+cd ruby-2.3.1/
 sudo bash configure
 sudo make
 sudo make install
 cd $APP_DIR
+sudo rm /tmp/ruby-2.3.1.tar.gz
+sudo rm -r /tmp/ruby-2.3.1
 
 # install bundler
 sudo gem install bundler
