@@ -18,8 +18,13 @@ echo 'Checking OS version (sudo privilege required)...'
 sudo apt-get update > /dev/null && sudo apt-get install -y lsb-release > /dev/null
 OS=$(lsb_release -si)
 OS=$(echo "${OS,,}")
+CODE_NAME=$(lsb_release -sc)
 if [ $OS != "ubuntu" ]; then
     printf "OS version should be Ubuntu.\nInstallation of POC web server will be terminated!\n"
+    exit 1
+fi
+if [ $CODE_NAME != "precise" ] && [ $CODE_NAME != "trusty" ] && [ $CODE_NAME != "xenial" ] && [ $CODE_NAME != "yakkety" ]; then
+    printf "OS version is not 12.04 (precise), 14.04 (trusty), 16.04 (xenial) or 16.10 (yakkety).\nInstallation of POC web server will be terminated!\n"
     exit 1
 fi
 echo 'OS checked.'
@@ -65,7 +70,7 @@ fi
 sudo apt-get -y upgrade && sudo apt-get autoclean && sudo apt-get -y autoremove
 
 # install custom tools
-sudo apt-get update && sudo apt-get install -y vim lsb-release net-tools curl cron
+sudo apt-get update && sudo apt-get install -y vim lsb-release net-tools curl cron apt-utils
 
 # install MySQL
 sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password 123456'
@@ -94,7 +99,6 @@ sudo gem install rails -v 4.2.5.1
 sudo apt-get install -y nginx
 
 # install passenger
-CODE_NAME=$(lsb_release -sc)
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7
 sudo apt-get install -y apt-transport-https ca-certificates
 sudo sh -c "echo deb https://oss-binaries.phusionpassenger.com/apt/passenger $CODE_NAME main > /etc/apt/sources.list.d/passenger.list"
