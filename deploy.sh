@@ -70,7 +70,7 @@ fi
 sudo apt-get -y upgrade && sudo apt-get autoclean && sudo apt-get -y autoremove
 
 # install custom tools
-sudo apt-get update && sudo apt-get install -y vim lsb-release net-tools curl cron
+sudo apt-get update && sudo apt-get install -y vim lsb-release net-tools curl wget cron
 
 # install MySQL
 sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password 123456'
@@ -83,7 +83,7 @@ sudo apt-get install -y cmake pkg-config libicu-dev libsqlite3-dev
 
 # install Ruby
 APP_DIR=$(pwd)
-sudo cd /tmp
+cd /tmp
 sudo wget http://ftp.ruby-lang.org/pub/ruby/2.3/ruby-2.3.1.tar.gz
 sudo tar -xzvf ruby-2.3.1.tar.gz
 sudo cd ruby-2.3.1/
