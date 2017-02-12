@@ -155,6 +155,6 @@ if [[ $NINE_GRIDS_QUESTION_FILE != '' ]]; then
 fi
 
 RAILS_ENV=production bundle exec rake user:basic
-RAILS_ENV=production bundle exec rake db:sessions:clear
+RAILS_ENV=production bundle exec rake tmp:cache:clear
 
 sudo service nginx restart
