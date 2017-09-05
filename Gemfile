@@ -52,13 +52,13 @@ gem 'jquery-turbolinks', '~> 2.1.0'
 gem 'rails_autolink', '~> 1.1'
 
 # Sematic UI
-gem 'semantic-ui-sass', '~> 1.8.1'#, github: 'doabit/semantic-ui-sass'
+gem 'semantic-ui-sass', '~> 1.8.1'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.4'
 
 # Load environment variable from .env file
-gem 'dotenv-rails', '~> 2.1', :group => "production"
+gem 'dotenv-rails', '~> 2.1'
 
 
 #
@@ -66,7 +66,9 @@ gem 'dotenv-rails', '~> 2.1', :group => "production"
 #
 
 # Don't need install SQL Client/Server
-gem 'sqlite3', '~> 1.3'
+# Debian: `sudo apt-get install libsqlite3-dev`
+# OS X: `brew install sqlite`
+gem 'sqlite3', '~> 1.3', :group => "development"
 
 # Need to at least intsall MySQL Client
 #
