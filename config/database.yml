@@ -21,8 +21,8 @@ test:
   database: db/test.sqlite3
 
 production:
-  adapter: <%= ENV["DB_ADAPTER"] %>
-  encoding: utf8mb4
+  adapter: postgresql
+  encoding: utf8
   database: <%= ENV["DB_DATABASE"] %>
   username: <%= ENV["DB_USERNAME"] %>
   password: <%= ENV["DB_PASSWORD"] %>
