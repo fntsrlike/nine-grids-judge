@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 # 建議使用 ruby ~> 2.2.2
+ruby '~> 2.3'
 
 # 指定 RubyGems 的版本
 #
@@ -127,3 +128,6 @@ gem 'has_scope'
 
 # Fake Mail Server
 gem "letter_opener", :groups => [:development, :test]
+
+# https://stackoverflow.com/questions/16669991
+gem "rails_serve_static_assets", :group => "production"
