@@ -1,11 +1,6 @@
-# 中央大學網路開源社鏡像
-source 'https://rubygems.nos.ncu.edu.tw'
-
-# Official (on Amazon S3)
-# source 'https://rubygems.org'
+source 'https://rubygems.org'
 
 # 建議使用 ruby ~> 2.2.2
-
 
 # 指定 RubyGems 的版本
 #

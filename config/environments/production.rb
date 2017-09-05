@@ -80,12 +80,12 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.action_mailer.default_url_options = { host: 'compiler.oolab.fntsr.tw' }
+  config.action_mailer.default_url_options = { host: ENV["APP_URL"] }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-      :address => "smtp.mandrillapp.com",
-      :port => "587",
-      :domain => "mandrillapp.com",
+      :address => ENV["SMTP_ADDRESS"],
+      :port => ENV["SMTP_PORT"],
+      :domain => ENV["SMTP_DOMAIN"],
       :authentication => "plain",
       :user_name => ENV["SMTP_USERNAME"],
       :password => ENV["SMTP_PASSWORD"],
