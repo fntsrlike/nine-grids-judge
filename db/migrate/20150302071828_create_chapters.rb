@@ -3,9 +3,9 @@ class CreateChapters < ActiveRecord::Migration
     create_table :chapters do |t|
       t.string :number, null: false, default: ""
       t.string :title, null: false, default: ""
-      t.text :decription, null: true
+      t.text :description, null: true
       t.integer :weight, null: false, default: "999"
-      t.boolean :is_active, null: false, default: false
+      t.integer :status, :null => false, :default => 0
 
       t.timestamps
     end
