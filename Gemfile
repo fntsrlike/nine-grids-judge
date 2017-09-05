@@ -131,3 +131,7 @@ gem "letter_opener", :groups => [:development, :test]
 
 # https://stackoverflow.com/questions/16669991
 gem "rails_serve_static_assets", :group => "production"
+
+
+# To enable STDOUT logging in Rails 4
+gem 'rails_12factor', group: :production
