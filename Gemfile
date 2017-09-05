@@ -71,16 +71,15 @@ gem 'sqlite3', '~> 1.3'
 # Need to at least intsall MySQL Client
 #
 # Debian: `sudo apt-get install libmysqlclient-dev mysql-client`
-# OS X: `brew install postgresql`
+# OS X: `brew install mysql`
 #
-gem "mysql2", '~> 0.4', :group => "production"
+# gem "mysql2", '~> 0.4', :group => "production"
 
 # Need to at least intsall PostgreSQL Client
 #
 # Debian: `sudo apt-get install postgresql-client-9.4 libpq-dev
 # OS X: `brew install postgresql`
-#
-# gem "pg", '~> 0.18', :group => "production"
+gem "pg", '~> 0.18', :group => "production"
 
 
 

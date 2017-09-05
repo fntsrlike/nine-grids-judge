@@ -1,5 +1,5 @@
 GEM
-  remote: https://rubygems.nos.ncu.edu.tw/
+  remote: https://rubygems.org/
   specs:
     actionmailer (4.2.5.1)
       actionpack (= 4.2.5.1)
@@ -106,10 +106,10 @@ GEM
     mini_portile2 (2.0.0)
     minitest (5.8.4)
     multi_json (1.11.2)
-    mysql2 (0.4.2)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     orm_adapter (0.5.0)
+    pg (0.19.0)
     rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -139,7 +139,7 @@ GEM
       activesupport (= 4.2.5.1)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (10.5.0)
+    rake (12.0.0)
     ref (2.0.0)
     responders (2.1.1)
       railties (>= 4.2.0, < 5.1)
@@ -195,7 +195,7 @@ DEPENDENCIES
   jquery-turbolinks (~> 2.1.0)
   kaminari
   letter_opener
-  mysql2 (~> 0.4)
+  pg (~> 0.18)
   rails (~> 4.2)
   rails_autolink (~> 1.1)
   rolify (~> 5.0)
@@ -207,4 +207,4 @@ DEPENDENCIES
   uglifier (>= 2.7.0)
 
 BUNDLED WITH
-   1.12.5
+   1.15.4
